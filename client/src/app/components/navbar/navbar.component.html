@@ -1,0 +1,75 @@
+<mat-toolbar>
+    <mat-toolbar-row class="header-row">
+        <div>
+            <a class="logo" routerLink="/">
+            <!-- <mat-icon class="logo-icon" svgIcon="logo"> </mat-icon>-->
+                uBANK
+            </a>
+        </div>
+
+        <div fxFlex fxLayoutAlign="end center">
+            <ul fxLayout fxLayoutGap="10px" class="header-items">
+                <li class="user-data">
+                    <a routerLink="/profile">
+                        <span fxLayoutAlign="none center">
+                            <i class="material-icons  account-icon">
+                                person_pin
+                            </i>
+                            user(role)
+                        </span>
+                    </a>
+                </li>
+                <li class="session-timer" (click)="refreshRoute()">
+                    <a>
+                        <span fxLayoutAlign="none center">
+                            session timer:&nbsp;
+                            <span>
+                                00:00
+                            </span>
+                            <i class="material-icons refresh-icon">cached</i>
+                        </span>
+                    </a>
+                </li>
+                <li class="log-out-link">
+                    <a routerLink="/login">log out</a>
+                </li>
+            </ul>
+        </div>
+
+    </mat-toolbar-row>
+    <mat-toolbar-row class="navbar">
+        <div fxFlex="5">
+            <button mat-icon-button (click)="onToggleSidenav()">
+                <mat-icon class="icons-style" >menu</mat-icon>
+            </button>
+        </div>
+        <div fxFlex fxLayout fxLayoutAlign="start center" fxHide fxShow.gt-sm>
+            <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+                <li>
+                    <a class="navbar-item" routerLink="/">Home</a>
+                </li>
+                <li>
+                    <a class="navbar-item" routerLink="/profile">Account</a>
+                </li>
+                <li>
+                    <a class="navbar-item" routerLink="/profile">Payments</a>
+                </li>
+                <li>
+                    <a class="navbar-item" routerLink="/profile">Analytics</a>
+                </li>
+            </ul>
+        </div>
+
+        <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide fxShow.lt-md>
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon class="icons-style">more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/profile">Account</button>
+                <button mat-menu-item routerLink="/profile">Payments</button>
+                <button mat-menu-item routerLink="/profile">Analytics</button>
+                <button mat-menu-item routerLink="/login">Log out</button>
+            </mat-menu>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>

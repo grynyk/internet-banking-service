@@ -1,0 +1,86 @@
+<div class="body">
+  <mat-card>
+    <div fxLayout="row">
+      <div fxFlex>
+        <mat-card-title class="component-title">Manage expenses history</mat-card-title>
+      </div>
+    </div>
+    <div class="content" (clickOutside)="selection.clear()">
+      <div class="data-table-overflow mat-elevation-z2">
+        <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row">
+              <mat-form-field fxFlex="90" class="filter-input">
+                <mat-label>Search expense</mat-label>
+                <input matInput (keyup)="applyFilter($event.target.value)">
+              </mat-form-field>
+
+          <div fxFlex fxLayoutAlign="end center" class="buttons">
+            <button [disabled]="selection.isSelected(selectedRow)" (click)="addExpense()" class="add-btn"
+              mat-raised-button>
+              <mat-icon>add</mat-icon><span class="hide-lg"> Add</span>
+            </button>
+
+            <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn"
+              (click)="deleteExpense(selectedRowIndex)" class="delete-btn" mat-raised-button>
+              <mat-icon>delete_outline</mat-icon><span class="hide-lg"> Delete</span>
+            </button>
+          </div>
+        </div>
+
+
+        <mat-table [dataSource]="dataSource">
+
+          <ng-container matColumnDef="select">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+                <mat-checkbox color="primary" disabled
+                [checked]="selectedRowIndex == element.position && selection.isSelected(element)"
+                style="cursor: pointer"
+                (click)="$event.stopPropagation();getRowData(element);selection.toggle(element)">
+                
+                  </mat-checkbox>  
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="position">
+            <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Expense name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.date}} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="location">
+              <mat-header-cell *matHeaderCellDef> Location </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.location}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="price">
+                <mat-header-cell *matHeaderCellDef> Price </mat-header-cell>
+                <mat-cell *matCellDef="let element"> {{element.price}} </mat-cell>
+              </ng-container>
+
+          <mat-header-row  *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"
+          class="table-row" [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
+            (click)="expenseDetails(row)">
+          </mat-row>
+
+
+        </mat-table>
+
+      </div>
+    </div>
+  </mat-card>
+</div>

@@ -1,0 +1,42 @@
+.body{
+  margin:25px 10px 10px 10px;
+}
+mat-card{
+  height: 100%;
+  margin:15px;
+}
+
+.component-title{
+ font-size: 4em;
+}
+.title-container{
+  display:flex;
+  justify-content: center;
+}
+.message-container{
+  display:flex;
+  justify-content: center;
+  font-size: 2em;
+}
+.button-container{
+  margin:20px;
+  display:flex;
+  justify-content: center;
+}
+.button{
+  font-weight: bold;
+  color:#000;
+  margin-left:10px;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #607d8b;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: #E4E8EB;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 2px;
+}

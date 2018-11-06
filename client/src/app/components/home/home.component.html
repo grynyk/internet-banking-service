@@ -1,0 +1,95 @@
+<div class="body" fxLayout="column" fxLayoutAlign="space-between none">
+      <div fxLayout="row" style="margin-bottom:20px">
+            <mat-card fxFlex="100" style="padding:5px" color="dark-primary">
+                  <mat-grid-list cols="3" rowHeight="7em">
+                        <a (click)="openAccountInfo()">
+                              <mat-grid-tile class="grid-item">
+                                    <table>
+                                          <tr>
+                                                <th class="statistics-icon-small">
+                                                      <mat-icon class="small-icon" svgIcon="account"></mat-icon>
+                                                </th>
+                                          </tr>
+                                          <tr>
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%">
+                                                      <mat-icon class="statistics-icon" svgIcon="money"></mat-icon>
+                                                </td>
+                                                <td valign="bottom" class="statistics-title">Account</td>
+                                          </tr>
+                                          <tr>
+                                                <td valign="top" class="statistics-detail">NAME LAST</td>
+                                          </tr>
+                                    </table>
+                              </mat-grid-tile>
+                        </a>
+                        <a (click)="openExpensesHistory()">
+                              <mat-grid-tile class="grid-item">
+                                    <table>
+                                          <tr>
+                                                <th class="statistics-icon-small">
+                                                      <mat-icon class="small-icon" svgIcon="money"></mat-icon>
+                                                </th>
+                                          </tr>
+                                          <tr>
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%">
+                                                      <mat-icon class="statistics-icon" svgIcon="money"></mat-icon>
+                                                </td>
+                                                <td valign="bottom" class="statistics-title">Balance</td>
+                                          </tr>
+                                          <tr>
+                                                <td valign="top" class="statistics-detail"> 4375 PLN</td>
+                                          </tr>
+                                    </table>
+                              </mat-grid-tile>
+                        </a>
+                        <a (click)="openMoneyBoxes()">
+                              <mat-grid-tile class="grid-item grid-item-last">
+                                    <table>
+                                          <tr>
+                                                <th class="statistics-icon-small">
+                                                      <mat-icon class="small-icon" svgIcon="moneybox"></mat-icon>
+                                                </th>
+                                          </tr>
+                                          <tr>
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%">
+                                                      <mat-icon class="statistics-icon" svgIcon="moneybox"></mat-icon>
+                                                </td>
+                                                <td valign="bottom" class="statistics-title">Money boxes</td>
+                                          </tr>
+                                          <tr>
+                                                <td valign="top" class="statistics-detail"> 127.33 PLN </td>
+                                          </tr>
+                                    </table>
+                              </mat-grid-tile>
+                        </a>
+                  </mat-grid-list>
+            </mat-card>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+            <mat-card fxFlex="40" style="max-height:300px">
+                  <mat-card-title class="card-title">
+                        Send money
+                  </mat-card-title>
+                  <div>
+                        <mat-form-field appearance="outline">
+                              <mat-label>Zdefiniowany odbiorca</mat-label>
+                              <mat-select>
+                                <mat-option>Zdefiniowany odbiorca</mat-option>
+                                <mat-option value="option1">Option 1</mat-option>
+                                <mat-option value="option2">Option 2</mat-option>
+                                <mat-option value="option3">Option 3</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                  </div>
+            </mat-card>
+            <mat-card fxFlex="59" style="max-height:300px">
+                  <mat-card-title>
+                        Overral expenses
+                        line-dots-chart
+                  </mat-card-title>
+                  <div fxLayoutAlign="center center">
+
+                  </div>
+            </mat-card>
+      </div>
+</div>

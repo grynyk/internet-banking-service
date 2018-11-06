@@ -1,0 +1,6 @@
+<h1 mat-dialog-title>{{data.code}} : {{errorTitle}}</h1>
+  <p>{{errorMessage}}</p>
+<div mat-dialog-actions fxLayoutAlign="end none">
+    <button color="warn" *ngIf="closeButton==true" mat-button mat-dialog-close>Close</button>
+  <button color="primary" mat-raised-button (click)="Submit()" mat-dialog-close>{{buttonTitle}}</button>
+</div>

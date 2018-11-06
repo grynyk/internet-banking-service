@@ -1,0 +1,29 @@
+<main>
+    <mat-card class="center" fxLayout fxLayoutAlign="center center">
+            <div class="error-message" *ngIf="error==true">
+                    {{errorMessage}}
+                </div>
+        <div *ngIf="loading==false">
+        <mat-card-title style="text-align: center">Login</mat-card-title>
+        <form #f="ngForm" (ngSubmit)="Login()" fxLayout="column">
+                <mat-form-field class="form-username">
+                    <input matInput type="text" name="username" autocomplete="username" [(ngModel)]="login" placeholder="Login" required [errorStateMatcher]="matcher">
+                </mat-form-field>
+                <mat-form-field class="form-password">
+                    <input matInput type="password" autocomplete="password" name="password" [(ngModel)]="password" placeholder="Password" [type]="hide ? 'password' : 'text'"
+                        [formControl]="passowrdFormControl" [errorStateMatcher]="matcher">
+                    <mat-icon matSuffix class="showPass-icon" (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <mat-error *ngIf="passowrdFormControl.hasError('required')">
+                        *this field
+                        <strong>is required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="primary" [disabled]="!f.form.valid" class="submit-btn" type="submit">Login</button>
+            </form>
+                <mat-card-footer class="card-footer">Not registered yet ?<br><a routerLink='/registration'>Registration</a> </mat-card-footer>
+            </div>
+            <div class="no-data-container" *ngIf="loading==true" fxLayoutAlign="center center">
+                            <mat-spinner [diameter]="50"></mat-spinner>
+            </div>
+    </mat-card>
+</main>

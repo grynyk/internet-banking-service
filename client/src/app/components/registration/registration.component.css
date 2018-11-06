@@ -1,0 +1,39 @@
+.center {
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    width:280px;
+    text-align:center;
+  }
+
+.card-footer{
+    margin:5px;
+    text-align: center;
+}
+.submit-btn{
+    margin-top:15px;
+    margin-bottom:15px;
+    font-weight: bold;
+}
+.password-mismatch{
+    padding:0;
+    margin:0;
+    color:red;
+    font-size:14px;
+}
+.error-message{
+    position:absolute;
+    width:100%!important;
+    left:50%;
+    transform: translate(-50%);
+    top:0;
+    text-align:center;
+    border-radius: 1px;
+    padding:5px 0 5px 0;
+    color: #000000;
+    background: #8e18122d;
+}
+.no-data-container{
+    min-height:250px;
+}

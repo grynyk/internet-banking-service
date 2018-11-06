@@ -1,0 +1,35 @@
+<h1 class="dialog-title" mat-dialog-title>Imported receipt</h1>
+
+    <div class="addReceiptToggle">
+        <mat-slide-toggle color="accent" [(ngModel)]="editable">
+          <strong> Edit</strong>
+        </mat-slide-toggle>
+      </div>
+
+<div fxLayout="column" style="padding-top:20px">
+    <mat-form-field appearance="outline">
+      <mat-label>Product name</mat-label>
+      <input [disabled]="!editable" matInput placeholder="Beer" name="productName" [(ngModel)]="this.data.receipt.productName">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+      <input [disabled]="!editable" matInput placeholder="5 USD" name="productPrice" [(ngModel)]="this.data.receipt.productPrice">
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Location</mat-label>
+      <input [disabled]="!editable" matInput placeholder="Stara zajezdnia" name="location" [(ngModel)]="this.data.receipt.location">
+    </mat-form-field>
+  
+    <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <input [disabled]="!editable" matInput placeholder="Grocery store" name="type" [(ngModel)]="this.data.receipt.type">
+      </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions fxLayout="row" class="dialog-actions">
+      <div fxFlex fxLayoutAlign="end none">
+        <button color="warn" mat-button mat-dialog-close>Cancel</button>
+        <button color="accent" style="color:#fff" type="submit" [mat-dialog-close]="this.data.receipt"
+          mat-raised-button>Accept</button>
+      </div>
+    </div>

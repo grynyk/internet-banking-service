@@ -1,0 +1,40 @@
+<main>
+    <mat-card class="center">
+        <div class="error-message" *ngIf="error==true">
+            {{errorMessage}}
+        </div>
+        <div *ngIf="loading==false">
+            <mat-card-title style="text-align:center;padding-top:20px">Registration</mat-card-title>
+
+            <form (ngSubmit)="Submit()" #registerForm="ngForm" fxLayout="column">
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Username" [(ngModel)]="user.login" name="login" minlength="4" maxlength="25" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="First name" [(ngModel)]="user.name" name="name" required>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput type="text" placeholder="Last name" [(ngModel)]="user.surname" name="surname" required>
+                </mat-form-field>
+                <div ngModelGroup="passGroup" #passGroup="ngModelGroup" password-matcher fxLayout="column">
+                    <mat-form-field>
+                        <input matInput type="password" [(ngModel)]="user.password" name="password" placeholder="Password" min="6" #password="ngModel" required>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput type="password" name="confirm" placeholder="Confirm password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel">
+                    </mat-form-field>
+                    <span *ngIf="(passGroup.invalid)&&(confirmPassword.touched)" fxLayoutAlign="start none" class="password-mismatch">passwords does not match</span>
+                </div>
+                <button mat-raised-button color="primary" [disabled]="!registerForm.form.valid" class="submit-btn" type="submit">Register</button>
+
+            </form>
+        </div>
+        <div class="no-data-container" *ngIf="loading==true" fxLayoutAlign="center center">
+            <mat-spinner [diameter]="50"></mat-spinner>
+        </div>
+        <mat-card-footer class="card-footer">
+            <br>
+            <a routerLink='/login'>Login</a>
+        </mat-card-footer>
+    </mat-card>
+</main>

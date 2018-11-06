@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>{{data.title}} "{{data.value}}" ?</h1>
+<div mat-dialog-actions fxLayoutAlign="end none">
+  <button color="warn" mat-button mat-dialog-close>Cancel</button>
+  <button color="primary" [mat-dialog-close]="true" mat-raised-button>OK</button>
+</div>

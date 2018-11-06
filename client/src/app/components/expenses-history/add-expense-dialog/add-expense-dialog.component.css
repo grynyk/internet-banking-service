@@ -1,0 +1,45 @@
+.file-input-row{
+    border-bottom-style: dashed;
+    border-bottom-width:1px;
+    border-bottom-color: #ccc;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+.file-upload-input-button {
+    display: inline-block;
+    cursor: pointer;
+}
+.file-upload-input-name{
+    padding-left:25px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+input[type="file"] {
+    display: none;
+}
+
+.loading{
+    border-top-style: dashed;
+    border-top-width:1px;
+    border-top-color: #ccc;
+    padding-top: 20px;
+}
+
+.addReceiptToggle{
+    padding-bottom:20px;
+    border-bottom-style: dashed;
+    border-bottom-width:1px;
+    border-bottom-color: #ccc;
+}
+
+
+mat-form-field{
+    margin-bottom: -20px;
+}
+mat-form-field:last-child{
+    margin-bottom: 0;
+}
