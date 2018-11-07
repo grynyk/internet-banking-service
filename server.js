@@ -18,6 +18,11 @@ app.post('/api/accounts/primary/create', Auth.verifyToken, Accounts.createPrimar
 app.get('/api/accounts/primary/getAll', Auth.verifyToken, Accounts.getPrimaryAll);
 app.get('/api/accounts/primary/getById/:id', Auth.verifyToken, Accounts.getPrimaryById);
 app.put('/api/accounts/primary/update/:id', Auth.verifyToken, Accounts.updatePrimary);
+
+app.post('/api/accounts/savings/create', Auth.verifyToken, Accounts.createSavings);
+app.get('/api/accounts/savings/getAll', Auth.verifyToken, Accounts.getSavingsAll);
+app.get('/api/accounts/savings/getById/:id', Auth.verifyToken, Accounts.getSavingsById);
+app.put('/api/accounts/savings/update/:id', Auth.verifyToken, Accounts.updateSavings);
 // app.delete('/api/accounts/primary/delete/:id', Auth.verifyToken, Accounts.delete);
 
 
