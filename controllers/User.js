@@ -29,10 +29,14 @@ const User = {
       moment(new Date()),
       moment(new Date())
     ];
-console.log(values)
     try {
       const { rows } = await db.query(createQuery, values);
-      const token = Helper.generateToken(rows[0].id);
+      const token = Helper.generateToken(
+        rows[0].id,
+        rows[0].admin,
+        rows[0].firstname,
+        rows[0].lastname,
+        rows[0].address);
       return res.status(201).send({ token });
     } catch(error) {
       if (error.routine === '_bt_check_unique') {
@@ -58,7 +62,12 @@ console.log(values)
       if(!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
-      const token = Helper.generateToken(rows[0].id);
+      const token = Helper.generateToken(
+        rows[0].id,
+        rows[0].admin,
+        rows[0].firstname,
+        rows[0].lastname,
+        rows[0].address);
       return res.status(200).send({ token });
     } catch(error) {
       return res.status(400).send(error)

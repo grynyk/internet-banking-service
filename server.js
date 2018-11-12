@@ -14,6 +14,8 @@ app.post('/api/user/create', User.create);
 app.post('/api/user/login',User.login);
 app.delete('/api/user/delete', Auth.verifyToken, User.delete);
 
+app.get('/api/accounts/getAll', Auth.verifyToken, Accounts.getAllAcounts);
+
 app.post('/api/accounts/primary/create', Auth.verifyToken, Accounts.createPrimary);
 app.get('/api/accounts/primary/getAll', Auth.verifyToken, Accounts.getPrimaryAll);
 app.get('/api/accounts/primary/getById/:id', Auth.verifyToken, Accounts.getPrimaryById);
