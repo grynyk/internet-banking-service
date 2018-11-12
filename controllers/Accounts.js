@@ -14,7 +14,7 @@ const Accounts = {
     const values = [
       uuid.v4(),
       req.user.id,
-      req.body.balance,
+      0.00,
       moment(new Date()),
       moment(new Date()),
       'primary'
@@ -78,7 +78,7 @@ const Accounts = {
     const values = [
       uuid.v4(),
       req.user.id,
-      req.body.balance,
+      0.00,
       moment(new Date()),
       moment(new Date()),
       'savings'
@@ -131,18 +131,6 @@ const Accounts = {
       return res.status(400).send(err);
     }
   }, async getAllAcounts(req, res) {
-    //   SELECT
-    //   a.col_ID,
-    //   b.colx,
-    //   b.coly,
-    //   b.colz,
-    //   a.col1,
-    //   a.col2,
-    //   a.col3
-    // FROM tableA AS a
-    // INNER JOIN tableB AS b ON a.col_ID = b.col_ID
-    // WHERE a.col_ID > 40302030;
-    // const findAllQuery = 'SELECT p.id, p.owner_id, p.balance, p.type, s.id, s.owner_id, s.balance, s.type FROM primary_account AS p INNER JOIN savings_account AS s ON p.owner_id = s.owner_id WHERE p.owner_id = $1';
 
     const findAllQuery = `
     SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY created_date`;

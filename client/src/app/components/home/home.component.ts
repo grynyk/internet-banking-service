@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MoneyBoxesDialogComponent } from './money-boxes-dialog/money-boxes-dialog.component';
 import { AccountInfoDialogComponent } from './account-info-dialog/account-info-dialog.component';
 import { CreateAccountDialogComponent } from './create-account-dialog/create-account-dialog.component';
+import { AccountsService } from '../../services/accounts.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,7 +15,8 @@ import { CreateAccountDialogComponent } from './create-account-dialog/create-acc
 export class HomeComponent implements OnInit {
 
 
-  constructor(private matIconRegistry: MatIconRegistry,
+  constructor(private accountsService:AccountsService,
+    private matIconRegistry: MatIconRegistry,
     private router: Router,
     public dialog: MatDialog,
     private domSanitizer: DomSanitizer) {
@@ -32,7 +34,13 @@ export class HomeComponent implements OnInit {
     );
 
   }
+
+  primaryAccount:any;
+
   ngOnInit() {
+    this.accountsService.getAll().subscribe((result: any) => {
+      console.log(result);
+    });
   }
 
 

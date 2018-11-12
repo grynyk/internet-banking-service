@@ -14,6 +14,6 @@ export class UserService {
     }
 
     deleteUser(user) {
-        return this.httpClient.post('/api/user/delete', user);
+        return this.httpClient.delete('/api/user/delete', user);
     }
 }

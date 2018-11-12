@@ -27,7 +27,7 @@ export class ApiInterceptor implements HttpInterceptor {
           this.unauthorized = true;
           const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
             width: '400px',
-            data: { code: err.status, message: err.error }
+            data: { title: err.error.name, message: 'Unexpected problem with sending request', button:'OK' }
           });
 
         }
@@ -45,8 +45,7 @@ export class ApiInterceptor implements HttpInterceptor {
     if (loginData) {
       const clonedRequest = request.clone({
         setHeaders: {
-          'sessionId': JSON.parse(localStorage.getItem('currentUser')).sessionId,
-          'jsonWebToken': JSON.parse(localStorage.getItem('currentUser')).jsonWebToken
+          'x-access-token': JSON.parse(localStorage.getItem('currentUser')).token
         }
       })
       return next.handle(clonedRequest).catch(err => this.handleError(err));

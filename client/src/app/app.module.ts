@@ -136,11 +136,11 @@ import { CreateAccountDialogComponent } from './components/home/create-account-d
     HttpModule
   ],
   providers: [
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: ApiInterceptor,
-    //   multi: true
-    // },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    },
     AuthGuard,
     CanDeactivateGuard,
     AuthenticationService,
