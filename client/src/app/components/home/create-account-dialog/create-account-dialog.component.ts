@@ -9,6 +9,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class CreateAccountDialogComponent implements OnInit {
   accountType:string;
+  agreement:boolean = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   constructor(

@@ -2,42 +2,56 @@
       <div fxLayout="row" style="margin-bottom:20px">
             <mat-card fxFlex="100" style="padding:5px" color="dark-primary">
                   <mat-grid-list cols="3" rowHeight="7em">
-                        <a (click)="openAccountInfo()">
+                        <a (click)="openPrimary()">
                               <mat-grid-tile class="grid-item">
                                     <table>
                                           <tr>
-                                                <th class="statistics-icon-small">
+                                                <th class="statistics-icon-small" *ngIf="isPrimary==true">
                                                       <mat-icon class="small-icon" svgIcon="primaryacc"></mat-icon>
                                                 </th>
+                                                <th class="statistics-icon-small" *ngIf="isPrimary==false">
+                                                            <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
+                                                      </th>
                                           </tr>
                                           <tr>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isPrimary==true">
                                                       <mat-icon class="statistics-icon" svgIcon="primaryacc"></mat-icon>
                                                 </td>
-                                                <td valign="bottom" class="statistics-title">Primary account</td>
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isPrimary==false">
+                                                            <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
+                                                      </td>
+                                                <td valign="bottom" class="statistics-title">Primary Account</td>
                                           </tr>
                                           <tr>
-                                                <td valign="top" class="statistics-detail">4375</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="isPrimary==true">{{primaryAccountBalance}}</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="isPrimary==false">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>
                         </a>
-                        <a (click)="openExpensesHistory()">
+                        <a (click)="openSavings()">
                               <mat-grid-tile class="grid-item">
                                     <table>
                                           <tr>
-                                                <th class="statistics-icon-small">
+                                                <th class="statistics-icon-small" *ngIf="isSavings==true">
                                                       <mat-icon class="small-icon" svgIcon="savingsacc"></mat-icon>
+                                                </th>
+                                                <th class="statistics-icon-small" *ngIf="isSavings==false">
+                                                      <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
                                                 </th>
                                           </tr>
                                           <tr>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isSavings==true">
                                                       <mat-icon class="statistics-icon" svgIcon="savingsacc"></mat-icon>
                                                 </td>
-                                                <td valign="bottom" class="statistics-title">Savings account</td>
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isSavings==false">
+                                                            <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
+                                                      </td>
+                                                <td valign="bottom" class="statistics-title">Savings Account</td>
                                           </tr>
                                           <tr>
-                                                <td valign="top" class="statistics-detail"> 4375</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="isSavings==true">{{savingsAccountBalance}}</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="isSavings==false">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>
@@ -74,18 +88,17 @@
                         <mat-form-field appearance="outline">
                               <mat-label>Zdefiniowany odbiorca</mat-label>
                               <mat-select>
-                                <mat-option>Zdefiniowany odbiorca</mat-option>
-                                <mat-option value="option1">Option 1</mat-option>
-                                <mat-option value="option2">Option 2</mat-option>
-                                <mat-option value="option3">Option 3</mat-option>
+                                    <mat-option>Zdefiniowany odbiorca</mat-option>
+                                    <mat-option value="option1">Option 1</mat-option>
+                                    <mat-option value="option2">Option 2</mat-option>
+                                    <mat-option value="option3">Option 3</mat-option>
                               </mat-select>
-                            </mat-form-field>
+                        </mat-form-field>
                   </div>
             </mat-card>
             <mat-card fxFlex="59" style="max-height:300px">
                   <mat-card-title>
-                        Overral expenses
-                        line-dots-chart
+                        Overral expenses line-dots-chart
                   </mat-card-title>
                   <div fxLayoutAlign="center center">
 

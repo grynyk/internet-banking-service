@@ -1,6 +1,9 @@
 <h3 mat-dialog-title fxLayout="row">
-    <div fxFlex fxLayoutAlign="start center">
-        Create your own account
+    <div fxFlex fxLayoutAlign="start center" *ngIf="data.primary==true">
+        Open your primary account
+    </div>
+    <div fxFlex fxLayoutAlign="start center" *ngIf="data.savings==true">
+        Open your savings account
     </div>
     <div fxFlex="10" fxLayoutAlign="end center">
         <button mat-icon-button color="warn" mat-dialog-close><mat-icon>close</mat-icon></button>
@@ -12,14 +15,14 @@
     <mat-step [stepControl]="firstFormGroup">
       <form [formGroup]="firstFormGroup">
         <ng-template matStepLabel>Choose account type</ng-template>
-        <mat-form-field appearance="outline" color="primary">
+        <mat-form-field appearance="outline" color="primary" style="width:90%">
           <mat-label>Account type</mat-label>
             <mat-select [(ngModel)]="accountType" name="accountType" formControlName="firstCtrl">
-              <mat-option value="primary">
-                Primary
+              <mat-option value="primary" [disabled]="data.primary==false">
+                Primary account
               </mat-option>
-              <mat-option value="savings">
-                  Savings
+              <mat-option value="savings" [disabled]="data.savings==false">
+                  Savings account
                 </mat-option>
             </mat-select>
           </mat-form-field>
@@ -43,11 +46,18 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Done</ng-template>
+      <mat-checkbox
+      [(ngModel)]="agreement">
+    Yes, I want to open 
+    <strong *ngIf="data.primary==true">primary</strong>
+    <strong *ngIf="data.savings==true">savings</strong>
+    account !
+  </mat-checkbox>
       <br>
       <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
           <div fxFlex fxLayoutAlign="end none">
               <button mat-button color="warn" (click)="stepper.reset()">Reset</button>
-              <button mat-raised-button color="accent" matStepperPrevious [mat-dialog-close]="accountType">Confirm</button>
+              <button mat-raised-button [disabled]="agreement==false" color="accent" matStepperPrevious [mat-dialog-close]="accountType">Confirm</button>
           </div>
       </div>
     </mat-step>

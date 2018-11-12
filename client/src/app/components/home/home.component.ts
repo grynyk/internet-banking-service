@@ -32,38 +32,89 @@ export class HomeComponent implements OnInit {
       "moneybox",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/moneybox.svg")
     );
-
+    this.matIconRegistry.addSvgIcon(
+      "addacc",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/addacc.svg")
+    );
   }
 
   primaryAccount:any;
+  primaryAccountBalance:any;
+  savingsAccount:any;
+  savingsAccountBalance:any;
+
+  isPrimary:boolean = true;
+  isSavings:boolean = true;
 
   ngOnInit() {
-    this.accountsService.getAll().subscribe((result: any) => {
-      console.log(result);
-    });
-  }
-
-
-  openAccountInfo() {
-    const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
-      width: '600px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        if(result=='primary'){
-          // this.accountsService.postTrack().subscribe((result: any) => {
-          //   console.log(result);
-          //   this.refresh();
-          // });
-          console.log('primary');
-        }else if(result=='savings'){
-          console.log('savings');
-        }
+    this.accountsService.primaryGet().subscribe((result: any) => {
+      this.primaryAccount = result.rows[0];
+      if(result.rows[0]){
+        this.primaryAccountBalance = result.rows[0].balance;
+      }else{
+        this.isPrimary = false;
       }
+     
+      console.log(result.rows[0]);
     });
-
+    this.accountsService.savingsGet().subscribe((result: any) => {
+      this.savingsAccount = result.rows[0];
+      if(result.rows[0]){
+        this.savingsAccountBalance = result.rows[0].balance;
+      }else{
+        this.isSavings = false;
+      }
+      
+      console.log(result.rows[0]);
+    });
   }
+
+
+  openPrimary() {
+    if(this.primaryAccount){
+
+    }else{
+      const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
+        width: '600px',
+        data:{primary:true,savings:false}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if(result=='primary'){
+            this.accountsService.primaryCreate().subscribe((result: any) => {
+              console.log('primary');
+              console.log(result);
+            });
+          }
+        }
+      });
+    }
+  }
+
+  openSavings() {
+    if(this.savingsAccount){
+
+    }else{
+      const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
+        width: '600px',
+        data:{primary:false,savings:true}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          if(result=='savings'){
+            this.accountsService.savingsCreate().subscribe((result: any) => {
+              console.log('savings');
+              console.log(result);
+            });
+            console.log('primary');
+          }
+        }
+      });
+    }
+  }
+
   openExpensesHistory() {
     this.router.navigate(['/manage-expenses-history']);
   }
