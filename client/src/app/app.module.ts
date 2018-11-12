@@ -4,7 +4,7 @@ import { AppRouting } from './app.routing';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { CountdownModule } from 'ngx-countdown';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
@@ -44,7 +44,7 @@ import { UsersComponent } from './components/users/users.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Http, HttpModule } from '@angular/http';
-
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import 'hammerjs';
@@ -65,6 +65,7 @@ import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/
 import { BalanceSheetDialogComponent } from './components/home/balance-sheet-dialog/balance-sheet-dialog.component';
 import { SendMoneyComponent } from './components/home/send-money/send-money.component';
 import { ExpensesChartComponent } from './components/home/expenses-chart/expenses-chart.component';
+import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { ExpensesChartComponent } from './components/home/expenses-chart/expense
     MoneyBoxesDialogComponent,
     BalanceSheetDialogComponent,
     SendMoneyComponent,
-    ExpensesChartComponent
+    ExpensesChartComponent,
+    CreateAccountDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -113,6 +115,7 @@ import { ExpensesChartComponent } from './components/home/expenses-chart/expense
     MatSlideToggleModule,
     MatToolbarModule,
     MatMenuModule,
+    MatStepperModule,
     MatSortModule,
     MatButtonToggleModule,
     MatIconModule,
@@ -129,6 +132,7 @@ import { ExpensesChartComponent } from './components/home/expenses-chart/expense
     MatExpansionModule,
     MatSelectModule,
     FlexLayoutModule,
+    CountdownModule,
     HttpModule
   ],
   providers: [
@@ -150,7 +154,8 @@ import { ExpensesChartComponent } from './components/home/expenses-chart/expense
     ImportedDataComponent,
     ExpenseDetailsDialogComponent,
     MoneyBoxesDialogComponent,
-    AccountInfoDialogComponent
+    AccountInfoDialogComponent,
+    CreateAccountDialogComponent
   ]
 })
 export class AppModule { }

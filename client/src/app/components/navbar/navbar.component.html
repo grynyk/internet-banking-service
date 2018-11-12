@@ -15,16 +15,17 @@
                             <i class="material-icons  account-icon">
                                 person_pin
                             </i>
-                            user(role)
+                            <strong>{{user.firstname}} {{user.lastname}} </strong>
+                            <span *ngIf="user.admin">&nbsp;(Admin)</span>
                         </span>
                     </a>
                 </li>
-                <li class="session-timer" (click)="refreshRoute()">
+                <li class="session-timer" (click)="refreshSession()">
                     <a>
                         <span fxLayoutAlign="none center">
-                            session timer:&nbsp;
+                            session timeout:&nbsp;
                             <span>
-                                00:00
+                                    <countdown [config]="{leftTime: 10*60}"  (finished)="onSessionExpired()">$!m!:$!s!</countdown>
                             </span>
                             <i class="material-icons refresh-icon">cached</i>
                         </span>
@@ -49,7 +50,7 @@
                     <a class="navbar-item" routerLink="/">Home</a>
                 </li>
                 <li>
-                    <a class="navbar-item" routerLink="/profile">Account</a>
+                    <a class="navbar-item" routerLink="/profile">Accounts</a>
                 </li>
                 <li>
                     <a class="navbar-item" routerLink="/profile">Payments</a>

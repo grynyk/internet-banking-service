@@ -8,17 +8,33 @@
 
             <form (ngSubmit)="Submit()" #registerForm="ngForm" fxLayout="column">
                 <mat-form-field>
-                    <input type="text" matInput placeholder="Username" [(ngModel)]="user.login" name="login" minlength="4" maxlength="25" required>
-                </mat-form-field>
+                    <input type="text" matInput placeholder="Email" [formControl]="email" [(ngModel)]="user.email" autocomplete="email" name="email" required>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                  </mat-form-field>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-form-field fxFlex="48">
+                        <input matInput type="text" placeholder="First name" [(ngModel)]="user.firstname" autocomplete="firstname" name="firstname"
+                            required>
+                    </mat-form-field>
+                    <mat-form-field  fxFlex="48">
+                        <input matInput type="text" placeholder="Last name" [(ngModel)]="user.lastname" autocomplete="lastname" name="lastname" required>
+                    </mat-form-field>
+                </div>
                 <mat-form-field>
-                    <input matInput type="text" placeholder="First name" [(ngModel)]="user.name" name="name" required>
+                    <input matInput type="text" placeholder="Address" [(ngModel)]="user.address" autocomplete="address" name="address" required>
                 </mat-form-field>
+                <!-- (dateInput)="getBirthdate($event)" -->
                 <mat-form-field>
-                    <input matInput type="text" placeholder="Last name" [(ngModel)]="user.surname" name="surname" required>
-                </mat-form-field>
+                    <input matInput [min]="minBirthdate" [max]="currentDate" [matDatepicker]="picker" 
+                   
+                    placeholder="Birthdate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi #picker></mat-datepicker>
+                  </mat-form-field>
                 <div ngModelGroup="passGroup" #passGroup="ngModelGroup" password-matcher fxLayout="column">
                     <mat-form-field>
-                        <input matInput type="password" [(ngModel)]="user.password" name="password" placeholder="Password" min="6" #password="ngModel" required>
+                        <input matInput type="password" [(ngModel)]="user.password" name="password" placeholder="Password" min="6" #password="ngModel"
+                            required>
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput type="password" name="confirm" placeholder="Confirm password" [(ngModel)]="user.confirmPassword" #confirmPassword="ngModel">
@@ -33,8 +49,9 @@
             <mat-spinner [diameter]="50"></mat-spinner>
         </div>
         <mat-card-footer class="card-footer">
+            Already have an account ?
             <br>
-            <a routerLink='/login'>Login</a>
+            Login <a routerLink='/login'>here</a>
         </mat-card-footer>
     </mat-card>
 </main>

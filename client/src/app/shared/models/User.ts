@@ -1,9 +1,10 @@
 export class User {
-    login:string;
-    name:string;
-    surname: string;
-    passwordHash?:String;
-    password:string;
+    email:string;
+    firstname:string;
+    lastname: string;
+    address: string;
+    birthdate?: any;
+    admin?:boolean;
+    password?:string;
     confirmPassword?:string;
-    userRole: number;
   }

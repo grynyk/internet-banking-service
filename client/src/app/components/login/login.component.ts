@@ -19,7 +19,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginComponent implements OnInit {
   error:boolean = false;
-  login: string;
+  email: string;
   password: string;
   matcher = new MyErrorStateMatcher();
   hide = true;
@@ -34,30 +34,21 @@ export class LoginComponent implements OnInit {
 
   Login() {
     this.loading = true;
-    if (this.authenticationService.login(this.login, this.password)){
-      if(this.login=='admin'&&this.password=='admin'){
-        this.loading = false;
-        this.router.navigate([this.returnUrl]);
-      }
-    } else{
-    alert('Wrong credentials!');
-    this.loading = false;
-  }
-
-    // this.authenticationService.login(this.login,this.password)
-    //     .subscribe(
-    //         data => {
-    //             this.router.navigate([this.returnUrl]);
-    //         },
-    //         error => {
-    //           this.error = true;
-    //           if(error.status==409){
-    //             this.errorMessage = error.error;
-    //           }else{
-    //             this.errorMessage = error.status + ' ' + 'Serwer nie odpowiada';
-    //           }
-    //           this.loading = false;
-    //         });
+    this.authenticationService.login(this.email,this.password)
+        .subscribe(
+            data => {
+              this.loading = false;
+                this.router.navigate([this.returnUrl]);
+            },
+            error => {
+              this.error = true;
+              if(error.status==409){
+                this.errorMessage = error.error;
+              }else{
+                this.errorMessage = error.status + ' ' + 'Server does not respond';
+              }
+              this.loading = false;
+            });
   }
   ngOnInit() {
     this.authenticationService.logout();

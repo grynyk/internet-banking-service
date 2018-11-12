@@ -5,11 +5,15 @@ import 'rxjs/add/operator/map';
 export class UserService {
     constructor(private httpClient: HttpClient) { }
 
-    getAllUsers() {
-        return this.httpClient.get(`/api/User/GetAll`).map(response => response);
-    }
+    // getAllUsers() {
+    //     return this.httpClient.get(`/api/User/GetAll`).map(response => response);
+    // }
 
     createUser(user) {
-        return this.httpClient.post('/api/Account/Register', user);
+        return this.httpClient.post('/api/user/create', user);
+    }
+
+    deleteUser(user) {
+        return this.httpClient.post('/api/user/delete', user);
     }
 }

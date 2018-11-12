@@ -1,0 +1,54 @@
+<h3 mat-dialog-title fxLayout="row">
+    <div fxFlex fxLayoutAlign="start center">
+        Create your own account
+    </div>
+    <div fxFlex="10" fxLayoutAlign="end center">
+        <button mat-icon-button color="warn" mat-dialog-close><mat-icon>close</mat-icon></button>
+    </div>
+  
+  </h3>
+
+  <mat-vertical-stepper linear="true" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>Choose account type</ng-template>
+        <mat-form-field appearance="outline" color="primary">
+          <mat-label>Account type</mat-label>
+            <mat-select [(ngModel)]="accountType" name="accountType" formControlName="firstCtrl">
+              <mat-option value="primary">
+                Primary
+              </mat-option>
+              <mat-option value="savings">
+                  Savings
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext>Next step</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Type your password</ng-template>
+        <mat-form-field appearance="outline" color="primary">
+            <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="secondCtrl">
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutGap="15px">
+          <button mat-button color="warn" matStepperPrevious>Back</button>
+          <button mat-raised-button color="primary" matStepperNext>Next step</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <br>
+      <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
+          <div fxFlex fxLayoutAlign="end none">
+              <button mat-button color="warn" (click)="stepper.reset()">Reset</button>
+              <button mat-raised-button color="accent" matStepperPrevious [mat-dialog-close]="accountType">Confirm</button>
+          </div>
+      </div>
+    </mat-step>
+  </mat-vertical-stepper>

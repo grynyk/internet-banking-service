@@ -5,6 +5,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { MoneyBoxesDialogComponent } from './money-boxes-dialog/money-boxes-dialog.component';
 import { AccountInfoDialogComponent } from './account-info-dialog/account-info-dialog.component';
+import { CreateAccountDialogComponent } from './create-account-dialog/create-account-dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -18,12 +19,12 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog,
     private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon(
-      "account",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/account.svg")
+      "primaryacc",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/primaryacc.svg")
     );
     this.matIconRegistry.addSvgIcon(
-      "money",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/money.svg")
+      "savingsacc",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/savingsacc.svg")
     );
     this.matIconRegistry.addSvgIcon(
       "moneybox",
@@ -36,9 +37,24 @@ export class HomeComponent implements OnInit {
 
 
   openAccountInfo() {
-    const dialogRef = this.dialog.open(AccountInfoDialogComponent, {
-      width: '500px'
+    const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
+      width: '600px'
     });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if(result=='primary'){
+          // this.accountsService.postTrack().subscribe((result: any) => {
+          //   console.log(result);
+          //   this.refresh();
+          // });
+          console.log('primary');
+        }else if(result=='savings'){
+          console.log('savings');
+        }
+      }
+    });
+
   }
   openExpensesHistory() {
     this.router.navigate(['/manage-expenses-history']);

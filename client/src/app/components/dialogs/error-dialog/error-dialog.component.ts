@@ -12,10 +12,9 @@ export class ErrorHandlerDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<ErrorHandlerDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
     private authenticationService: AuthenticationService) { }
-  errorTitle: String = "Error";
+  errorTitle: String = this.data.title;
   errorMessage: String = this.data.message;
-  buttonTitle:String = "OK";
-  closeButton:boolean = false;
+  buttonTitle: String = this.data.button;
   ngOnInit() {
 
   }
