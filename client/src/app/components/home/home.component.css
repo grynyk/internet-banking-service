@@ -4,22 +4,7 @@
 
 mat-card{
     min-height: 100%;
-}
-/* table, th, td {
-    border: 1px solid black;
-} */
-.component-title{
-    border-left-style: solid;
-    border-left-color: black;
-    padding-left:10px;
-}
-
-.message-container{
-    display:flex;
-    justify-content: center;
-    font-size: 2em;
-    background: #8e1812;
-    color:#fff;
+    margin-bottom:15px;
 }
 
 .statistics-icon{
@@ -138,16 +123,28 @@ mat-grid-tile{
     background-color: rgba(220,220,220,0.3);
 }
 
-.graph{
-    padding:10px;
-  }
-  canvas{
-    position: relative;
-    max-height:440px;
-    width:100%;
-  }
+.no-account{
+    color: #43A048!important;
+}
 
-  .card-title{
+.send-button{
+    margin-top:1.25em;
+    height:80%;
+}
+
+.card-title{
       padding-bottom:15px;
       border-bottom:solid 1px #64b5f6;
   }
+
+.disabled-card>*{
+    pointer-events:none;
+}
+
+.disabled-card{
+    background-color:rgba(238,238,238,0.1);
+}
+
+mat-form-field{
+    margin-bottom: -1.25em!important;
+ }

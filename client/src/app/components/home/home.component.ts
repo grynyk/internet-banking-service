@@ -7,6 +7,7 @@ import { MoneyBoxesDialogComponent } from './money-boxes-dialog/money-boxes-dial
 import { AccountInfoDialogComponent } from './account-info-dialog/account-info-dialog.component';
 import { CreateAccountDialogComponent } from './create-account-dialog/create-account-dialog.component';
 import { AccountsService } from '../../services/accounts.service';
+import { ErrorHandlerDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -40,12 +41,7 @@ export class HomeComponent implements OnInit {
   }
 
   primaryAccount = new Array();
-  // primaryAccountBalance: any;
   savingsAccount = new Array();
-  // savingsAccountBalance: any;
-
-  // isPrimary: boolean = true;
-  // isSavings: boolean = true;
 
   ngOnInit() {
     this.refresh();
@@ -53,16 +49,16 @@ export class HomeComponent implements OnInit {
 
   refresh() {
     this.accountsService.getAll().subscribe((result: any) => {
-      if(result.rowCount!==0){
-        this.primaryAccount = result.rows.filter(res => res.type=='primary');
-        this.savingsAccount = result.rows.filter(res => res.type=='savings');
+      if (result.rowCount !== 0) {
+        this.primaryAccount = result.rows.filter(res => res.type == 'primary');
+        this.savingsAccount = result.rows.filter(res => res.type == 'savings');
       }
     });
   }
 
 
   openPrimary() {
-    if (this.primaryAccount.length!==0) {
+    if (this.primaryAccount.length !== 0) {
 
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
@@ -80,12 +76,11 @@ export class HomeComponent implements OnInit {
           }
         }
       });
-      this.refresh();
     }
   }
 
   openSavings() {
-    if (this.savingsAccount.length!==0) {
+    if (this.savingsAccount.length !== 0) {
 
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
@@ -103,9 +98,68 @@ export class HomeComponent implements OnInit {
           }
         }
       });
-      this.refresh();
     }
   }
+
+  accountTypeToDeposit: String;
+  amountToDeposit: number;
+  depositMoney(type, amount) {
+    let countedAmountToDeposit: number;
+    let accountIdToDeposit: any;
+    if (type == 'primary') {
+      countedAmountToDeposit = +this.primaryAccount[0].balance + +amount;
+      accountIdToDeposit = this.primaryAccount[0].id;
+      this.accountsService.primaryUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
+        console.log(result);
+        this.refresh();
+      });
+    } else if (type == 'savings') {
+      countedAmountToDeposit = +this.savingsAccount[0].balance + +amount;
+      accountIdToDeposit = this.savingsAccount[0].id;
+      this.accountsService.savingsUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
+        console.log(result);
+        this.refresh();
+      });
+    }
+  }
+
+  accountTypeToWithdraw: String;
+  amountToWithdraw: number;
+  withdrawMoney(type, amount) {
+    let countedAmountToWithdraw: number;
+    let accountIdToWithdraw: any;
+    if (type == 'primary') {
+      countedAmountToWithdraw = +this.primaryAccount[0].balance - +amount;
+      accountIdToWithdraw = this.primaryAccount[0].id;
+      if (countedAmountToWithdraw >= 0) {
+        this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
+          console.log(result);
+          this.refresh();
+        });
+      } else {
+        const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
+          disableClose: true,
+          data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
+        });
+      }
+    } else if (type == 'savings') {
+      countedAmountToWithdraw = +this.savingsAccount[0].balance - +amount;
+      accountIdToWithdraw = this.savingsAccount[0].id;
+      if (countedAmountToWithdraw > -1) {
+        
+        this.accountsService.savingsUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
+          console.log(result);
+          this.refresh();
+        });
+      } else {
+        const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
+          disableClose: true,
+          data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
+        });
+      }
+    }
+  }
+
 
   openExpensesHistory() {
     this.router.navigate(['/manage-expenses-history']);

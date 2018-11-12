@@ -1,6 +1,6 @@
 <div class="body" fxLayout="column" fxLayoutAlign="space-between none">
-      <div fxLayout="row" style="margin-bottom:20px">
-            <mat-card fxFlex="100" style="padding:5px" color="dark-primary">
+      <div fxLayout="row">
+            <mat-card fxFlex="100" style="padding:0" color="dark-primary">
                   <mat-grid-list cols="3" rowHeight="7em">
                         <a (click)="openPrimary()">
                               <mat-grid-tile class="grid-item">
@@ -10,21 +10,21 @@
                                                       <mat-icon class="small-icon" svgIcon="primaryacc"></mat-icon>
                                                 </th>
                                                 <th class="statistics-icon-small" *ngIf="primaryAccount.length==0">
-                                                            <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
-                                                      </th>
+                                                      <mat-icon class="small-icon" [ngClass]="{'no-account':savingsAccount.length==0}" svgIcon="addacc"></mat-icon>
+                                                </th>
                                           </tr>
                                           <tr>
                                                 <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="primaryAccount.length!==0">
                                                       <mat-icon class="statistics-icon" svgIcon="primaryacc"></mat-icon>
                                                 </td>
                                                 <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="primaryAccount.length==0">
-                                                            <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
-                                                      </td>
+                                                      <mat-icon class="statistics-icon" [ngClass]="{'no-account':savingsAccount.length==0}" svgIcon="addacc"></mat-icon>
+                                                </td>
                                                 <td valign="bottom" class="statistics-title">Primary Account</td>
                                           </tr>
                                           <tr>
                                                 <td valign="top" class="statistics-detail" *ngIf="primaryAccount.length!==0">{{primaryAccount[0].balance}}</td>
-                                                <td valign="top" class="statistics-detail" *ngIf="primaryAccount.length==0">Open</td>
+                                                <td valign="top" class="statistics-detail" [ngClass]="{'no-account':savingsAccount.length==0}" *ngIf="primaryAccount.length==0">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>
@@ -37,7 +37,7 @@
                                                       <mat-icon class="small-icon" svgIcon="savingsacc"></mat-icon>
                                                 </th>
                                                 <th class="statistics-icon-small" *ngIf="savingsAccount.length==0">
-                                                      <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
+                                                      <mat-icon class="small-icon" [ngClass]="{'no-account':savingsAccount.length==0}" svgIcon="addacc"></mat-icon>
                                                 </th>
                                           </tr>
                                           <tr>
@@ -45,13 +45,13 @@
                                                       <mat-icon class="statistics-icon" svgIcon="savingsacc"></mat-icon>
                                                 </td>
                                                 <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="savingsAccount.length==0">
-                                                            <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
-                                                      </td>
+                                                      <mat-icon class="statistics-icon" [ngClass]="{'no-account':savingsAccount.length==0}" svgIcon="addacc"></mat-icon>
+                                                </td>
                                                 <td valign="bottom" class="statistics-title">Savings Account</td>
                                           </tr>
                                           <tr>
                                                 <td valign="top" class="statistics-detail" *ngIf="savingsAccount.length!==0">{{savingsAccount[0].balance}}</td>
-                                                <td valign="top" class="statistics-detail" *ngIf="savingsAccount.length==0">Open</td>
+                                                <td valign="top" class="statistics-detail" [ngClass]="{'no-account':savingsAccount.length==0}" *ngIf="savingsAccount.length==0">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>
@@ -79,8 +79,8 @@
                   </mat-grid-list>
             </mat-card>
       </div>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-            <mat-card fxFlex="40" style="max-height:300px">
+      <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between">
+            <mat-card fxFlex="33" style="max-height:300px">
                   <mat-card-title class="card-title">
                         Send money
                   </mat-card-title>
@@ -96,12 +96,62 @@
                         </mat-form-field>
                   </div>
             </mat-card>
-            <mat-card fxFlex="59" style="max-height:300px">
+            <mat-card fxFlex="33" [ngClass]="{'disabled-card':savingsAccount.length==0 && primaryAccount.length==0}">
                   <mat-card-title>
-                        Overral expenses line-dots-chart
+                        Deposit
                   </mat-card-title>
-                  <div fxLayoutAlign="center center">
-
+                  <div fxLayout="row" fxLayout.sm="column" fxLayoutAlign="space-between">
+                        <mat-form-field fxFlex="49" appearance="outline" color="primary">
+                              <mat-label>Account type</mat-label>
+                              <mat-select [(ngModel)]="accountTypeToDeposit" name="accountType">
+                                    <mat-option value="primary" [disabled]="primaryAccount.length==0">
+                                          Primary account
+                                    </mat-option> 
+                                    <mat-option value="savings" [disabled]="savingsAccount.length==0">
+                                          Savings account
+                                    </mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="49" appearance="outline" color="primary">
+                              <mat-label>Amount</mat-label>
+                              <input matInput [(ngModel)]="amountToDeposit" type="number" placeholder="400.23">
+                              <mat-icon matSuffix>attach_money</mat-icon>
+                        </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="end none">
+                        <button fxFlex="100" mat-raised-button (click)="depositMoney(accountTypeToDeposit,amountToDeposit)" color="primary" [disabled]="!amountToDeposit||!accountTypeToDeposit"
+                              class="send-button">
+                              Deposit
+                        </button>
+                  </div>
+            </mat-card>
+            <mat-card fxFlex="33" [ngClass]="{'disabled-card': (savingsAccount.length==0 || savingsAccount[0].balance=='0.00')&&(primaryAccount.length==0 || primaryAccount[0].balance=='0.00')}">
+                  <mat-card-title>
+                        Withdraw
+                  </mat-card-title>
+                  <div fxLayout="row" fxLayout.sm="column" fxLayoutAlign="space-between">
+                        <mat-form-field fxFlex="49" appearance="outline" color="primary">
+                              <mat-label>Account type</mat-label>
+                              <mat-select [(ngModel)]="accountTypeToWithdraw" name="accountType">
+                                    <mat-option value="primary" [disabled]="primaryAccount.length==0 || primaryAccount[0].balance=='0.00'">
+                                          Primary account
+                                    </mat-option>
+                                    <mat-option value="savings" [disabled]="savingsAccount.length==0 || savingsAccount[0].balance=='0.00'">
+                                          Savings account
+                                    </mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="49" appearance="outline" color="primary">
+                              <mat-label>Amount</mat-label>
+                              <input matInput [(ngModel)]="amountToWithdraw" type="number" placeholder="120.50">
+                              <mat-icon matSuffix>attach_money</mat-icon>
+                        </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="end none">
+                        <button fxFlex="100" mat-raised-button (click)="withdrawMoney(accountTypeToWithdraw,amountToWithdraw)" color="primary" [disabled]="!amountToWithdraw||!accountTypeToWithdraw"
+                              class="send-button">
+                              Withdraw
+                        </button>
                   </div>
             </mat-card>
       </div>
