@@ -133,7 +133,7 @@ const Accounts = {
   }, async getAllAcounts(req, res) {
 
     const findAllQuery = `
-    SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY created_date`;
+    SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY type`;
     try {
       const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
       return res.status(200).send({ rows, rowCount });

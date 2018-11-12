@@ -34,13 +34,13 @@
     <mat-step [stepControl]="secondFormGroup">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Type your password</ng-template>
-        <mat-form-field appearance="outline" color="primary">
+        <mat-form-field appearance="outline" color="primary" style="width:90%">
             <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="secondCtrl">
+          <input matInput type="password" [(ngModel)]="passwordToVerify" formControlName="secondCtrl">
         </mat-form-field>
         <div fxLayout="row" fxLayoutGap="15px">
           <button mat-button color="warn" matStepperPrevious>Back</button>
-          <button mat-raised-button color="primary" matStepperNext>Next step</button>
+          <button mat-raised-button color="primary" (click)="verifyPassword(passwordToVerify,stepper)" [disabled]="!passwordToVerify">Next step</button>
         </div>
       </form>
     </mat-step>

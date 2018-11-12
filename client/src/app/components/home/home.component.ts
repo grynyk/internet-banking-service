@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
@@ -15,10 +15,11 @@ import { AccountsService } from '../../services/accounts.service';
 export class HomeComponent implements OnInit {
 
 
-  constructor(private accountsService:AccountsService,
+  constructor(private accountsService: AccountsService,
     private matIconRegistry: MatIconRegistry,
     private router: Router,
     public dialog: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon(
       "primaryacc",
@@ -38,80 +39,71 @@ export class HomeComponent implements OnInit {
     );
   }
 
-  primaryAccount:any;
-  primaryAccountBalance:any;
-  savingsAccount:any;
-  savingsAccountBalance:any;
+  primaryAccount = new Array();
+  // primaryAccountBalance: any;
+  savingsAccount = new Array();
+  // savingsAccountBalance: any;
 
-  isPrimary:boolean = true;
-  isSavings:boolean = true;
+  // isPrimary: boolean = true;
+  // isSavings: boolean = true;
 
   ngOnInit() {
-    this.accountsService.primaryGet().subscribe((result: any) => {
-      this.primaryAccount = result.rows[0];
-      if(result.rows[0]){
-        this.primaryAccountBalance = result.rows[0].balance;
-      }else{
-        this.isPrimary = false;
+    this.refresh();
+  }
+
+  refresh() {
+    this.accountsService.getAll().subscribe((result: any) => {
+      if(result.rowCount!==0){
+        this.primaryAccount = result.rows.filter(res => res.type=='primary');
+        this.savingsAccount = result.rows.filter(res => res.type=='savings');
       }
-     
-      console.log(result.rows[0]);
-    });
-    this.accountsService.savingsGet().subscribe((result: any) => {
-      this.savingsAccount = result.rows[0];
-      if(result.rows[0]){
-        this.savingsAccountBalance = result.rows[0].balance;
-      }else{
-        this.isSavings = false;
-      }
-      
-      console.log(result.rows[0]);
     });
   }
 
 
   openPrimary() {
-    if(this.primaryAccount){
+    if (this.primaryAccount.length!==0) {
 
-    }else{
+    } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
         width: '600px',
-        data:{primary:true,savings:false}
+        data: { primary: true, savings: false }
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          if(result=='primary'){
+          if (result == 'primary') {
             this.accountsService.primaryCreate().subscribe((result: any) => {
-              console.log('primary');
+              this.refresh();
               console.log(result);
             });
           }
         }
       });
+      this.refresh();
     }
   }
 
   openSavings() {
-    if(this.savingsAccount){
+    if (this.savingsAccount.length!==0) {
 
-    }else{
+    } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
         width: '600px',
-        data:{primary:false,savings:true}
+        data: { primary: false, savings: true }
       });
-  
+
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          if(result=='savings'){
+          if (result == 'savings') {
             this.accountsService.savingsCreate().subscribe((result: any) => {
-              console.log('savings');
+              this.refresh();
               console.log(result);
             });
-            console.log('primary');
           }
         }
       });
+      this.refresh();
     }
   }
 

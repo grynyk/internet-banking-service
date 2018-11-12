@@ -13,6 +13,10 @@ export class UserService {
         return this.httpClient.post('/api/user/create', user);
     }
 
+    verifyPassword(id, password) {
+        return this.httpClient.post(`/api/user/verifyPassword/${id}`, { password: password });
+    }
+
     deleteUser(user) {
         return this.httpClient.delete('/api/user/delete', user);
     }

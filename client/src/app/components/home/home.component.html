@@ -6,25 +6,25 @@
                               <mat-grid-tile class="grid-item">
                                     <table>
                                           <tr>
-                                                <th class="statistics-icon-small" *ngIf="isPrimary==true">
+                                                <th class="statistics-icon-small" *ngIf="primaryAccount.length!==0">
                                                       <mat-icon class="small-icon" svgIcon="primaryacc"></mat-icon>
                                                 </th>
-                                                <th class="statistics-icon-small" *ngIf="isPrimary==false">
+                                                <th class="statistics-icon-small" *ngIf="primaryAccount.length==0">
                                                             <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
                                                       </th>
                                           </tr>
                                           <tr>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isPrimary==true">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="primaryAccount.length!==0">
                                                       <mat-icon class="statistics-icon" svgIcon="primaryacc"></mat-icon>
                                                 </td>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isPrimary==false">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="primaryAccount.length==0">
                                                             <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
                                                       </td>
                                                 <td valign="bottom" class="statistics-title">Primary Account</td>
                                           </tr>
                                           <tr>
-                                                <td valign="top" class="statistics-detail" *ngIf="isPrimary==true">{{primaryAccountBalance}}</td>
-                                                <td valign="top" class="statistics-detail" *ngIf="isPrimary==false">Open</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="primaryAccount.length!==0">{{primaryAccount[0].balance}}</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="primaryAccount.length==0">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>
@@ -33,25 +33,25 @@
                               <mat-grid-tile class="grid-item">
                                     <table>
                                           <tr>
-                                                <th class="statistics-icon-small" *ngIf="isSavings==true">
+                                                <th class="statistics-icon-small" *ngIf="savingsAccount.length!==0">
                                                       <mat-icon class="small-icon" svgIcon="savingsacc"></mat-icon>
                                                 </th>
-                                                <th class="statistics-icon-small" *ngIf="isSavings==false">
+                                                <th class="statistics-icon-small" *ngIf="savingsAccount.length==0">
                                                       <mat-icon class="small-icon" svgIcon="addacc"></mat-icon>
                                                 </th>
                                           </tr>
                                           <tr>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isSavings==true">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="savingsAccount.length!==0">
                                                       <mat-icon class="statistics-icon" svgIcon="savingsacc"></mat-icon>
                                                 </td>
-                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="isSavings==false">
+                                                <td rowspan="2" class="statistics-icon-section" style="width:50%" *ngIf="savingsAccount.length==0">
                                                             <mat-icon class="statistics-icon" svgIcon="addacc"></mat-icon>
                                                       </td>
                                                 <td valign="bottom" class="statistics-title">Savings Account</td>
                                           </tr>
                                           <tr>
-                                                <td valign="top" class="statistics-detail" *ngIf="isSavings==true">{{savingsAccountBalance}}</td>
-                                                <td valign="top" class="statistics-detail" *ngIf="isSavings==false">Open</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="savingsAccount.length!==0">{{savingsAccount[0].balance}}</td>
+                                                <td valign="top" class="statistics-detail" *ngIf="savingsAccount.length==0">Open</td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>

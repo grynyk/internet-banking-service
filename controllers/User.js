@@ -46,7 +46,21 @@ const User = {
     }
   },
 
-  async login(req, res) {
+  async verifyPassword(req, res) {
+
+    const text = 'SELECT * FROM users WHERE id = $1';
+    try {
+      const { rows } = await db.query(text, [req.params.id]);
+
+      if(!Helper.comparePassword(rows[0].password, req.body.password)) {
+        return res.status(400).send({ 'message': 'Password is incorrect' });
+      }
+
+      return res.status(200).send();
+    } catch(error) {
+      return res.status(400).send(error)
+    }
+  },  async login(req, res) {
     if (!req.body.email || !req.body.password) {
       return res.status(400).send({'message': 'Some values are missing'});
     }

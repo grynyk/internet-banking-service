@@ -12,6 +12,7 @@ app.use(express.json())
 
 app.post('/api/user/create', User.create);
 app.post('/api/user/login',User.login);
+app.post('/api/user/verifyPassword/:id',User.verifyPassword);
 app.delete('/api/user/delete', Auth.verifyToken, User.delete);
 
 app.get('/api/accounts/getAll', Auth.verifyToken, Accounts.getAllAcounts);

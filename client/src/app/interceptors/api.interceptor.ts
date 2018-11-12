@@ -18,21 +18,26 @@ export class ApiInterceptor implements HttpInterceptor {
   constructor(public authService: AuthenticationService, private router: Router,public dialog: MatDialog,
     private injector: Injector) { }
 
-  unauthorized = false;
+  errorAppeared = false;
   private handleError(err: HttpErrorResponse): Observable<any> {
+
     if (err.error instanceof Error) {
     } else {
       if(err.status!==201){
-        if(this.unauthorized==false){
-          this.unauthorized = true;
+        if(this.errorAppeared==false){
+          this.errorAppeared = true;
           const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
             width: '400px',
-            data: { title: err.error.name, message: 'Unexpected problem with sending request', button:'OK' }
+            data: { title: err.error.name || err.error.message , message: 'Unexpected problem with sending request, try again please !', button:'OK' }
           });
-
         }
-
       }
+      // else if(err.error.message=='password is incorrect'){
+      //   const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
+      //     width: '400px',
+      //     data: { title: err.error.name || err.error, message: 'Unexpected problem with sending request', button:'OK' }
+      //   });
+      // }
     }
     if (err.status === 404 || err.status === 403) {
     }
@@ -40,7 +45,7 @@ export class ApiInterceptor implements HttpInterceptor {
 }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    this.unauthorized = false;
+    this.errorAppeared = false;
     const loginData = JSON.parse(localStorage.getItem('currentUser'));
     if (loginData) {
       const clonedRequest = request.clone({
