@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import Accounts from './controllers/Accounts';
 import User from './controllers/User';
 import Auth from './controllers/middleware';
+
 dotenv.config();
 
 const app = express()
@@ -27,6 +28,8 @@ app.get('/api/accounts/savings/getAll', Auth.verifyToken, Accounts.getSavingsAll
 app.get('/api/accounts/savings/getById/:id', Auth.verifyToken, Accounts.getSavingsById);
 app.put('/api/accounts/savings/update/:id', Auth.verifyToken, Accounts.updateSavings);
 // app.delete('/api/accounts/primary/delete/:id', Auth.verifyToken, Accounts.delete);
+
+app.post('/api/transaction', Auth.verifyToken, Accounts.Transaction);
 
 
 app.get('/', (req, res) => {

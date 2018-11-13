@@ -1,7 +1,7 @@
 import moment from 'moment';
 import uuid from 'uuid';
 import db from '../index';
-
+import tx from './Transaction';
 const Accounts = {
 
   // PRIMARY-ACCOUNT
@@ -131,7 +131,6 @@ const Accounts = {
       return res.status(400).send(err);
     }
   }, async getAllAcounts(req, res) {
-
     const findAllQuery = `
     SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY type`;
     try {
@@ -139,6 +138,41 @@ const Accounts = {
       return res.status(200).send({ rows, rowCount });
     } catch (error) {
       return res.status(400).send(error);
+    }
+  }, async Transaction(req, res) {
+    try {
+      tx(async client => {
+        const { rows } = await client.query(`SELECT balance FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
+        var sendersBalance = rows[0].balance;
+        const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
+        rows[1] = (await client.query(`SELECT * FROM ${req.body.receiverAccountType} WHERE id = $1`, [req.body.receiverAccountNo])).rows[0];
+        const receiversBalance = rows[1].balance;
+        const receiversUpdatedBalance = +receiversBalance + +req.body.amount;
+
+        if (+sendersBalance > +req.body.amount) {
+          await client.query(`UPDATE ${req.body.senderAccountType} SET
+          balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
+          await client.query(`UPDATE ${req.body.receiverAccountType} SET
+          balance = $1 WHERE id = $2 returning *`, [receiversUpdatedBalance, req.body.receiverAccountNo]);
+          await client.query(`INSERT INTO
+          transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type)
+          VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9) returning *`, [
+              uuid.v4(),
+              req.body.description,
+              req.body.amount,
+              moment(new Date()),
+              req.user.id,
+              rows[1].owner_id,
+              true,
+              req.body.senderAccountType,
+              req.body.receiverAccountType
+            ]);
+        }
+      });
+
+      return res.status(200).send({ "message": "transaction approved" });
+    } catch (error) {
+      return res.status(400).send({ "message": error });
     }
   }
 }
