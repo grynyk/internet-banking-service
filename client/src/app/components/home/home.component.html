@@ -104,10 +104,10 @@
                         <mat-form-field fxFlex="49" appearance="outline" color="primary">
                               <mat-label>Account type</mat-label>
                               <mat-select [(ngModel)]="accountTypeToDeposit" name="accountType">
-                                    <mat-option value="primary" [disabled]="primaryAccount.length==0">
+                                    <mat-option value="primary_account" [disabled]="primaryAccount.length==0">
                                           Primary account
                                     </mat-option> 
-                                    <mat-option value="savings" [disabled]="savingsAccount.length==0">
+                                    <mat-option value="savings_account" [disabled]="savingsAccount.length==0">
                                           Savings account
                                     </mat-option>
                               </mat-select>
@@ -133,10 +133,10 @@
                         <mat-form-field fxFlex="49" appearance="outline" color="primary">
                               <mat-label>Account type</mat-label>
                               <mat-select [(ngModel)]="accountTypeToWithdraw" name="accountType">
-                                    <mat-option value="primary" [disabled]="primaryAccount.length==0 || primaryAccount[0].balance=='0.00'">
+                                    <mat-option value="primary_account" [disabled]="primaryAccount.length==0 || primaryAccount[0].balance=='0.00'">
                                           Primary account
                                     </mat-option>
-                                    <mat-option value="savings" [disabled]="savingsAccount.length==0 || savingsAccount[0].balance=='0.00'">
+                                    <mat-option value="savings_account" [disabled]="savingsAccount.length==0 || savingsAccount[0].balance=='0.00'">
                                           Savings account
                                     </mat-option>
                               </mat-select>

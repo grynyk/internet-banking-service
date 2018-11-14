@@ -50,8 +50,8 @@ export class HomeComponent implements OnInit {
   refresh() {
     this.accountsService.getAll().subscribe((result: any) => {
       if (result.rowCount !== 0) {
-        this.primaryAccount = result.rows.filter(res => res.type == 'primary');
-        this.savingsAccount = result.rows.filter(res => res.type == 'savings');
+        this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
+        this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
       }
     });
   }
@@ -63,12 +63,12 @@ export class HomeComponent implements OnInit {
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
         width: '600px',
-        data: { primary: true, savings: false }
+        data: { primary_account: true, savings_account: false }
       });
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          if (result == 'primary') {
+          if (result == 'primary_account') {
             this.accountsService.primaryCreate().subscribe((result: any) => {
               this.refresh();
               console.log(result);
@@ -85,12 +85,12 @@ export class HomeComponent implements OnInit {
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
         width: '600px',
-        data: { primary: false, savings: true }
+        data: { primary_account: false, savings_account: true }
       });
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          if (result == 'savings') {
+          if (result == 'savings_account') {
             this.accountsService.savingsCreate().subscribe((result: any) => {
               this.refresh();
               console.log(result);
@@ -106,14 +106,14 @@ export class HomeComponent implements OnInit {
   depositMoney(type, amount) {
     let countedAmountToDeposit: number;
     let accountIdToDeposit: any;
-    if (type == 'primary') {
+    if (type == 'primary_account') {
       countedAmountToDeposit = +this.primaryAccount[0].balance + +amount;
       accountIdToDeposit = this.primaryAccount[0].id;
       this.accountsService.primaryUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
         console.log(result);
         this.refresh();
       });
-    } else if (type == 'savings') {
+    } else if (type == 'savings_account') {
       countedAmountToDeposit = +this.savingsAccount[0].balance + +amount;
       accountIdToDeposit = this.savingsAccount[0].id;
       this.accountsService.savingsUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit {
   withdrawMoney(type, amount) {
     let countedAmountToWithdraw: number;
     let accountIdToWithdraw: any;
-    if (type == 'primary') {
+    if (type == 'primary_account') {
       countedAmountToWithdraw = +this.primaryAccount[0].balance - +amount;
       accountIdToWithdraw = this.primaryAccount[0].id;
       if (countedAmountToWithdraw >= 0) {
@@ -142,7 +142,7 @@ export class HomeComponent implements OnInit {
           data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
         });
       }
-    } else if (type == 'savings') {
+    } else if (type == 'savings_account') {
       countedAmountToWithdraw = +this.savingsAccount[0].balance - +amount;
       accountIdToWithdraw = this.savingsAccount[0].id;
       if (countedAmountToWithdraw > -1) {

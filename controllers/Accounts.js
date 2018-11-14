@@ -17,7 +17,7 @@ const Accounts = {
       0.00,
       moment(new Date()),
       moment(new Date()),
-      'primary'
+      'primary_account'
     ];
 
     try {
@@ -64,6 +64,39 @@ const Accounts = {
         req.user.id
       ];
       const response = await db.query(updateOneQuery, values);
+
+      if (req.body.balance > rows[0].balance) {
+        await db.query(`INSERT INTO
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+            uuid.v4(),
+            '',
+            req.body.balance - rows[0].balance,
+            moment(new Date()),
+            req.user.id,
+            req.user.id,
+            true,
+            'n/a',
+            'primary_account',
+            'deposit'
+          ]);
+      } else {
+        await db.query(`INSERT INTO
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+            uuid.v4(),
+            '',
+            rows[0].balance - req.body.balance,
+            moment(new Date()),
+            req.user.id,
+            req.user.id,
+            true,
+            'n/a',
+            'primary_account',
+            'withdrawal'
+          ]);
+      }
+
       return res.status(200).send(response.rows[0]);
     } catch (err) {
       return res.status(400).send(err);
@@ -81,7 +114,7 @@ const Accounts = {
       0.00,
       moment(new Date()),
       moment(new Date()),
-      'savings'
+      'savings_account'
     ];
 
     try {
@@ -120,12 +153,45 @@ const Accounts = {
         return res.status(404).send({ 'message': 'account not found' });
       }
       const values = [
-        req.body.balance || rows[0].balance,
+        req.body.balance,
         moment(new Date()),
         req.params.id,
         req.user.id
       ];
       const response = await db.query(updateOneQuery, values);
+
+      if (req.body.balance > rows[0].balance) {
+        await db.query(`INSERT INTO
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+            uuid.v4(),
+            '',
+            req.body.balance - rows[0].balance,
+            moment(new Date()),
+            req.user.id,
+            req.user.id,
+            true,
+            'n/a',
+            'savings_account',
+            'deposit'
+          ]);
+      } else {
+        await db.query(`INSERT INTO
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+            uuid.v4(),
+            '',
+            rows[0].balance - req.body.balance,
+            moment(new Date()),
+            req.user.id,
+            req.user.id,
+            true,
+            'n/a',
+            'savings_account',
+            'withdrawal'
+          ]);
+      }
+
       return res.status(200).send(response.rows[0]);
     } catch (err) {
       return res.status(400).send(err);
@@ -138,41 +204,6 @@ const Accounts = {
       return res.status(200).send({ rows, rowCount });
     } catch (error) {
       return res.status(400).send(error);
-    }
-  }, async Transaction(req, res) {
-    try {
-      tx(async client => {
-        const { rows } = await client.query(`SELECT balance FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
-        var sendersBalance = rows[0].balance;
-        const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
-        rows[1] = (await client.query(`SELECT * FROM ${req.body.receiverAccountType} WHERE id = $1`, [req.body.receiverAccountNo])).rows[0];
-        const receiversBalance = rows[1].balance;
-        const receiversUpdatedBalance = +receiversBalance + +req.body.amount;
-
-        if (+sendersBalance > +req.body.amount) {
-          await client.query(`UPDATE ${req.body.senderAccountType} SET
-          balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
-          await client.query(`UPDATE ${req.body.receiverAccountType} SET
-          balance = $1 WHERE id = $2 returning *`, [receiversUpdatedBalance, req.body.receiverAccountNo]);
-          await client.query(`INSERT INTO
-          transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type)
-          VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9) returning *`, [
-              uuid.v4(),
-              req.body.description,
-              req.body.amount,
-              moment(new Date()),
-              req.user.id,
-              rows[1].owner_id,
-              true,
-              req.body.senderAccountType,
-              req.body.receiverAccountType
-            ]);
-        }
-      });
-
-      return res.status(200).send({ "message": "transaction approved" });
-    } catch (error) {
-      return res.status(400).send({ "message": error });
     }
   }
 }

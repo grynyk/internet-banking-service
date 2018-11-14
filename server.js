@@ -4,6 +4,7 @@ import 'babel-polyfill';
 import Accounts from './controllers/Accounts';
 import User from './controllers/User';
 import Auth from './controllers/middleware';
+import Transaction from './controllers/Transaction';
 
 dotenv.config();
 
@@ -29,8 +30,8 @@ app.get('/api/accounts/savings/getById/:id', Auth.verifyToken, Accounts.getSavin
 app.put('/api/accounts/savings/update/:id', Auth.verifyToken, Accounts.updateSavings);
 // app.delete('/api/accounts/primary/delete/:id', Auth.verifyToken, Accounts.delete);
 
-app.post('/api/transaction', Auth.verifyToken, Accounts.Transaction);
-
+app.post('/api/transaction/domestic', Auth.verifyToken, Transaction.domesticTransaction);
+app.post('/api/transaction/external', Auth.verifyToken, Transaction.externalTransaction);
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});
