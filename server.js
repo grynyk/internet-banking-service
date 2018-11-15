@@ -30,6 +30,9 @@ app.get('/api/accounts/savings/getById/:id', Auth.verifyToken, Accounts.getSavin
 app.put('/api/accounts/savings/update/:id', Auth.verifyToken, Accounts.updateSavings);
 // app.delete('/api/accounts/primary/delete/:id', Auth.verifyToken, Accounts.delete);
 
+app.get('/api/transaction/getAll', Auth.verifyToken, Transaction.getAllTransactions);
+app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomingTransactions);
+app.get('/api/transaction/getOutgoing', Auth.verifyToken, Transaction.getOutgoingTransactions);
 app.post('/api/transaction/domestic', Auth.verifyToken, Transaction.domesticTransaction);
 app.post('/api/transaction/external', Auth.verifyToken, Transaction.externalTransaction);
 

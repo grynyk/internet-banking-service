@@ -27,13 +27,34 @@ const tx = async callback => {
 
 const Transaction = {
     async getAllTransactions(req, res) {
-
+        const findAllQuery = `
+        SELECT * FROM transactions where sender_uuid = $1 OR receiver_uuid = $1`;
+        try {
+          const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
+          return res.status(200).send({ rows, rowCount });
+        } catch (error) {
+          return res.status(400).send(error);
+        }
     },
     async getIncomingTransactions(req, res) {
-
+        const findAllQuery = `
+        SELECT * FROM transactions where receiver_uuid = $1`;
+        try {
+          const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
+          return res.status(200).send({ rows, rowCount });
+        } catch (error) {
+          return res.status(400).send(error);
+        }
     },
     async getOutgoingTransactions(req, res) {
-
+        const findAllQuery = `
+        SELECT * FROM transactions where sender_uuid = $1`;
+        try {
+          const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
+          return res.status(200).send({ rows, rowCount });
+        } catch (error) {
+          return res.status(400).send(error);
+        }
     },
     async domesticTransaction(req, res) {
         tx(async client => {
