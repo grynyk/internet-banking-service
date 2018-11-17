@@ -14,44 +14,90 @@
     </button>
   </div>
 </h3>
-
-<div fxLayout="column">
-  <div fxLayout="row" fxLayoutAlign="space-between">
-    <mat-form-field fxFlex="30" appearance="outline" color="primary">
-      <mat-label>From</mat-label>
+<div *ngIf="data.type!=='transfer'">
+  <div fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field fxFlex="30" appearance="outline" color="primary">
+        <mat-label>From</mat-label>
         <mat-select [(ngModel)]="accountType" name="accountType">
-          <mat-option value="primary_account" [disabled]="data.primary_account==false">
+          <mat-option value="primary_account" [disabled]="data.primary==true">
             Primary account
           </mat-option>
-          <mat-option value="savings_account" [disabled]="data.savings_account==false">
-              Savings account
-            </mat-option>
+          <mat-option value="savings_account" [disabled]="data.savings==true">
+            Savings account
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field fxFlex="68" appearance="outline" color="primary">
         <mat-label>Amount</mat-label>
-        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00"/>
-        </mat-form-field>
-  </div>
-  <div fxLayout="row" *ngIf="data.type=='external'">
-    <mat-form-field fxFlex="100" appearance="outline" color="primary">
-      <mat-label>Beneficiary name</mat-label>
-      <input matInput [(ngModel)]="receiverName" placeholder="Jan Kowalski" style="text-transform: uppercase" type="text"/>
+        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" />
       </mat-form-field>
-  </div>
-  <div fxLayout="row">
-    <mat-form-field fxFlex="100" appearance="outline" color="primary">
-      <mat-label>Account No.</mat-label>
-      <input matInput [(ngModel)]="receiverAccountNo"  style="text-transform: uppercase" placeholder="1234-5678-9123-4567-8912-3456-7891-2345" type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA"/>
+    </div>
+    <div fxLayout="row" *ngIf="data.type=='external'">
+      <mat-form-field fxFlex="100" appearance="outline" color="primary">
+        <mat-label>Beneficiary name</mat-label>
+        <input matInput [(ngModel)]="receiverName" placeholder="Jan Kowalski" style="text-transform: uppercase" type="text" />
       </mat-form-field>
-  </div>
-  <div fxLayout="row">
+    </div>
+    <div fxLayout="row">
+      <mat-form-field fxFlex="100" appearance="outline" color="primary">
+        <mat-label>Account No.</mat-label>
+        <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
+          type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" />
+      </mat-form-field>
+    </div>
+    <div fxLayout="row">
       <textarea placeholder="Description" [(ngModel)]="description" class="description-area" rows="5"></textarea>
+    </div>
+  </div>
+
+  <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
+    <div fxFlex fxLayoutAlign="end none">
+      <button mat-raised-button [disabled]="agreement==false" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
+    </div>
   </div>
 </div>
 
-<div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
-  <div fxFlex fxLayoutAlign="end none">
-    <button mat-raised-button [disabled]="agreement==false" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
+<div *ngIf="data.type=='transfer'" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="48" appearance="outline" color="primary">
+      <mat-label>From</mat-label>
+      <mat-select [(ngModel)]="transferSendAccount" name="accountType">
+        <mat-option value="">
+          --
+        </mat-option>
+        <mat-option value="primary_account" [disabled]="transferReceiveAccount=='primary_account' || data.primary==true">
+          Primary account
+        </mat-option>
+        <mat-option value="savings_account" [disabled]="transferReceiveAccount=='savings_account' || data.savings==true">
+          Savings account
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex="48" appearance="outline" color="primary">
+        <mat-label>Amount</mat-label>
+        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" />
+      </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field fxFlex="48" appearance="outline" color="primary">
+          <mat-label>To</mat-label>
+          <mat-select [(ngModel)]="transferReceiveAccount" name="accountType">
+            <mat-option value="">
+              --
+            </mat-option>
+            <mat-option value="primary_account" [disabled]="transferSendAccount=='primary_account' || data.primary==true">
+              Primary account
+            </mat-option>
+            <mat-option value="savings_account" [disabled]="transferSendAccount=='savings_account' || data.savings==true">
+              Savings account
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+  </div>
+  <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
+    <div fxFlex fxLayoutAlign="end none">
+      <button mat-raised-button [disabled]="agreement==false" color="primary" [mat-dialog-close]="[amount,transferSendAccount,transferReceiveAccount]">Submit</button>
+    </div>
   </div>
 </div>

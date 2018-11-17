@@ -53,19 +53,20 @@ import { MatDialogModule } from '@angular/material';
 import { MatTreeModule } from '@angular/material/tree';
 import { ErrorHandlerDialogComponent } from './components/dialogs/error-dialog/error-dialog.component';
 import { ManageItemDialogComponent } from './components/dialogs/manage-item-dialog/manage-item.component';
-import { ExpensesHistoryComponent } from './components/expenses-history/expenses-history.component';
-import { AddExpenseDialogComponent } from './components/expenses-history/add-expense-dialog/add-expense-dialog.component';
+
+import { AddExpenseDialogComponent } from './components/payments-history/add-expense-dialog/add-expense-dialog.component';
 
 import { SharedModule } from './shared/shared.module';
-import { ExpenseDetailsDialogComponent } from './components/expenses-history/expense-details-dialog/expense-details-dialog.component';
+import { ExpenseDetailsDialogComponent } from './components/payments-history/expense-details-dialog/expense-details-dialog.component';
 import { ApiInterceptor } from './interceptors/api.interceptor';
-import { ImportedDataComponent } from './components/expenses-history/imported-data/imported-data.component';
+import { ImportedDataComponent } from './components/payments-history/imported-data/imported-data.component';
 import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
 import { BalanceSheetDialogComponent } from './components/home/balance-sheet-dialog/balance-sheet-dialog.component';
 import { SendMoneyComponent } from './components/home/send-money/send-money.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
 import {NgxMaskModule} from 'ngx-mask';
+import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 
 const options = {};
 
@@ -82,7 +83,6 @@ const options = {};
     Page404Component,
     ErrorHandlerDialogComponent,
     ManageItemDialogComponent,
-    ExpensesHistoryComponent,
     AddExpenseDialogComponent,
     ExpenseDetailsDialogComponent,
     ImportedDataComponent,
@@ -90,7 +90,8 @@ const options = {};
     BalanceSheetDialogComponent,
     SendMoneyComponent,
     CreateAccountDialogComponent,
-    PaymentsDialogComponent
+    PaymentsDialogComponent,
+    PaymentsHistoryComponent
   ],
   imports: [
     BrowserModule,

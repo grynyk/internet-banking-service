@@ -1,0 +1,84 @@
+
+mat-checkbox{
+    display:block;
+    margin:5px;
+}
+
+.body{
+    height: 100%;
+    margin:15px;
+    padding: 0;
+}
+
+.filter-input{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.table-row{
+    cursor: help;
+}
+
+.table-row:hover{
+    background: rgba(220, 220, 220, 0.5);
+}
+
+.highlight{
+    background: rgba(220, 220, 220, 0.5);
+}
+
+.highlight-new{
+    background: rgba(102,187,106, 0.5)!important;
+}
+
+.add-btn{
+    background: #66bb6a;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.delete-btn{
+    color: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.buttons{
+    margin-bottom:25px;
+    margin-top:10px;
+}
+
+.buttons-row{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color:#DFDFDF;
+    /* border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color:#DFDFDF; */
+    padding-bottom:5px;
+    padding-top:15px;
+}
+
+mat-cell{
+    font-weight: bold;
+}
+
+.income-color{
+    color: #43a047;
+}
+
+.outgoing-color{
+    color:#c62828;
+}
+
+@media only screen and (max-width: 599px) {
+    .hide-lg{
+        display:none;
+    }
+    .add-btn{
+        min-width:1%!important;
+    }
+    .delete-btn{
+        min-width:1%!important;
+    }
+}

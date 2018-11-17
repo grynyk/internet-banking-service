@@ -15,19 +15,14 @@ export class PaymentsDialogComponent implements OnInit {
   receiverAccountNo = '';
   amount = '';
   description = '';
+  transferSendAccount = '';
+  transferReceiveAccount = '';
+  
   convertAccountNo(number){
     this.receiverAccountNo = number.slice(0, 8) + "-" + number.slice(8,12) + "-" + number.slice(12,16) + "-" + number.slice(16,20) + "-" + number.slice(20,32);
     console.log(this.receiverAccountNo);
   }
 
-  proceedTransaction(){
-    if(this.data.type=='external'){
-
-    }
-    if(this.data.type=='domestic'){
-
-    }
-  }
 
   constructor(private userService:UserService,
     public dialogRef: MatDialogRef<PaymentsDialogComponent>,

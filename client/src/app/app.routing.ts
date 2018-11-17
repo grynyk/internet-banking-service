@@ -8,7 +8,8 @@ import { UsersComponent } from './components/users/users.component';
 import { Page404Component } from './components/page404/page404.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
-import { ExpensesHistoryComponent } from './components/expenses-history/expenses-history.component';
+import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
+
 
 
 const appRoutes: Routes = [
@@ -18,7 +19,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: 'manage-expenses-history', component: ExpensesHistoryComponent},
+      { path: 'transactions-history', component: PaymentsHistoryComponent},
     ]
   },
   { path: 'registration', component: RegistrationComponent },

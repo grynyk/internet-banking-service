@@ -28,7 +28,7 @@ const tx = async callback => {
 const Transaction = {
     async getAllTransactions(req, res) {
         const findAllQuery = `
-        SELECT * FROM transactions where sender_uuid = $1 OR receiver_uuid = $1`;
+        SELECT * FROM transactions where sender_uuid = $1 OR receiver_uuid = $1 ORDER BY created_date DESC`;
         try {
           const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
           return res.status(200).send({ rows, rowCount });
@@ -38,7 +38,7 @@ const Transaction = {
     },
     async getIncomingTransactions(req, res) {
         const findAllQuery = `
-        SELECT * FROM transactions where receiver_uuid = $1`;
+        SELECT * FROM transactions where receiver_uuid = $1 ORDER BY created_date DESC`;
         try {
           const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
           return res.status(200).send({ rows, rowCount });
@@ -48,7 +48,7 @@ const Transaction = {
     },
     async getOutgoingTransactions(req, res) {
         const findAllQuery = `
-        SELECT * FROM transactions where sender_uuid = $1`;
+        SELECT * FROM transactions where sender_uuid = $1 ORDER BY created_date DESC`;
         try {
           const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]);
           return res.status(200).send({ rows, rowCount });
@@ -58,8 +58,11 @@ const Transaction = {
     },
     async domesticTransaction(req, res) {
         tx(async client => {
-          const { rows } = await client.query(`SELECT balance FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
-          var sendersBalance = rows[0].balance;
+          const { rows } = await client.query(`SELECT * FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
+
+          const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
+
+          const sendersBalance = rows[0].balance;
           const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
           
           try{
@@ -80,19 +83,20 @@ const Transaction = {
               await client.query(`UPDATE ${receiverAccountData.type} SET
               balance = $1 WHERE id = $2 returning *`, [receiversUpdatedBalance, req.body.receiverAccountNo]);
               await client.query(`INSERT INTO
-              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
-              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
+              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
+              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
                   uuid.v4(),
                   req.body.description,
                   req.body.amount,
                   moment(new Date()),
                   req.user.id,
-                  req.body.receiverAccountNo,
+                  receiverAccountData.owner_id,
                   true,
                   req.body.senderAccountType,
                   receiverAccountData.type,
                   'domestic_transaction',
-                  receiverUserData.firstname + ' ' + receiverUserData.lastname
+                  receiverUserData.firstname + ' ' + receiverUserData.lastname,
+                  senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname
                 ]);
             }else{
               throw 'not enough funds';
@@ -104,18 +108,21 @@ const Transaction = {
         });
     },async externalTransaction(req, res) {
         tx(async client => {
-            const { rows } = await client.query(`SELECT balance FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
-            var sendersBalance = rows[0].balance;
+            const { rows } = await client.query(`SELECT * FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
+            const sendersBalance = rows[0].balance;
             const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
             
+            const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
+          console.log(senderName);
+
             try{
               if (+sendersBalance > +req.body.amount) {
                 await client.query(`UPDATE ${req.body.senderAccountType} SET
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
 
                 await client.query(`INSERT INTO
-                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
-                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
+                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
+                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
                     uuid.v4(),
                     req.body.description,
                     req.body.amount,
@@ -126,7 +133,8 @@ const Transaction = {
                     req.body.senderAccountType,
                     'primary_account',
                     'external_transaction',
-                    req.body.receiverName
+                    req.body.receiverName,
+                    senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname
                   ]);
               }else{
                 throw 'not enough funds';

@@ -67,8 +67,8 @@ const Accounts = {
 
       if (req.body.balance > rows[0].balance) {
         await db.query(`INSERT INTO
-        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
             uuid.v4(),
             '',
             req.body.balance - rows[0].balance,
@@ -78,12 +78,13 @@ const Accounts = {
             true,
             'n/a',
             'primary_account',
-            'deposit'
+            'deposit',
+            null
           ]);
       } else {
         await db.query(`INSERT INTO
-        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
             uuid.v4(),
             '',
             rows[0].balance - req.body.balance,
@@ -93,7 +94,8 @@ const Accounts = {
             true,
             'n/a',
             'primary_account',
-            'withdrawal'
+            'withdrawal',
+            null
           ]);
       }
 
@@ -162,8 +164,8 @@ const Accounts = {
 
       if (req.body.balance > rows[0].balance) {
         await db.query(`INSERT INTO
-        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
             uuid.v4(),
             '',
             req.body.balance - rows[0].balance,
@@ -171,14 +173,16 @@ const Accounts = {
             null,
             req.user.id,
             true,
-            'n/a',
+            null,
             'savings_account',
-            'deposit'
+            'deposit',
+            null,
+            null
           ]);
       } else {
         await db.query(`INSERT INTO
-        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+        transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
+        VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
             uuid.v4(),
             '',
             rows[0].balance - req.body.balance,
@@ -186,9 +190,11 @@ const Accounts = {
             req.user.id,
             null,
             true,
-            'n/a',
             'savings_account',
-            'withdrawal'
+            null,
+            'withdrawal',
+            null,
+            null
           ]);
       }
 

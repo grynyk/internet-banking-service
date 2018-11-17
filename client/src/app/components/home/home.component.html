@@ -119,7 +119,7 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="49" appearance="outline" color="primary">
                               <mat-label>Amount</mat-label>
-                              <input matInput [(ngModel)]="amountToDeposit" type="number" placeholder="400.23">
+                              <input matInput [(ngModel)]="amountToDeposit" min="0" type="number" placeholder="400.23">
                               <mat-icon matSuffix>attach_money</mat-icon>
                         </mat-form-field>
                   </div>
@@ -148,7 +148,7 @@
                         </mat-form-field>
                         <mat-form-field fxFlex="49" appearance="outline" color="primary">
                               <mat-label>Amount</mat-label>
-                              <input matInput [(ngModel)]="amountToWithdraw" type="number" placeholder="120.50">
+                              <input matInput [(ngModel)]="amountToWithdraw" min="0" type="number" placeholder="120.50">
                               <mat-icon matSuffix>attach_money</mat-icon>
                         </mat-form-field>
                   </div>

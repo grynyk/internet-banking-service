@@ -1,0 +1,81 @@
+<mat-card class="body">
+  <div class="content" (clickOutside)="selection.clear()">
+    <div class="data-table-overflow">
+      <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row">
+        <mat-form-field fxFlex="90" class="filter-input">
+          <mat-label>Type key word</mat-label>
+          <input matInput (keyup)="applyFilter($event.target.value)">
+        </mat-form-field>
+
+        <div fxFlex fxLayoutAlign="end center" class="buttons">
+          <button (click)="addDialog()" class="add-btn" mat-raised-button>
+            <mat-icon>add</mat-icon>
+            <span class="hide-lg"> Add</span>
+          </button>
+
+          <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="deleteDialog(selectedRowIndex)"
+            class="delete-btn" mat-raised-button>
+            <mat-icon>delete_outline</mat-icon>
+            <span class="hide-lg"> Delete</span>
+          </button>
+        </div>
+      </div>
+
+      <mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="select">
+          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <mat-checkbox color="primary" disabled [checked]="selectedRowIndex == element.position && selection.isSelected(element)"
+              style="cursor: pointer" (click)="$event.stopPropagation();getRowData(element);selection.toggle(element)">
+
+            </mat-checkbox>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.created_date | date:"short"}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+           <span  [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']" >
+              <span *ngIf="element.sender_uuid==user.id">-</span>
+              <span *ngIf="element.receiver_uuid==user.id">+</span>
+              {{element.amount}}
+           </span> 
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="receiver_name">
+          <mat-header-cell *matHeaderCellDef> To/From</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name}}</span>
+            <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name}}</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"
+        [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
+          (click)="detailsDialog(row)">
+        </mat-row>
+
+
+      </mat-table>
+
+    </div>
+  </div>
+</mat-card>

@@ -17,7 +17,7 @@ import { TransactionsService } from '../../services/transactions.service';
 export class HomeComponent implements OnInit {
 
 
-  constructor(private transactionsService:TransactionsService,
+  constructor(private transactionsService: TransactionsService,
     private accountsService: AccountsService,
     private matIconRegistry: MatIconRegistry,
     private router: Router,
@@ -170,38 +170,46 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(PaymentsDialogComponent, {
       width: '850px',
       disableClose: true,
-      data: { type: type }
+      data: { type: type, primary: this.primaryAccount.length == 0, savings: this.savingsAccount.length == 0 }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8,12) + "-" + result[2].slice(12,16) + "-" + result[2].slice(16,20) + "-" + result[2].slice(20,32);
-      
-      if(type=='external'){
-        let externalData = {
-          amount: result[0],
-          description:result[1],
-          receiverAccountNo:accountNo,
-          senderAccountType:result[3],
-          receiverName:result[4]
-        }
-        this.transactionsService.external(externalData).subscribe((result: any) => {
-          this.paymentType = undefined;
-          this.refresh();
-        });
-      }
+        let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8, 12) + "-" + result[2].slice(12, 16) + "-" + result[2].slice(16, 20) + "-" + result[2].slice(20, 32);
 
-      if(type=='domestic'){
-        let domesticData = {
-          amount: result[0],
-          description:result[1],
-          receiverAccountNo:accountNo,
-          senderAccountType:result[3]
+        if (type == 'external') {
+          let externalData = {
+            amount: result[0],
+            description: result[1],
+            receiverAccountNo: accountNo,
+            senderAccountType: result[3],
+            receiverName: result[4]
+          }
+          this.transactionsService.external(externalData).subscribe((result: any) => {
+            this.paymentType = undefined;
+            this.refresh();
+          });
         }
-        this.transactionsService.domestic(domesticData).subscribe((result: any) => {
-          this.paymentType = undefined;
-          this.refresh();
-        });
-      }
+
+        if (type == 'domestic') {
+          let domesticData = {
+            amount: result[0],
+            description: result[1],
+            receiverAccountNo: accountNo,
+            senderAccountType: result[3]
+          }
+          this.transactionsService.domestic(domesticData).subscribe((result: any) => {
+            this.paymentType = undefined;
+            this.refresh();
+          });
+        }
+
+        if (type == 'transfer') {
+          console.log(result);
+          this.withdrawMoney(result[1], result[0]);
+          this.depositMoney(result[2], result[0]);
+        }
+
+
       }
     });
   }
