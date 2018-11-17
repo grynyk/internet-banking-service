@@ -3,4 +3,9 @@
     border-radius: 4px;
     padding:5px;
     border-color: #ddd;
+    margin-top:10px;
 }
+
+mat-form-field{
+    margin-bottom: -1em!important;
+ }

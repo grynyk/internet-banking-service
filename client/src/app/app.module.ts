@@ -63,7 +63,6 @@ import { ImportedDataComponent } from './components/expenses-history/imported-da
 import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
 import { BalanceSheetDialogComponent } from './components/home/balance-sheet-dialog/balance-sheet-dialog.component';
 import { SendMoneyComponent } from './components/home/send-money/send-money.component';
-import { ExpensesChartComponent } from './components/home/expenses-chart/expenses-chart.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
 import {NgxMaskModule} from 'ngx-mask';
@@ -90,7 +89,6 @@ const options = {};
     MoneyBoxesDialogComponent,
     BalanceSheetDialogComponent,
     SendMoneyComponent,
-    ExpensesChartComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent
   ],

@@ -63,26 +63,25 @@ const Transaction = {
           const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
           
           try{
-            const receiverAccountType = (await db.query(`SELECT * FROM savings_account where id = $1 UNION ALL SELECT * FROM primary_account where id = $1`, [req.body.receiverAccountNo])).rows[0].type;
-            console.log(receiverAccountType);
+            const receiverAccountData = (await db.query(`SELECT * FROM savings_account where id = $1 UNION ALL SELECT * FROM primary_account where id = $1`, [req.body.receiverAccountNo])).rows[0];
 
-            rows[1] = (await client.query(`SELECT * FROM ${receiverAccountType} WHERE id = $1`, [req.body.receiverAccountNo])).rows[0];
-           
-            if(!rows[1]){
+            if(receiverAccountData){
+              rows[1] = (await client.query(`SELECT * FROM ${receiverAccountData.type} WHERE id = $1`, [req.body.receiverAccountNo])).rows[0];
+            }else{
               throw "receiver account doesn't exist";
             }
   
             const receiversBalance = rows[1].balance;
             const receiversUpdatedBalance = +receiversBalance + +req.body.amount;
-  
+            const receiverUserData = (await db.query(`SELECT * FROM users where id = $1`, [receiverAccountData.owner_id])).rows[0];
             if (+sendersBalance > +req.body.amount) {
               await client.query(`UPDATE ${req.body.senderAccountType} SET
               balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
-              await client.query(`UPDATE ${receiverAccountType} SET
+              await client.query(`UPDATE ${receiverAccountData.type} SET
               balance = $1 WHERE id = $2 returning *`, [receiversUpdatedBalance, req.body.receiverAccountNo]);
               await client.query(`INSERT INTO
-              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
+              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
                   uuid.v4(),
                   req.body.description,
                   req.body.amount,
@@ -91,8 +90,9 @@ const Transaction = {
                   req.body.receiverAccountNo,
                   true,
                   req.body.senderAccountType,
-                  receiverAccountType,
-                  'domestic_transaction'
+                  receiverAccountData.type,
+                  'domestic_transaction',
+                  receiverUserData.firstname + ' ' + receiverUserData.lastname
                 ]);
             }else{
               throw 'not enough funds';
@@ -114,8 +114,8 @@ const Transaction = {
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
 
                 await client.query(`INSERT INTO
-                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type)
-                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10) returning *`, [
+                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
+                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
                     uuid.v4(),
                     req.body.description,
                     req.body.amount,
@@ -125,7 +125,8 @@ const Transaction = {
                     true,
                     req.body.senderAccountType,
                     'primary_account',
-                    'external_transaction'
+                    'external_transaction',
+                    req.body.receiverName
                   ]);
               }else{
                 throw 'not enough funds';

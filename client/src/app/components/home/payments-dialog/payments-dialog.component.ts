@@ -10,7 +10,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class PaymentsDialogComponent implements OnInit {
 
-  accountType:string;
+  accountType = 'primary_account';
+  receiverName = '';
   receiverAccountNo = '';
   amount = '';
   description = '';

@@ -165,11 +165,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
-  openExpensesHistory() {
-    this.router.navigate(['/manage-expenses-history']);
-  }
-
   paymentType: string;
   openTransactions(type) {
     const dialogRef = this.dialog.open(PaymentsDialogComponent, {
@@ -180,22 +175,30 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8,12) + "-" + result[2].slice(12,16) + "-" + result[2].slice(16,20) + "-" + result[2].slice(20,32);
-        
-        let data = {
+      
+      if(type=='external'){
+        let externalData = {
           amount: result[0],
           description:result[1],
           receiverAccountNo:accountNo,
-          senderAccountType:result[3]
+          senderAccountType:result[3],
+          receiverName:result[4]
         }
-      
-      if(type=='external'){
-        this.transactionsService.external(data).subscribe((result: any) => {
+        this.transactionsService.external(externalData).subscribe((result: any) => {
+          this.paymentType = undefined;
           this.refresh();
         });
       }
 
       if(type=='domestic'){
-        this.transactionsService.domestic(data).subscribe((result: any) => {
+        let domesticData = {
+          amount: result[0],
+          description:result[1],
+          receiverAccountNo:accountNo,
+          senderAccountType:result[3]
+        }
+        this.transactionsService.domestic(domesticData).subscribe((result: any) => {
+          this.paymentType = undefined;
           this.refresh();
         });
       }
