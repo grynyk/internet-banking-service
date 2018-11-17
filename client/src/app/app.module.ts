@@ -60,12 +60,15 @@ import { SharedModule } from './shared/shared.module';
 import { ExpenseDetailsDialogComponent } from './components/expenses-history/expense-details-dialog/expense-details-dialog.component';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { ImportedDataComponent } from './components/expenses-history/imported-data/imported-data.component';
-import { AccountInfoDialogComponent } from './components/home/account-info-dialog/account-info-dialog.component';
 import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
 import { BalanceSheetDialogComponent } from './components/home/balance-sheet-dialog/balance-sheet-dialog.component';
 import { SendMoneyComponent } from './components/home/send-money/send-money.component';
 import { ExpensesChartComponent } from './components/home/expenses-chart/expenses-chart.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
+import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
+import {NgxMaskModule} from 'ngx-mask';
+
+const options = {};
 
 @NgModule({
   declarations: [
@@ -84,12 +87,12 @@ import { CreateAccountDialogComponent } from './components/home/create-account-d
     AddExpenseDialogComponent,
     ExpenseDetailsDialogComponent,
     ImportedDataComponent,
-    AccountInfoDialogComponent,
     MoneyBoxesDialogComponent,
     BalanceSheetDialogComponent,
     SendMoneyComponent,
     ExpensesChartComponent,
-    CreateAccountDialogComponent
+    CreateAccountDialogComponent,
+    PaymentsDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -133,7 +136,8 @@ import { CreateAccountDialogComponent } from './components/home/create-account-d
     MatSelectModule,
     FlexLayoutModule,
     CountdownModule,
-    HttpModule
+    HttpModule,
+    NgxMaskModule.forRoot(options)
   ],
   providers: [
     {
@@ -154,8 +158,8 @@ import { CreateAccountDialogComponent } from './components/home/create-account-d
     ImportedDataComponent,
     ExpenseDetailsDialogComponent,
     MoneyBoxesDialogComponent,
-    AccountInfoDialogComponent,
-    CreateAccountDialogComponent
+    CreateAccountDialogComponent,
+    PaymentsDialogComponent
   ]
 })
 export class AppModule { }

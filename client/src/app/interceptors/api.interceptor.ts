@@ -27,7 +27,7 @@ export class ApiInterceptor implements HttpInterceptor {
         if(this.errorAppeared==false){
           this.errorAppeared = true;
           const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
-            width: '400px',
+            width: '500px',
             data: { title: err.error.name || err.error.message , message: 'Unexpected problem with sending request, try again please !', button:'OK' }
           });
         }

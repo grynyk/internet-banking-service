@@ -80,20 +80,25 @@
             </mat-card>
       </div>
       <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between">
-            <mat-card fxFlex="33" style="max-height:300px">
-                  <mat-card-title class="card-title">
-                        Send money
+            <mat-card fxFlex="33" class="payments-card">
+                  <mat-card-title>
+                        Payments
                   </mat-card-title>
                   <div>
-                        <mat-form-field appearance="outline">
-                              <mat-label>Zdefiniowany odbiorca</mat-label>
-                              <mat-select>
-                                    <mat-option>Zdefiniowany odbiorca</mat-option>
-                                    <mat-option value="option1">Option 1</mat-option>
-                                    <mat-option value="option2">Option 2</mat-option>
-                                    <mat-option value="option3">Option 3</mat-option>
+                        <mat-form-field appearance="outline" class="payments-type-selector">
+                              <mat-label style="color:#000">Choose type of payment</mat-label>
+                              <mat-select [(ngModel)]="paymentType">
+                                    <mat-option value="transfer">Transfer between my accounts</mat-option>
+                                    <mat-option value="domestic">Domestic transaction</mat-option>
+                                    <mat-option value="external">External transaction</mat-option>
                               </mat-select>
                         </mat-form-field>
+                  </div>
+                  <div fxLayout="row" fxLayoutAlign="end none">
+                        <button fxFlex="100" mat-raised-button (click)="openTransactions(paymentType)" color="primary" [disabled]="!paymentType"
+                              class="send-button">
+                              Proceed
+                        </button>
                   </div>
             </mat-card>
             <mat-card fxFlex="33" [ngClass]="{'disabled-card':savingsAccount.length==0 && primaryAccount.length==0}">
