@@ -55,7 +55,7 @@ export class NavbarComponent implements OnInit {
   onSessionExpired() {
     const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
       disableClose: true,
-      data:{title:"Your session has expired", message:"please relogin", button:"Log in"},
+      data:{title:"Your session has expired", message:"please relogin", button:"Log in",closeButton: false},
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

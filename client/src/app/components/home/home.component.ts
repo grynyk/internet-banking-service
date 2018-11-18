@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatDialog } from '@angular/material';
@@ -16,6 +16,7 @@ import { TransactionsService } from '../../services/transactions.service';
 })
 export class HomeComponent implements OnInit {
 
+  @ViewChild('transactionsHistory') transactionsHistory;
 
   constructor(private transactionsService: TransactionsService,
     private accountsService: AccountsService,
@@ -54,6 +55,7 @@ export class HomeComponent implements OnInit {
       if (result.rowCount !== 0) {
         this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
+        this.transactionsHistory.refresh();
       }
     });
   }
@@ -136,6 +138,7 @@ export class HomeComponent implements OnInit {
       countedAmountToWithdraw = +this.primaryAccount[0].balance - +amount;
       accountIdToWithdraw = this.primaryAccount[0].id;
       if (countedAmountToWithdraw >= 0) {
+        console.log(countedAmountToWithdraw);
         this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;

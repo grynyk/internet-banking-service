@@ -14,6 +14,14 @@ export class TransactionsService {
     return this.httpClient.get(`${this.url}/getAll`).map(response => response);
   }
 
+  getIncoming() {
+    return this.httpClient.get(`${this.url}/getIncoming`).map(response => response);
+  }
+
+  getOutgoing() {
+    return this.httpClient.get(`${this.url}/getOutgoing`).map(response => response);
+  }
+
   domestic(data) {
     return this.httpClient.post(`${this.url}/domestic`, data).map(response => response);
   }

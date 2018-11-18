@@ -1,7 +1,7 @@
 <mat-card class="body">
   <div class="content" (clickOutside)="selection.clear()">
     <div class="data-table-overflow">
-      <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row">
+      <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row" *ngIf="displayOnlyTable==false">
         <mat-form-field fxFlex="90" class="filter-input">
           <mat-label>Type key word</mat-label>
           <input matInput (keyup)="applyFilter($event.target.value)">
@@ -23,8 +23,24 @@
 
       <mat-table [dataSource]="dataSource">
 
-        <ng-container matColumnDef="select">
-          <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <ng-container matColumnDef="select" *ngIf="displayOnlyTable==false">
+          <mat-header-cell *matHeaderCellDef>
+
+            <mat-form-field color="primary" style="width:80px">
+              <mat-select name="filterType" [(ngModel)]="filterType">
+                <mat-option value='all' (click)="refresh()">
+                  All
+                </mat-option>
+                <mat-option value='incoming' (click)="getIncoming()">
+                  Incoming
+                </mat-option>
+                <mat-option  value='outgoing' (click)="getOutgoing()">
+                  Outgoing
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+          </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <mat-checkbox color="primary" disabled [checked]="selectedRowIndex == element.position && selection.isSelected(element)"
               style="cursor: pointer" (click)="$event.stopPropagation();getRowData(element);selection.toggle(element)">
@@ -46,16 +62,16 @@
         <ng-container matColumnDef="amount">
           <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
           <mat-cell *matCellDef="let element">
-           <span  [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']" >
+            <span [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']">
               <span *ngIf="element.sender_uuid==user.id">-</span>
               <span *ngIf="element.receiver_uuid==user.id">+</span>
               {{element.amount}}
-           </span> 
+            </span>
           </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="receiver_name">
-          <mat-header-cell *matHeaderCellDef> To/From</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> To/From </mat-header-cell>
           <mat-cell *matCellDef="let element">
             <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name}}</span>
             <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name}}</span>
@@ -68,8 +84,7 @@
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"
-        [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
+        <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
           (click)="detailsDialog(row)">
         </mat-row>
 

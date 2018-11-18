@@ -3,7 +3,7 @@
     {{errorTitle}}
   </div>
   <div fxFlex="10" fxLayoutAlign="end center">
-      <button mat-icon-button color="warn" mat-dialog-close><mat-icon>close</mat-icon></button>
+      <button *ngIf="data.closeButton" mat-icon-button color="warn" mat-dialog-close><mat-icon>close</mat-icon></button>
   </div>
 </h3>
 

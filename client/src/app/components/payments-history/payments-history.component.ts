@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
 import { MatDialog, MatTableDataSource } from '@angular/material';
 import { CanDeactivateGuard } from '../../guards/can-deactivate.guard';
 import { map } from 'rxjs/operators';
@@ -18,12 +18,14 @@ import { TransactionsService } from '../../services/transactions.service';
 })
 export class PaymentsHistoryComponent implements OnInit {
 
-  displayedColumns: string[] = ['select', 'date', 'amount', 'type', 'receiver_name', 'title'];
+  @Input() displayOnlyTable = false;
+
+  displayedColumns: string[];
   dataSource = new MatTableDataSource();
 
   loginRespond = JSON.parse(localStorage.getItem('currentUser'));
   user = {
-    id:this.loginRespond.userData.userId,
+    id: this.loginRespond.userData.userId,
     firstname: this.loginRespond.userData.firstname,
     lastname: this.loginRespond.userData.lastname
   }
@@ -32,10 +34,26 @@ export class PaymentsHistoryComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  public filterType = 'all';
+
+  getIncoming(){
+    this.transactionsService.getIncoming().subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource(res.rows);
+      console.log(res);
+    })
+  }
+
+  getOutgoing(){
+    this.transactionsService.getOutgoing().subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource(res.rows);
+      console.log(res);
+    })
+  }
+
   public selection = new SelectionModel(true, []);
 
   public selectedRow: any;
-  public selectedRowIndex:any;
+  public selectedRowIndex: any;
 
   constructor(private transactionsService: TransactionsService,
     public dialog: MatDialog,
@@ -46,9 +64,14 @@ export class PaymentsHistoryComponent implements OnInit {
 
   ngOnInit() {
     this.refresh();
+    if (this.displayOnlyTable == false) {
+      this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name', 'title'];
+    } else {
+      this.displayedColumns = ['date', 'amount', 'type', 'receiver_name', 'title'];
+    }
   }
   refresh() {
-    this.transactionsService.getAll().subscribe((res:any) => {
+    this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
       console.log(res);
     })

@@ -30,20 +30,20 @@
       </mat-form-field>
       <mat-form-field fxFlex="68" appearance="outline" color="primary">
         <mat-label>Amount</mat-label>
-        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" />
+        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" required/>
       </mat-form-field>
     </div>
     <div fxLayout="row" *ngIf="data.type=='external'">
       <mat-form-field fxFlex="100" appearance="outline" color="primary">
         <mat-label>Beneficiary name</mat-label>
-        <input matInput [(ngModel)]="receiverName" placeholder="Jan Kowalski" style="text-transform: uppercase" type="text" />
+        <input matInput [(ngModel)]="receiverName" placeholder="Jan Kowalski" style="text-transform: uppercase" type="text" required/>
       </mat-form-field>
     </div>
     <div fxLayout="row">
       <mat-form-field fxFlex="100" appearance="outline" color="primary">
         <mat-label>Account No.</mat-label>
         <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
-          type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" />
+          type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" required/>
       </mat-form-field>
     </div>
     <div fxLayout="row">
@@ -53,7 +53,7 @@
 
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
     <div fxFlex fxLayoutAlign="end none">
-      <button mat-raised-button [disabled]="agreement==false" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
+      <button mat-raised-button [disabled]="!amount || !receiverAccountNo || receiverName" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
     </div>
   </div>
 </div>
@@ -76,7 +76,7 @@
     </mat-form-field>
     <mat-form-field fxFlex="48" appearance="outline" color="primary">
         <mat-label>Amount</mat-label>
-        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" />
+        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" required/>
       </mat-form-field>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between">
@@ -97,7 +97,7 @@
   </div>
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
     <div fxFlex fxLayoutAlign="end none">
-      <button mat-raised-button [disabled]="agreement==false" color="primary" [mat-dialog-close]="[amount,transferSendAccount,transferReceiveAccount]">Submit</button>
+      <button mat-raised-button [disabled]="!transferSendAccount || !transferReceiveAccount || amount" color="primary" [mat-dialog-close]="[amount,transferSendAccount,transferReceiveAccount]">Submit</button>
     </div>
   </div>
 </div>

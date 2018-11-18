@@ -61,6 +61,7 @@ mat-checkbox{
 
 mat-cell{
     font-weight: bold;
+    font-size: 12px;
 }
 
 .income-color{
