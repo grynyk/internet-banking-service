@@ -77,7 +77,7 @@ const Transaction = {
             const receiversBalance = rows[1].balance;
             const receiversUpdatedBalance = +receiversBalance + +req.body.amount;
             const receiverUserData = (await db.query(`SELECT * FROM users where id = $1`, [receiverAccountData.owner_id])).rows[0];
-            if (+sendersBalance > +req.body.amount) {
+            if (+sendersBalance >= +req.body.amount) {
               await client.query(`UPDATE ${req.body.senderAccountType} SET
               balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
               await client.query(`UPDATE ${receiverAccountData.type} SET
@@ -113,10 +113,10 @@ const Transaction = {
             const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
             
             const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
-          console.log(senderName);
+          console.log(rows,senderName,sendersBalance, req.body.amount);
 
             try{
-              if (+sendersBalance > +req.body.amount) {
+              if (+sendersBalance >= +req.body.amount) {
                 await client.query(`UPDATE ${req.body.senderAccountType} SET
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
 

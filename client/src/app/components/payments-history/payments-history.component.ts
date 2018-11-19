@@ -10,11 +10,18 @@ import { AddExpenseDialogComponent } from './add-expense-dialog/add-expense-dial
 import { ExpenseDetailsDialogComponent } from './expense-details-dialog/expense-details-dialog.component';
 import { ImportedDataComponent } from './imported-data/imported-data.component';
 import { TransactionsService } from '../../services/transactions.service';
-
+import {animate, state, style, transition, trigger} from '@angular/animations';
 @Component({
   selector: 'app-payments-history',
   templateUrl: './payments-history.component.html',
-  styleUrls: ['./payments-history.component.css']
+  styleUrls: ['./payments-history.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class PaymentsHistoryComponent implements OnInit {
 
@@ -65,9 +72,9 @@ export class PaymentsHistoryComponent implements OnInit {
   ngOnInit() {
     this.refresh();
     if (this.displayOnlyTable == false) {
-      this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name', 'title'];
+      this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name'];
     } else {
-      this.displayedColumns = ['date', 'amount', 'type', 'receiver_name', 'title'];
+      this.displayedColumns = ['date', 'amount', 'type', 'receiver_name'];
     }
   }
   refresh() {

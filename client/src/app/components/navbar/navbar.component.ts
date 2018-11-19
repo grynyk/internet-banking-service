@@ -28,8 +28,8 @@ export class NavbarComponent implements OnInit {
 
   @Output() sidenavToggle = new EventEmitter<void>();
   constructor(private router: Router,
-    private authenticationService:AuthenticationService,
-    public dialog: MatDialog,private matIconRegistry: MatIconRegistry,
+    private authenticationService: AuthenticationService,
+    public dialog: MatDialog, private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer) {
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
@@ -54,15 +54,16 @@ export class NavbarComponent implements OnInit {
 
   onSessionExpired() {
     const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
+      width: '350px',
       disableClose: true,
-      data:{title:"Your session has expired", message:"please relogin", button:"Log in",closeButton: false},
+      data: { title: "Your session has expired", message: "Please relogin", button: "Log in", closeButton: false },
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if(result==true){
-         this.authenticationService.logout();
-         this.router.navigate(['/login']);
-        }else{
+        if (result == true) {
+          this.authenticationService.logout();
+          this.router.navigate(['/login']);
+        } else {
 
         }
       }

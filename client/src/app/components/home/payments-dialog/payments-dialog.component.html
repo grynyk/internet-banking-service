@@ -30,7 +30,7 @@
       </mat-form-field>
       <mat-form-field fxFlex="68" appearance="outline" color="primary">
         <mat-label>Amount</mat-label>
-        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" mask="0*.00" required/>
+        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" required/>
       </mat-form-field>
     </div>
     <div fxLayout="row" *ngIf="data.type=='external'">
@@ -53,7 +53,8 @@
 
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
     <div fxFlex fxLayoutAlign="end none">
-      <button mat-raised-button [disabled]="!amount || !receiverAccountNo || receiverName" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
+      <button mat-raised-button *ngIf="data.type=='domestic'" [disabled]="!amount || !receiverAccountNo" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType]">Submit</button>
+      <button mat-raised-button *ngIf="data.type=='external'" [disabled]="!amount || !receiverAccountNo || !receiverName" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
     </div>
   </div>
 </div>
@@ -97,7 +98,7 @@
   </div>
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
     <div fxFlex fxLayoutAlign="end none">
-      <button mat-raised-button [disabled]="!transferSendAccount || !transferReceiveAccount || amount" color="primary" [mat-dialog-close]="[amount,transferSendAccount,transferReceiveAccount]">Submit</button>
+      <button mat-raised-button [disabled]="!transferSendAccount || !transferReceiveAccount || !amount" color="primary" [mat-dialog-close]="[amount,transferSendAccount,transferReceiveAccount]">Submit</button>
     </div>
   </div>
 </div>

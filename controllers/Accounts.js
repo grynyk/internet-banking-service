@@ -62,10 +62,11 @@ const Accounts = {
         moment(new Date()),
         req.params.id,
         req.user.id
-      ];
+      ]; 
       const response = await db.query(updateOneQuery, values);
-
+      console.log(req.body.balance ,rows[0].balance)
       if (req.body.balance > rows[0].balance) {
+
         await db.query(`INSERT INTO
         transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name)
         VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11) returning *`, [
@@ -76,7 +77,7 @@ const Accounts = {
             null,
             req.user.id,
             true,
-            'n/a',
+            null,
             'primary_account',
             'deposit',
             null
@@ -92,8 +93,8 @@ const Accounts = {
             req.user.id,
             null,
             true,
-            'n/a',
             'primary_account',
+            null,
             'withdrawal',
             null
           ]);

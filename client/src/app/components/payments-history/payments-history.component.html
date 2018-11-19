@@ -21,10 +21,10 @@
         </div>
       </div>
 
-      <mat-table [dataSource]="dataSource">
+      <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
 
         <ng-container matColumnDef="select" *ngIf="displayOnlyTable==false">
-          <mat-header-cell *matHeaderCellDef>
+          <th mat-header-cell *matHeaderCellDef>
 
             <mat-form-field color="primary" style="width:80px">
               <mat-select name="filterType" [(ngModel)]="filterType">
@@ -34,62 +34,138 @@
                 <mat-option value='incoming' (click)="getIncoming()">
                   Incoming
                 </mat-option>
-                <mat-option  value='outgoing' (click)="getOutgoing()">
+                <mat-option value='outgoing' (click)="getOutgoing()">
                   Outgoing
                 </mat-option>
               </mat-select>
             </mat-form-field>
 
-          </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <mat-checkbox color="primary" disabled [checked]="selectedRowIndex == element.position && selection.isSelected(element)"
-              style="cursor: pointer" (click)="$event.stopPropagation();getRowData(element);selection.toggle(element)">
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <mat-checkbox color="primary" disabled [checked]="selectedRow == element && selection.isSelected(element)" style="cursor: pointer"
+              (click)="getRowData(element);selection.toggle(element)">
 
             </mat-checkbox>
-          </mat-cell>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef> Date </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.created_date | date:"short"}}</mat-cell>
+          <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+          <td mat-cell *matCellDef="let element"> {{element.created_date | date:"short"}}</td>
         </ng-container>
 
         <ng-container matColumnDef="type">
-          <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.type}} </mat-cell>
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.type=='external_transaction'">
+              EXTERNAL TRANSACTION
+            </span>
+            <span *ngIf="element.type=='domestic'">
+                DOMESTIC TRANSACTION
+            </span>
+            <span *ngIf="element.type=='deposit'">
+                DEPOSIT
+            </span>
+            <span *ngIf="element.type=='withdrawal'">
+                WITHDRAWAL
+            </span>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="amount">
-          <mat-header-cell *matHeaderCellDef> Amount </mat-header-cell>
-          <mat-cell *matCellDef="let element">
+          <th mat-header-cell *matHeaderCellDef> Amount </th>
+          <td mat-cell *matCellDef="let element">
             <span [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']">
               <span *ngIf="element.sender_uuid==user.id">-</span>
               <span *ngIf="element.receiver_uuid==user.id">+</span>
               {{element.amount}}
             </span>
-          </mat-cell>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="receiver_name">
-          <mat-header-cell *matHeaderCellDef> To/From </mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name}}</span>
-            <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name}}</span>
-          </mat-cell>
+          <th mat-header-cell *matHeaderCellDef> To/From </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</span>
+            <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</span>
+            <span *ngIf="element.type=='deposit'">
+              <span *ngIf="element.sender_account_type=='primary_account'">
+                PRIMARY
+              </span>
+              <span *ngIf="element.sender_account_type=='savings_account'">
+                SAVINGS
+              </span>
+            </span>
+          </td>
         </ng-container>
 
-        <ng-container matColumnDef="title">
-          <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        <!-- <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell style="background: #f5f5f5;" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="row-details" [@detailExpand]="element == selectedRow&&element.type!=='deposit'&&element.type!=='withdrawal' ? 'expanded' : 'collapsed'">
+              <div class="expanded-description" fxLayout="row" fxLayoutAlign="space-between">
+                <div fxFlex="45" fxLayout="column" style="border-right:dashed 1px #aeaeae">
+                  <mat-list>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>trending_flat</mat-icon>
+                      <p style="font-weight: bold" mat-line>
+                        <span *ngIf="element.sender_account_type=='primary_account'">
+                          PRIMARY
+                        </span>
+                        <span *ngIf="element.sender_account_type=='savings_account'">
+                          SAVINGS
+                        </span>
+                      </p>
+                      <p mat-line> sender account type </p>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>keyboard_backspace</mat-icon>
+                      <p style="font-weight: bold" mat-line>
+                        <span *ngIf="element.receiver_account_type=='primary_account'">
+                          PRIMARY
+                        </span>
+                        <span *ngIf="element.receiver_account_type=='savings_account'">
+                          SAVINGS
+                        </span>
+                      </p>
+                      <p mat-line> receiver account type </p>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>person_outline</mat-icon>
+                      <p style="font-weight: bold" mat-line *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</p>
+                      <p style="font-weight: bold" mat-line *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</p>
+                      <p mat-line> beneficiary </p>
+                    </mat-list-item>
+
+                  </mat-list>
+                </div>
+                <div fxFlex fxLayout="column" style="margin-left:15px">
+                  <mat-form-field>
+                    <mat-label *ngIf="element.description">Title</mat-label>
+                    <mat-label *ngIf="!element.description" style="padding:5px">No title provided</mat-label>
+                    <textarea matInput disabled class="title-textarea" [value]="element.description"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+
+            </div>
+          </td>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" [ngClass]="{'highlight': selectedRowIndex == row.position && selection.isSelected(row)}"
           (click)="detailsDialog(row)">
-        </mat-row>
-
-
-      </mat-table>
+        </mat-row> -->
+        <tr mat-row *matRowDef="let element; columns: displayedColumns;" [ngClass]="[selectedRow == element && selection.isSelected(element) ? 'selected-row':'']"
+          class="table-row" [class.expanded-row]="selectedRow === element" (click)="selectedRow = element" (click)="selection.select(element)">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
+      </table>
 
     </div>
   </div>

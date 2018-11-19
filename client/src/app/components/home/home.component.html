@@ -56,7 +56,7 @@
                                     </table>
                               </mat-grid-tile>
                         </a>
-                        <a (click)="openMoneyBoxes()">
+                        <a (click)="openMoney()">
                               <mat-grid-tile class="grid-item grid-item-last">
                                     <table>
                                           <tr>
@@ -81,7 +81,7 @@
       </div>
       <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between">
             <mat-card fxFlex="33" class="payments-card">
-                  <mat-card-title>
+                  <mat-card-title style="color:#000">
                         Payments
                   </mat-card-title>
                   <div>
@@ -132,7 +132,7 @@
             </mat-card>
             <mat-card fxFlex="33" [ngClass]="{'disabled-card': (savingsAccount.length==0 || savingsAccount[0].balance=='0.00')&&(primaryAccount.length==0 || primaryAccount[0].balance=='0.00')}">
                   <mat-card-title>
-                        Withdraw
+                        Withdrawal
                   </mat-card-title>
                   <div fxLayout="row" fxLayout.sm="column" fxLayoutAlign="space-between">
                         <mat-form-field fxFlex="49" appearance="outline" color="primary">

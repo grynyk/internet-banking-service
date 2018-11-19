@@ -60,6 +60,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  openMoney(){
+    const dialogRef = this.dialog.open(MoneyBoxesDialogComponent, {
+      width: '600px'
+    });
+  }
+
 
   openPrimary() {
     if (this.primaryAccount.length !== 0) {
@@ -178,7 +184,8 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8, 12) + "-" + result[2].slice(12, 16) + "-" + result[2].slice(16, 20) + "-" + result[2].slice(20, 32);
-
+        // let amountFixed = result[0].toFixed(2);
+        console.log(result[0]);
         if (type == 'external') {
           let externalData = {
             amount: result[0],
