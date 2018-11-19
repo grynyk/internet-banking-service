@@ -7,3 +7,5 @@ Internet banking progressive Web app which lets you deposit or withdraw money, v
 **Front-end:** Html/CSS, JavaScript, TypeScript, Angular 6, Angular Material design, FxLayout
 
 **Back-end:** Node.js, Express.js, PostgreSQL, non-blocking PostgreSQL client - PG, babel.js, Babel watch, moment.js, bcrypt jsonWebToken
+
+**others:** ngx-mask
