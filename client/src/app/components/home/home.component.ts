@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatBottomSheet } from '@angular/material';
 import { Router } from '@angular/router';
 import { MoneyBoxesDialogComponent } from './money-boxes-dialog/money-boxes-dialog.component';
 import { CreateAccountDialogComponent } from './create-account-dialog/create-account-dialog.component';
@@ -9,6 +9,9 @@ import { AccountsService } from '../../services/accounts.service';
 import { ErrorHandlerDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 import { PaymentsDialogComponent } from './payments-dialog/payments-dialog.component';
 import { TransactionsService } from '../../services/transactions.service';
+import { AccountDetailsComponent } from './account-details/account-details.component';
+
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -23,6 +26,7 @@ export class HomeComponent implements OnInit {
     private matIconRegistry: MatIconRegistry,
     private router: Router,
     public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet,
     private changeDetectorRef: ChangeDetectorRef,
     private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon(
@@ -52,6 +56,7 @@ export class HomeComponent implements OnInit {
 
   refresh() {
     this.accountsService.getAll().subscribe((result: any) => {
+      console.log(result);
       if (result.rowCount !== 0) {
         this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
@@ -60,7 +65,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  openMoney(){
+  openMoney() {
     const dialogRef = this.dialog.open(MoneyBoxesDialogComponent, {
       width: '600px'
     });
@@ -69,7 +74,12 @@ export class HomeComponent implements OnInit {
 
   openPrimary() {
     if (this.primaryAccount.length !== 0) {
-
+      this.transactionsService.getAll().subscribe((res: any) => {
+        let primaryTransactions = res.rows.filter(row => row.sender_account_type == 'primary_account' || row.receiver_account_type == 'primary_account');
+        this.bottomSheet.open(AccountDetailsComponent,{
+          data:{ transactions:primaryTransactions,accountInfo:this.primaryAccount}
+        });
+      });
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
         width: '600px',
@@ -91,6 +101,13 @@ export class HomeComponent implements OnInit {
 
   openSavings() {
     if (this.savingsAccount.length !== 0) {
+      this.transactionsService.getAll().subscribe((res: any) => {
+        let savingsTransactions = res.rows.filter(row => row.sender_account_type == 'savings_account' || row.receiver_account_type == 'savings_account');
+
+        this.bottomSheet.open(AccountDetailsComponent,{
+          data:{ transactions:savingsTransactions,accountInfo:this.savingsAccount}
+        });
+      });
 
     } else {
       const dialogRef = this.dialog.open(CreateAccountDialogComponent, {
@@ -194,6 +211,7 @@ export class HomeComponent implements OnInit {
             senderAccountType: result[3],
             receiverName: result[4]
           }
+          console.log(externalData);
           this.transactionsService.external(externalData).subscribe((result: any) => {
             this.paymentType = undefined;
             this.refresh();
@@ -218,8 +236,6 @@ export class HomeComponent implements OnInit {
           this.withdrawMoney(result[1], result[0]);
           this.depositMoney(result[2], result[0]);
         }
-
-
       }
     });
   }

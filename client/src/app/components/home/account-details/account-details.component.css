@@ -1,0 +1,20 @@
+.income-color{
+    color: #43a047;
+}
+
+.outgoing-color{
+    color:#c62828;
+}
+
+:host ::ng-deep .mat-list .mat-list-item {
+    height: 50px;
+    padding-bottom:10px;
+  }
+
+  .no-data-container{
+    background: rgba(220, 220, 220, 0.3);
+}
+
+.message{
+    color: #6f6f6f;
+}

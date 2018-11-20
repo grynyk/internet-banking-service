@@ -12,6 +12,7 @@ import { PaymentsHistoryComponent } from './components/payments-history/payments
 
 
 
+
 const appRoutes: Routes = [
   { 
     path: '',
@@ -19,7 +20,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: 'transactions-history', component: PaymentsHistoryComponent},
+      { path: 'transactions-history', component: PaymentsHistoryComponent}
     ]
   },
   { path: 'registration', component: RegistrationComponent },

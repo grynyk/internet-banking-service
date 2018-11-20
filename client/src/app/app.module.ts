@@ -55,18 +55,19 @@ import { ErrorHandlerDialogComponent } from './components/dialogs/error-dialog/e
 import { ManageItemDialogComponent } from './components/dialogs/manage-item-dialog/manage-item.component';
 
 import { AddExpenseDialogComponent } from './components/payments-history/add-expense-dialog/add-expense-dialog.component';
-
+import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { SharedModule } from './shared/shared.module';
 import { ExpenseDetailsDialogComponent } from './components/payments-history/expense-details-dialog/expense-details-dialog.component';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { ImportedDataComponent } from './components/payments-history/imported-data/imported-data.component';
 import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
-import { BalanceSheetDialogComponent } from './components/home/balance-sheet-dialog/balance-sheet-dialog.component';
+
 import { SendMoneyComponent } from './components/home/send-money/send-money.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
 import {NgxMaskModule} from 'ngx-mask';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
+import { AccountDetailsComponent } from './components/home/account-details/account-details.component';
 
 const options = {};
 
@@ -87,11 +88,11 @@ const options = {};
     ExpenseDetailsDialogComponent,
     ImportedDataComponent,
     MoneyBoxesDialogComponent,
-    BalanceSheetDialogComponent,
     SendMoneyComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
-    PaymentsHistoryComponent
+    PaymentsHistoryComponent,
+    AccountDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -130,6 +131,7 @@ const options = {};
     ReactiveFormsModule,
     MatCardModule,
     MatTabsModule,
+    MatBottomSheetModule,
     MatTableModule,
     MatExpansionModule,
     MatSelectModule,
@@ -158,7 +160,8 @@ const options = {};
     ExpenseDetailsDialogComponent,
     MoneyBoxesDialogComponent,
     CreateAccountDialogComponent,
-    PaymentsDialogComponent
+    PaymentsDialogComponent,
+    AccountDetailsComponent
   ]
 })
 export class AppModule { }

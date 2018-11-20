@@ -1,0 +1,69 @@
+<h3 style="padding-bottom:10px;border-bottom:dashed 1px #aeaeae">
+  <span *ngIf="data.accountInfo[0].type=='primary_account'">PRIMARY</span>
+  <span *ngIf="data.accountInfo[0].type=='savings_account'">SAVINGS</span>
+  ACCOUNT
+</h3>
+<div class="about-container">
+  <mat-list>
+      <mat-list-item>
+          <mat-icon mat-list-icon>account_balance_wallet</mat-icon>
+          <h4 mat-line><strong>{{data.accountInfo[0].balance | uppercase}}</strong></h4>
+          <p mat-line> BALANCE </p>
+        </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>credit_card</mat-icon>
+      <h4 mat-line><strong>{{data.accountInfo[0].id | uppercase}}</strong></h4>
+      <p mat-line> ACCOUNT NUMBER </p>
+    </mat-list-item>
+    <mat-list-item>
+      <mat-icon mat-list-icon>date_range</mat-icon>
+      <h4 mat-line><strong>{{data.accountInfo[0].created_date | date:'medium'}}</strong></h4>
+      <p mat-line> CREATION DATE </p>
+    </mat-list-item>
+
+
+  </mat-list>
+</div>
+<div style="padding-top:10px;border-top:dashed 1px #aeaeae">
+  <table mat-table [dataSource]="dataSource" style="width:100%">
+
+    <ng-container matColumnDef="date">
+      <td mat-cell *matCellDef="let element"> {{element.created_date | date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="type">
+      <td mat-cell *matCellDef="let element">
+        <span *ngIf="element.type=='external_transaction'">
+          EXTERNAL TRANSACTION
+        </span>
+        <span *ngIf="element.type=='domestic'">
+          DOMESTIC TRANSACTION
+        </span>
+        <span *ngIf="element.type=='deposit'">
+          DEPOSIT
+        </span>
+        <span *ngIf="element.type=='withdrawal'">
+          WITHDRAWAL
+        </span>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="amount">
+      <td mat-cell *matCellDef="let element">
+        <span [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']">
+          <span *ngIf="element.sender_uuid==user.id">-</span>
+          <span *ngIf="element.receiver_uuid==user.id">+</span>
+          {{element.amount}}
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
+      <div fxLayoutAlign="center center">
+        <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions using this account yet</h4>
+      </div>
+    </div>
+  <mat-paginator [pageSizeOptions]="[3]" showFirstLastButtons></mat-paginator>
+</div>

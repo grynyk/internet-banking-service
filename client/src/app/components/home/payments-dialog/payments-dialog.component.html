@@ -42,7 +42,7 @@
     <div fxLayout="row">
       <mat-form-field fxFlex="100" appearance="outline" color="primary">
         <mat-label>Account No.</mat-label>
-        <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
+        <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" minlength="32" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
           type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" required/>
       </mat-form-field>
     </div>
@@ -53,8 +53,8 @@
 
   <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
     <div fxFlex fxLayoutAlign="end none">
-      <button mat-raised-button *ngIf="data.type=='domestic'" [disabled]="!amount || !receiverAccountNo" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType]">Submit</button>
-      <button mat-raised-button *ngIf="data.type=='external'" [disabled]="!amount || !receiverAccountNo || !receiverName" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
+      <button mat-raised-button *ngIf="data.type=='domestic'" [disabled]="!amount || !receiverAccountNo || receiverAccountNo.length!==32" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType]">Submit</button>
+      <button mat-raised-button *ngIf="data.type=='external'" [disabled]="!amount || !receiverAccountNo || !receiverName || receiverAccountNo.length!==32" color="primary" [mat-dialog-close]="[amount,description,receiverAccountNo,accountType,receiverName]">Submit</button>
     </div>
   </div>
 </div>

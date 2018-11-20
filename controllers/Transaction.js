@@ -74,6 +74,12 @@ const Transaction = {
               throw "receiver account doesn't exist";
             }
   
+            const senderAccountsData = (await client.query(`SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY type`, [req.user.id])).rows;
+ 
+            if(rows[0].id==senderAccountsData[0].id || rows[0].id==senderAccountsData[1].id){
+              throw "You can't send money to yourself";
+            }
+
             const receiversBalance = rows[1].balance;
             const receiversUpdatedBalance = +receiversBalance + +req.body.amount;
             const receiverUserData = (await db.query(`SELECT * FROM users where id = $1`, [receiverAccountData.owner_id])).rows[0];
@@ -116,6 +122,7 @@ const Transaction = {
           console.log(rows,senderName,sendersBalance, req.body.amount);
 
             try{
+              
               if (+sendersBalance >= +req.body.amount) {
                 await client.query(`UPDATE ${req.body.senderAccountType} SET
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
