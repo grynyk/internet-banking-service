@@ -56,7 +56,6 @@ export class HomeComponent implements OnInit {
 
   refresh() {
     this.accountsService.getAll().subscribe((result: any) => {
-      console.log(result);
       if (result.rowCount !== 0) {
         this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
@@ -91,7 +90,6 @@ export class HomeComponent implements OnInit {
           if (result == 'primary_account') {
             this.accountsService.primaryCreate().subscribe((result: any) => {
               this.refresh();
-              console.log(result);
             });
           }
         }
@@ -120,7 +118,6 @@ export class HomeComponent implements OnInit {
           if (result == 'savings_account') {
             this.accountsService.savingsCreate().subscribe((result: any) => {
               this.refresh();
-              console.log(result);
             });
           }
         }
@@ -161,7 +158,6 @@ export class HomeComponent implements OnInit {
       countedAmountToWithdraw = +this.primaryAccount[0].balance - +amount;
       accountIdToWithdraw = this.primaryAccount[0].id;
       if (countedAmountToWithdraw >= 0) {
-        console.log(countedAmountToWithdraw);
         this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
@@ -202,7 +198,6 @@ export class HomeComponent implements OnInit {
       if (result) {
         let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8, 12) + "-" + result[2].slice(12, 16) + "-" + result[2].slice(16, 20) + "-" + result[2].slice(20, 32);
         // let amountFixed = result[0].toFixed(2);
-        console.log(result[0]);
         if (type == 'external') {
           let externalData = {
             amount: result[0],
@@ -233,8 +228,17 @@ export class HomeComponent implements OnInit {
 
         if (type == 'transfer') {
           console.log(result);
-          this.withdrawMoney(result[1], result[0]);
-          this.depositMoney(result[2], result[0]);
+
+          const transferData = {
+            fromAccount:result[1],
+            toAccount:result[2],
+            amount:result[0],
+            description:result[3]
+          }
+
+            this.transactionsService.transfer(transferData).subscribe(res =>{
+              this.refresh();
+            })
         }
       }
     });

@@ -35,6 +35,7 @@ app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomin
 app.get('/api/transaction/getOutgoing', Auth.verifyToken, Transaction.getOutgoingTransactions);
 app.post('/api/transaction/domestic', Auth.verifyToken, Transaction.domesticTransaction);
 app.post('/api/transaction/external', Auth.verifyToken, Transaction.externalTransaction);
+app.post('/api/transaction/transfer', Auth.verifyToken, Transaction.transfer);
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});

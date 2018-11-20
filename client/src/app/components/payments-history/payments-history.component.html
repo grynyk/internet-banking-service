@@ -69,6 +69,9 @@
             <span *ngIf="element.type=='withdrawal'">
               WITHDRAWAL
             </span>
+            <span *ngIf="element.type=='transfer'">
+                TRANSFER
+              </span>
           </td>
         </ng-container>
 
@@ -143,7 +146,7 @@
                       <p mat-line> receiver account type </p>
                     </mat-list-item>
 
-                    <mat-list-item>
+                    <mat-list-item *ngIf="element.receiver_name || element.sender_name">
                       <mat-icon mat-list-icon>person_outline</mat-icon>
                       <p style="font-weight: bold" mat-line *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</p>
                       <p style="font-weight: bold" mat-line *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</p>

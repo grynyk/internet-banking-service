@@ -30,5 +30,8 @@ export class TransactionsService {
     return this.httpClient.post(`${this.url}/external`, data).map(response => response);
   }
 
+  transfer(data) {
+    return this.httpClient.post(`${this.url}/transfer`, data).map(response => response);
+  }
 }
 

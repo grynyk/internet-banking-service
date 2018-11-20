@@ -37,26 +37,6 @@ export class PaymentsHistoryComponent implements OnInit {
     lastname: this.loginRespond.userData.lastname
   }
 
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  public filterType = 'all';
-
-  getIncoming(){
-    this.transactionsService.getIncoming().subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource(res.rows);
-      console.log(res);
-    })
-  }
-
-  getOutgoing(){
-    this.transactionsService.getOutgoing().subscribe((res: any) => {
-      this.dataSource = new MatTableDataSource(res.rows);
-      console.log(res);
-    })
-  }
-
   public selection = new SelectionModel(true, []);
 
   public selectedRow: any;
@@ -80,14 +60,30 @@ export class PaymentsHistoryComponent implements OnInit {
   refresh() {
     this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
-      console.log(res);
+     })
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  public filterType = 'all';
+
+  getIncoming(){
+    this.transactionsService.getIncoming().subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource(res.rows);
+    })
+  }
+
+  getOutgoing(){
+    this.transactionsService.getOutgoing().subscribe((res: any) => {
+      this.dataSource = new MatTableDataSource(res.rows);
     })
   }
 
   getRowData(row) {
     this.selectedRow = row;
     this.selectedRowIndex = row.id;
-    console.log(this.selection);
   }
 
 
