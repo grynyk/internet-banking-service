@@ -10,6 +10,8 @@ import { ErrorHandlerDialogComponent } from '../dialogs/error-dialog/error-dialo
 import { PaymentsDialogComponent } from './payments-dialog/payments-dialog.component';
 import { TransactionsService } from '../../services/transactions.service';
 import { AccountDetailsComponent } from './account-details/account-details.component';
+import { NotificationsService } from 'angular2-notifications';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -27,7 +29,9 @@ export class HomeComponent implements OnInit {
   }
   @ViewChild('transactionsHistory') transactionsHistory;
 
-  constructor(private transactionsService: TransactionsService,
+  constructor(  private fb: FormBuilder,
+    private notificationsService: NotificationsService,
+    private transactionsService: TransactionsService,
     private accountsService: AccountsService,
     private matIconRegistry: MatIconRegistry,
     private router: Router,
@@ -56,8 +60,23 @@ export class HomeComponent implements OnInit {
   primaryAccount = new Array();
   savingsAccount = new Array();
 
+  showNotification(type,title,content,timeOut){
+    let options= this.fb.group({
+			type: type,
+			title: title,
+			content: content,
+      timeOut: timeOut,
+      clickIconToClose:true,
+      showProgressBar:false,
+			clickToClose: true,
+			animate: 'scale'
+    }).getRawValue();
+
+    this.notificationsService.create(options.title, options.content,options.type,options);
+  }
   ngOnInit() {
     this.refresh();
+    
   }
 
   refresh() {
@@ -143,6 +162,7 @@ export class HomeComponent implements OnInit {
       this.accountsService.primaryUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
+        this.showNotification('success','Success',`You've just deposited ${amount}$`,10000);
         this.refresh();
       });
     } else if (type == 'savings_account') {
@@ -151,6 +171,7 @@ export class HomeComponent implements OnInit {
       this.accountsService.savingsUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
+        this.showNotification('success','Success',`You've just deposited ${amount}$`,10000);
         this.refresh();
       });
     }
@@ -168,11 +189,13 @@ export class HomeComponent implements OnInit {
         this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
+          this.showNotification('success','Success',`You've just withdrew ${amount}$`,10000);
           this.refresh();
         });
       } else {
         const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
           disableClose: true,
+          width:'500px',
           data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
         });
       }
@@ -183,11 +206,13 @@ export class HomeComponent implements OnInit {
         this.accountsService.savingsUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
+          this.showNotification('success','Success',`You've just withdrew ${amount}$`,10000);
           this.refresh();
         });
       } else {
         const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
           disableClose: true,
+          width:'500px',
           data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
         });
       }
@@ -204,7 +229,6 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         let accountNo = result[2].slice(0, 8) + "-" + result[2].slice(8, 12) + "-" + result[2].slice(12, 16) + "-" + result[2].slice(16, 20) + "-" + result[2].slice(20, 32);
-        // let amountFixed = result[0].toFixed(2);
         if (type == 'external') {
           let externalData = {
             amount: result[0],
@@ -213,9 +237,9 @@ export class HomeComponent implements OnInit {
             senderAccountType: result[3],
             receiverName: result[4]
           }
-          console.log(externalData);
           this.transactionsService.external(externalData).subscribe((result: any) => {
             this.paymentType = undefined;
+            this.showNotification('success','Success',`You've just sent ${externalData.amount}$`,10000);
             this.refresh();
           });
         }
@@ -229,23 +253,22 @@ export class HomeComponent implements OnInit {
           }
           this.transactionsService.domestic(domesticData).subscribe((result: any) => {
             this.paymentType = undefined;
+            this.showNotification('success','Success',`You've just sent ${domesticData.amount}$`,10000);
             this.refresh();
           });
         }
 
         if (type == 'transfer') {
-          console.log(result);
-
           const transferData = {
             fromAccount:result[1],
             toAccount:result[2],
             amount:result[0],
             description:result[3]
           }
-
             this.transactionsService.transfer(transferData).subscribe(res =>{
-              this.refresh();
-            })
+               this.showNotification('success','Success',`You've just transfered ${transferData.amount}$ between accounts`,10000);
+               this.refresh();
+              })
         }
       }
     });

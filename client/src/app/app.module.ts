@@ -68,7 +68,7 @@ import { PaymentsDialogComponent } from './components/home/payments-dialog/payme
 import {NgxMaskModule} from 'ngx-mask';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 import { AccountDetailsComponent } from './components/home/account-details/account-details.component';
-
+import { SimpleNotificationsModule } from 'angular2-notifications';
 const options = {};
 
 @NgModule({
@@ -97,6 +97,7 @@ const options = {};
   imports: [
     BrowserModule,
     AppRouting,
+    SimpleNotificationsModule.forRoot(),
     MatProgressBarModule,
     HttpClientModule,
     SharedModule,
