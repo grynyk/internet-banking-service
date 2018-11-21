@@ -19,6 +19,12 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 })
 export class HomeComponent implements OnInit {
 
+  loginRespond = JSON.parse(localStorage.getItem('currentUser'));
+  user = {
+    id: this.loginRespond.userData.userId,
+    firstname: this.loginRespond.userData.firstname,
+    lastname: this.loginRespond.userData.lastname
+  }
   @ViewChild('transactionsHistory') transactionsHistory;
 
   constructor(private transactionsService: TransactionsService,
@@ -56,6 +62,7 @@ export class HomeComponent implements OnInit {
 
   refresh() {
     this.accountsService.getAll().subscribe((result: any) => {
+      console.log(result);
       if (result.rowCount !== 0) {
         this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
@@ -74,7 +81,7 @@ export class HomeComponent implements OnInit {
   openPrimary() {
     if (this.primaryAccount.length !== 0) {
       this.transactionsService.getAll().subscribe((res: any) => {
-        let primaryTransactions = res.rows.filter(row => row.sender_account_type == 'primary_account' || row.receiver_account_type == 'primary_account');
+        let primaryTransactions = res.rows.filter(row => (row.sender_account_type == 'primary_account' || row.receiver_account_type == 'primary_account')&&(row.sender_uuid == this.user.id || row.receiver_uuid == this.user.id));
         this.bottomSheet.open(AccountDetailsComponent,{
           data:{ transactions:primaryTransactions,accountInfo:this.primaryAccount}
         });
@@ -100,7 +107,7 @@ export class HomeComponent implements OnInit {
   openSavings() {
     if (this.savingsAccount.length !== 0) {
       this.transactionsService.getAll().subscribe((res: any) => {
-        let savingsTransactions = res.rows.filter(row => row.sender_account_type == 'savings_account' || row.receiver_account_type == 'savings_account');
+        let savingsTransactions = res.rows.filter(row => (row.sender_account_type == 'savings_account' || row.receiver_account_type == 'savings_account')&&(row.sender_uuid == this.user.id || row.receiver_uuid == this.user.id));
 
         this.bottomSheet.open(AccountDetailsComponent,{
           data:{ transactions:savingsTransactions,accountInfo:this.savingsAccount}
@@ -190,7 +197,7 @@ export class HomeComponent implements OnInit {
   paymentType: string;
   openTransactions(type) {
     const dialogRef = this.dialog.open(PaymentsDialogComponent, {
-      width: '850px',
+      width: '650px',
       disableClose: true,
       data: { type: type, primary: this.primaryAccount.length == 0, savings: this.savingsAccount.length == 0 }
     });

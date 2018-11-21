@@ -5,6 +5,7 @@ import Accounts from './controllers/Accounts';
 import User from './controllers/User';
 import Auth from './controllers/middleware';
 import Transaction from './controllers/Transaction';
+import Recipients from './controllers/Recepients';
 
 dotenv.config();
 
@@ -28,7 +29,12 @@ app.post('/api/accounts/savings/create', Auth.verifyToken, Accounts.createSaving
 app.get('/api/accounts/savings/getAll', Auth.verifyToken, Accounts.getSavingsAll);
 app.get('/api/accounts/savings/getById/:id', Auth.verifyToken, Accounts.getSavingsById);
 app.put('/api/accounts/savings/update/:id', Auth.verifyToken, Accounts.updateSavings);
-// app.delete('/api/accounts/primary/delete/:id', Auth.verifyToken, Accounts.delete);
+
+app.post('/api/recipients/create', Auth.verifyToken, Recipients.create);
+app.get('/api/recipients/getAll', Auth.verifyToken, Recipients.getAll);
+app.put('/api/recipients/update/:id', Auth.verifyToken, Recipients.update);
+app.delete('/api/recipients/delete/:id', Auth.verifyToken, Recipients.delete);
+
 
 app.get('/api/transaction/getAll', Auth.verifyToken, Transaction.getAllTransactions);
 app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomingTransactions);
