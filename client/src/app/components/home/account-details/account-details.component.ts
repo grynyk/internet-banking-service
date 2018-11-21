@@ -1,5 +1,5 @@
-import { Component, Inject, ViewChild, ElementRef,OnInit} from '@angular/core';
-import { MatBottomSheetRef, MatTableDataSource,MatPaginator, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
+import { Component, Inject, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { MatBottomSheetRef, MatTableDataSource, MatPaginator, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
 import { TransactionsService } from '../../../services/transactions.service';
 
 @Component({
@@ -8,11 +8,11 @@ import { TransactionsService } from '../../../services/transactions.service';
   styleUrls: ['./account-details.component.css']
 })
 export class AccountDetailsComponent implements OnInit {
-  displayedColumns = ['date','type','amount']
+  displayedColumns = ['date', 'type', 'amount']
   dataSource = new MatTableDataSource();
-  constructor(private transactionsService:TransactionsService,
+  constructor(private transactionsService: TransactionsService,
     private bottomSheetRef: MatBottomSheetRef<AccountDetailsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data) {}
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data) { }
 
   loginRespond = JSON.parse(localStorage.getItem('currentUser'));
   user = {
@@ -21,9 +21,14 @@ export class AccountDetailsComponent implements OnInit {
     lastname: this.loginRespond.userData.lastname
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
   ngOnInit() {
     this.dataSource = new MatTableDataSource(this.data.transactions);
     this.dataSource.paginator = this.paginator;
+  }
+
+  closeBottomSheet() {
+    this.bottomSheetRef.dismiss();
   }
 
 }

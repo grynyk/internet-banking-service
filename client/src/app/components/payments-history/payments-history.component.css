@@ -95,6 +95,10 @@ table {
     padding:5px;
   }
 
+  :host ::ng-deep .mat-list .mat-list-item {
+    height: 60px;
+  }
+
   
     .no-data-container{
         background: rgba(220, 220, 220, 0.3);
@@ -107,7 +111,7 @@ table {
     .title-textarea{
         background: rgba(0, 0, 0, 0.2);
         border-radius: 3px;
-        min-height:150px;
+        min-height:80px;
         color: #404004;
         padding:8px;
     }

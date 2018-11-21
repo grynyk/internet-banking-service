@@ -75,12 +75,7 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field fxFlex="48" appearance="outline" color="primary">
-        <mat-label>Amount</mat-label>
-        <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" min="0" mask="0*.00" required/>
-      </mat-form-field>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="space-between">
+
       <mat-form-field fxFlex="48" appearance="outline" color="primary">
           <mat-label>To</mat-label>
           <mat-select [(ngModel)]="transferReceiveAccount" name="accountType">
@@ -95,7 +90,13 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <mat-form-field fxFlex="48" appearance="outline" color="primary">
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field fxFlex="25" appearance="outline" color="primary">
+          <mat-label>Amount</mat-label>
+          <input matInput [(ngModel)]="amount" placeholder="100.59" type="text" min="0" mask="0*.00" required/>
+        </mat-form-field>
+        <mat-form-field fxFlex="71" appearance="outline" color="primary">
             <mat-label>Title</mat-label>
             <input matInput  placeholder="For next month" [(ngModel)]="description">
           </mat-form-field>

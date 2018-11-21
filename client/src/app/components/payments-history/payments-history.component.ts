@@ -60,6 +60,7 @@ export class PaymentsHistoryComponent implements OnInit {
   refresh() {
     this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
+      console.log(this.dataSource.data);
      })
   }
 
