@@ -1,6 +1,6 @@
 # internet-banking-service
 
-[![APMLicense](https://img.shields.io/apm/l/:package.svg)](https://github.com/grynyk/internet-banking-service)
+[![APMLicense](https://img.shields.io/apm/l/:package.svg)](https://github.com/grynyk/internet-banking-service/blob/master/LICENSE)
 
 
 Internet banking progressive Web app which lets you deposit or withdraw money, view bank statements, add/edit,delete recipients, transfer money between user's accounts, or transfer money to someone else.
