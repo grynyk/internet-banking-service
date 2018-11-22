@@ -1,6 +1,7 @@
+<div class="page">
 <app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
 <mat-sidenav-container fullscreen class="sidenav-container">
-    <mat-sidenav style="background: #eeeeee" #sidenav role="navigation" mode="side">
+    <mat-sidenav style="background: #eeeeee;border-right-style: none" #sidenav role="navigation" mode="side">
         <app-sidemenu (closeSidenav)="sidenav.close()"></app-sidemenu>
     </mat-sidenav>
     
@@ -10,3 +11,4 @@
         </main>
     </mat-sidenav-content>
 </mat-sidenav-container>
+</div>

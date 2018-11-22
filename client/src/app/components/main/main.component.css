@@ -1,3 +1,6 @@
+.page{
+    overflow: initial;
+}
 mat-sidenav-content{
     background: #eeeeee;
 }

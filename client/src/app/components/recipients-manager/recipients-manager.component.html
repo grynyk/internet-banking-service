@@ -1,0 +1,137 @@
+<div class="body" fxLayout="row" fxLayoutAlign="space-between">
+  <mat-card fxFlex="58">
+    <mat-card-title>Recipients manager</mat-card-title>
+    <div class="content" (clickOutside)="selection.clear()">
+      <div class="data-table-overflow">
+        <div fxLayout="row" class="buttons-row">
+          <div fxLayoutAlign="end center" class="buttons">
+            <button (click)="add()" class="add-btn" mat-raised-button>
+              <mat-icon>add</mat-icon>
+              <span class="hide-lg"> Add</span>
+            </button>
+
+            <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" (click)="edit(selectedRow)" class="edit-btn"
+              mat-raised-button>
+              <mat-icon>edit</mat-icon>
+              <span class="hide-lg"> Edit</span>
+            </button>
+
+            <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="delete(selectedRow.id)"
+              class="delete-btn" mat-raised-button>
+              <mat-icon>delete_outline</mat-icon>
+              <span class="hide-lg"> Delete</span>
+            </button>
+          </div>
+        </div>
+
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+
+          <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-checkbox color="primary" disabled [checked]="selectedRow == element && selection.isSelected(element)" style="cursor: pointer"
+                (click)="getRowData(element);selection.toggle(element)">
+              </mat-checkbox>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef> Title </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.title}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="accountNumber">
+            <th mat-header-cell *matHeaderCellDef> Account number </th>
+            <td mat-cell *matCellDef="let element">
+              {{element.account_number | uppercase}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell style="background: #f5f5f5;" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+              <div class="row-details" [@detailExpand]="element == selectedRow&&selection.isSelected(element) ? 'expanded' : 'collapsed'">
+                <div class="expanded-description" fxLayout="row" fxLayoutAlign="space-between">
+                  <div fxFlex="55" fxLayout="column" style="border-right:dashed 1px #aeaeae">
+                    <mat-list>
+                      <mat-list-item *ngIf="element.name">
+                        <mat-icon mat-list-icon>person_outline</mat-icon>
+                        <p style="font-weight: bold" mat-line>{{element.name | uppercase}}</p>
+                        <p mat-line> name </p>
+                      </mat-list-item>
+                      <mat-list-item>
+                        <mat-icon mat-list-icon>account_balance</mat-icon>
+                        <p style="font-weight: bold" mat-line>
+                          <span *ngIf="element.type=='external_transaction'">
+                            EXTERNAL TRANSACTION
+                          </span>
+                          <span *ngIf="element.type=='domestic_transaction'">
+                            DOMESTIC TRANSACTION
+                          </span>
+                        </p>
+                        <p mat-line> type </p>
+                      </mat-list-item>
+
+                    </mat-list>
+                  </div>
+                  <div fxFlex fxLayout="column" style="margin-left:15px">
+                    <mat-form-field>
+                      <mat-label *ngIf="element.description">Description</mat-label>
+                      <mat-label *ngIf="!element.description" style="padding:5px">No description provided</mat-label>
+                      <textarea matInput disabled class="description-textarea" [value]="element.description"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <tr mat-row *matRowDef="let element; columns: displayedColumns" class="table-row" [ngClass]="[selectedRow == element && selection.isSelected(element) ? 'selected-row':'']"
+            [class.expanded-row]="selectedRow === element" (click)="selectedRow = element" (click)="selection.toggle(element);recipientAction = 'Manage'">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
+        </table>
+
+
+        <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
+          <div fxLayoutAlign="center center">
+            <h4 class="message" fxLayoutAlign="center center">You don't have any recipients yet</h4>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </mat-card>
+
+  <mat-card fxFlex="40">
+    <mat-card-title>{{recipientAction}} recipient</mat-card-title>
+    <div fxLayout="column">
+      <mat-form-field appearance="outline">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="John Deer" name="title" [(ngModel)]="data.title" [disabled]="recipientAction=='Manage'" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Account number</mat-label>
+        <input matInput name="accountNumber" [(ngModel)]="accountNo"
+          minlength="32" [disabled]="recipientAction=='Manage'"
+          placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
+          mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" required>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput name="description" style="min-height:150px"
+        [(ngModel)]="data.description" [disabled]="recipientAction=='Manage'"></textarea>
+      </mat-form-field>
+    </div>
+    <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
+        <div fxFlex fxLayoutAlign="end none">
+          <button mat-raised-button *ngIf="recipientAction=='Add'" [disabled]="!data.title || !accountNo" color="primary" (click)="submit('add')">Add recipient</button>
+          <button mat-raised-button *ngIf="recipientAction=='Edit'" (click)="submit('edit')" color="primary">Edit recipient</button>
+        </div>
+      </div>
+  </mat-card>
+</div>

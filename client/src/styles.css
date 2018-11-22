@@ -3,16 +3,9 @@
 
 *{
   font-family: 'Maven Pro', sans-serif;
+  overflow: visible;
 }
 
 body {
   margin: 0;
-
 }
-
-/* div,
-main{
-    border: 1px solid black !important;
-
-}
- */

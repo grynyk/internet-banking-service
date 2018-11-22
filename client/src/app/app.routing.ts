@@ -9,6 +9,7 @@ import { Page404Component } from './components/page404/page404.component';
 import { AuthGuard } from './guards/auth.guard';
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
+import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 
 
 
@@ -20,7 +21,8 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: 'transactions-history', component: PaymentsHistoryComponent}
+      { path: 'transactions-history', component: PaymentsHistoryComponent},
+      { path: 'recipients', component: RecipientsManagerComponent}
     ]
   },
   { path: 'registration', component: RegistrationComponent },

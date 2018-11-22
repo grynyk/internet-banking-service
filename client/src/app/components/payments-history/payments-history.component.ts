@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, Input } from '@angular/core';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, ChangeDetectorRef, Input, ViewChild } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatPaginator } from '@angular/material';
 import { CanDeactivateGuard } from '../../guards/can-deactivate.guard';
 import { map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -42,6 +42,9 @@ export class PaymentsHistoryComponent implements OnInit {
   public selectedRow: any;
   public selectedRowIndex: any;
 
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @Input() pageSizeOptions = [ 10,25,50 ];
+  @Input() showFirstLastButtons = true;
   constructor(private transactionsService: TransactionsService,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
@@ -60,6 +63,7 @@ export class PaymentsHistoryComponent implements OnInit {
   refresh() {
     this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
+      this.dataSource.paginator = this.paginator;
       console.log(this.dataSource.data);
      })
   }

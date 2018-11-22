@@ -3,7 +3,7 @@
     <div class="data-table-overflow">
       <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row" *ngIf="displayOnlyTable==false" >
         <mat-form-field fxFlex="90" class="filter-input">
-          <mat-label>Type key word</mat-label>
+          <mat-label>Search for transactions</mat-label>
           <input matInput (keyup)="applyFilter($event.target.value)">
         </mat-form-field>
 
@@ -183,6 +183,7 @@
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
       </table>
+      <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="showFirstLastButtons"></mat-paginator>
       <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
         <div fxLayoutAlign="center center">
           <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions yet</h4>

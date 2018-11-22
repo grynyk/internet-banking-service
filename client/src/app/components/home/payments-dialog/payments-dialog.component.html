@@ -17,7 +17,7 @@
 <div *ngIf="data.type!=='transfer'">
   <div fxLayout="column">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <mat-form-field fxFlex="30" appearance="outline" color="primary">
+      <mat-form-field fxFlex="30" appearance="outline">
         <mat-label>From</mat-label>
         <div *ngIf="data.type!=='external'">
           <mat-select [(ngModel)]="accountType" name="accountType">
@@ -33,19 +33,25 @@
         <input matInput value="Primary account" disabled>
        </div>
       </mat-form-field>
-      <mat-form-field fxFlex="68" appearance="outline" color="primary">
+      <mat-form-field fxFlex="68" appearance="outline">
         <mat-label>Amount</mat-label>
         <input matInput [(ngModel)]="amount" placeholder="100.59" min="0" type="text" required/>
       </mat-form-field>
     </div>
     <div fxLayout="row" *ngIf="data.type=='external'">
-      <mat-form-field fxFlex="100" appearance="outline" color="primary">
+      <mat-form-field fxFlex="100" appearance="outline">
         <mat-label>Beneficiary name</mat-label>
         <input matInput [(ngModel)]="receiverName" placeholder="Jan Kowalski" style="text-transform: uppercase" type="text" required/>
       </mat-form-field>
     </div>
-    <div fxLayout="row">
-      <mat-form-field fxFlex="100" appearance="outline" color="primary">
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <button color="primary" fxFlex="10" style="margin:4px 0 9px 0" [matMenuTriggerFor]="recipientsMenu" mat-raised-button><i class="material-icons" style="font-size: 2em">
+            assignment_ind
+            </i></button>
+            <mat-menu #recipientsMenu="matMenu">
+                <button mat-menu-item >Account</button>
+            </mat-menu>
+      <mat-form-field fxFlex="88" appearance="outline">
         <mat-label>Account No.</mat-label>
         <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" minlength="32" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
           type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" required/>

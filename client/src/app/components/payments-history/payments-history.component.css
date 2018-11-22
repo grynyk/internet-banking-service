@@ -95,6 +95,11 @@ table {
     padding:5px;
   }
 
+  .footer-row{
+    background-color: #4390bc;
+    font-weight:bold;
+  }
+
   :host ::ng-deep .mat-list .mat-list-item {
     height: 60px;
   }

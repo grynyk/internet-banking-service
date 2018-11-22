@@ -1,0 +1,108 @@
+.body{
+    height: 100%;
+    margin:15px;
+    padding: 0;
+}
+
+mat-card{
+    min-height: 100%;
+    margin-bottom:15px;
+}
+
+.buttons{
+    margin-bottom:25px;
+    margin-top:10px;
+}
+
+.buttons-row{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color:#DFDFDF;
+    padding-bottom:5px;
+    padding-top:15px;
+}
+
+.filter-input{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.add-btn{
+    background: #66bb6a;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.edit-btn{
+    background: #ffa726;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.delete-btn{
+    color: #fff;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.no-data-container{
+    padding:20px;
+}
+
+.message{
+    color: #6f6f6f;
+}
+
+table {
+    width: 100%;
+  }
+  
+  tr.details-row {
+    height: 0;
+  }
+  
+  tr.table-row:not(.expanded-row):hover {
+    background: #f5f5f5;
+  }
+  
+  tr.table-row:not(.expanded-row):active {
+    background: #f5f5f5;
+  }
+  
+  .table-row td {
+    border-bottom-width: 0;
+  }
+  
+  .row-details {
+    overflow: hidden;
+    padding:5px;
+  }
+
+  .table-row{
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.selected-row{
+    background: #f5f5f5;
+}
+
+
+mat-form-field{
+    margin-bottom: -1em!important;
+ }
+
+@media only screen and (max-width: 599px) {
+    .hide-lg{
+        display:none;
+    }
+    .add-btn{
+        min-width:1%!important;
+    }
+    .delete-btn{
+        min-width:1%!important;
+    }
+    .edit-btn{
+        min-width:1%!important;
+    }
+}

@@ -162,6 +162,6 @@
       </div>
 </div>
 
-      <app-payments-history #transactionsHistory [displayOnlyTable]="true"></app-payments-history>
+      <app-payments-history #transactionsHistory [pageSizeOptions]="[10]" [showFirstLastButtons]="false" [displayOnlyTable]="true"></app-payments-history>
 
       <simple-notifications></simple-notifications>

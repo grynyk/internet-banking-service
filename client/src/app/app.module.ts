@@ -69,6 +69,7 @@ import {NgxMaskModule} from 'ngx-mask';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 import { AccountDetailsComponent } from './components/home/account-details/account-details.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
+import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 const options = {};
 
 @NgModule({
@@ -92,7 +93,8 @@ const options = {};
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
     PaymentsHistoryComponent,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    RecipientsManagerComponent,
   ],
   imports: [
     BrowserModule,
