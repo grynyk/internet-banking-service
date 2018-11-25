@@ -76,8 +76,10 @@ const Transaction = {
 
         const senderAccountsData = (await client.query(`SELECT * FROM savings_account where owner_id = $1 UNION ALL SELECT * FROM primary_account where owner_id = $1 ORDER BY type`, [req.user.id])).rows;
 
-        if (rows[0].id == senderAccountsData[0].id || rows[0].id == senderAccountsData[1].id) {
-          throw "You can't send money to yourself";
+        for(let i=0;i<senderAccountsData.length;i++){
+          if (req.body.receiverAccountNo == senderAccountsData[i].id) {
+            throw "You can't send money to yourself";
+          }
         }
 
         const receiversBalance = rows[1].balance;
