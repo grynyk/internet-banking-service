@@ -98,7 +98,7 @@ export class PaymentsHistoryComponent implements OnInit {
     doc.setFontSize(12);
     doc.text(`${row.receiver_name.toUpperCase()} (${row.receiver_account_type.toUpperCase()})`, 50, 83);
     doc.setFontSize(14);
-    doc.text(`${row.sender_account_number.toUpperCase()}`, 50, 91);
+    doc.text(`${row.receiver_account_number.toUpperCase()}`, 50, 91);
 
     doc.text(`description:`, 10, 106);
     doc.text(`${row.description.toUpperCase()}`, 50, 106);
