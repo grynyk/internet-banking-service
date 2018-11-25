@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
   @ViewChild('transactionsHistory') transactionsHistory;
 
-  constructor(  private fb: FormBuilder,
+  constructor(private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private transactionsService: TransactionsService,
     private accountsService: AccountsService,
@@ -162,7 +162,7 @@ export class HomeComponent implements OnInit {
       this.accountsService.primaryUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
-        this.showNotification('success','Success',`You've just deposited ${amount}$`,10000);
+        this.showNotification('success','Deposit',`was just successfully processed`,8000);
         this.refresh();
       });
     } else if (type == 'savings_account') {
@@ -171,7 +171,7 @@ export class HomeComponent implements OnInit {
       this.accountsService.savingsUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
-        this.showNotification('success','Success',`You've just deposited ${amount}$`,10000);
+        this.showNotification('success','Deposit',`was just successfully processed`,8000);
         this.refresh();
       });
     }
@@ -189,7 +189,7 @@ export class HomeComponent implements OnInit {
         this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
-          this.showNotification('success','Success',`You've just withdrew ${amount}$`,10000);
+          this.showNotification('success','Withdrawal',`was just successfully processed`,8000);
           this.refresh();
         });
       } else {
@@ -206,7 +206,7 @@ export class HomeComponent implements OnInit {
         this.accountsService.savingsUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
-          this.showNotification('success','Success',`You've just withdrew ${amount}$`,10000);
+          this.showNotification('success','Withdrawal',`was just successfully processed`,8000);
           this.refresh();
         });
       } else {
@@ -239,7 +239,7 @@ export class HomeComponent implements OnInit {
           }
           this.transactionsService.external(externalData).subscribe((result: any) => {
             this.paymentType = undefined;
-            this.showNotification('success','Success',`You've just sent ${externalData.amount}$`,10000);
+            this.showNotification('success','Transaction',`was just successfully processed`,8000);
             this.refresh();
           });
         }
@@ -253,7 +253,7 @@ export class HomeComponent implements OnInit {
           }
           this.transactionsService.domestic(domesticData).subscribe((result: any) => {
             this.paymentType = undefined;
-            this.showNotification('success','Success',`You've just sent ${domesticData.amount}$`,10000);
+            this.showNotification('success','Transaction',`was just successfully processed`,8000);
             this.refresh();
           });
         }
@@ -266,7 +266,7 @@ export class HomeComponent implements OnInit {
             description:result[3]
           }
             this.transactionsService.transfer(transferData).subscribe(res =>{
-               this.showNotification('success','Success',`You've just transfered ${transferData.amount}$ between accounts`,10000);
+                this.showNotification('success','Transfer',`was just successfully processed`,8000);
                this.refresh();
               })
         }

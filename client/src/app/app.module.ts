@@ -70,6 +70,7 @@ import { PaymentsHistoryComponent } from './components/payments-history/payments
 import { AccountDetailsComponent } from './components/home/account-details/account-details.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
+import { RecipientsListComponent } from './components/recipients-manager/recipients-list/recipients-list.component';
 const options = {};
 
 @NgModule({
@@ -95,6 +96,7 @@ const options = {};
     PaymentsHistoryComponent,
     AccountDetailsComponent,
     RecipientsManagerComponent,
+    RecipientsListComponent,
   ],
   imports: [
     BrowserModule,
@@ -164,7 +166,8 @@ const options = {};
     MoneyBoxesDialogComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
-    AccountDetailsComponent
+    AccountDetailsComponent,
+    RecipientsListComponent
   ]
 })
 export class AppModule { }

@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RecipientsService } from '../../services/recipients.service';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-item.component';
+import { FormBuilder } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 @Component({
   selector: 'app-recipients-manager',
   templateUrl: './recipients-manager.component.html',
@@ -20,7 +22,24 @@ export class RecipientsManagerComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public selection = new SelectionModel(true, []);
   displayedColumns = ['select','title','accountNumber'];
-  constructor(public dialog: MatDialog,private recipientsService:RecipientsService) { }
+  constructor(private fb: FormBuilder,
+    private notificationsService: NotificationsService,
+    public dialog: MatDialog,private recipientsService:RecipientsService) { }
+
+  showNotification(type,title,content,timeOut){
+    let options= this.fb.group({
+			type: type,
+			title: title,
+			content: content,
+      timeOut: timeOut,
+      clickIconToClose:true,
+      showProgressBar:false,
+			clickToClose: true,
+			animate: 'scale'
+    }).getRawValue();
+
+    this.notificationsService.create(options.title, options.content,options.type,options);
+  }
 
   public selectedRow: any;
   public recipientAction = 'Manage';
@@ -55,13 +74,14 @@ export class RecipientsManagerComponent implements OnInit {
 
   delete(id){
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
-      data: { title: 'Are you sure you want to delete this item' }
+      data: { title: `Are you sure you want to delete ${this.selectedRow.title} from your recipients list ?` }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.recipientsService.delete(id).subscribe(res => {
           this.refresh();
+          this.showNotification('success','',`Recipient has been successfully deleted`,8000);
         });
       }
     });
@@ -78,6 +98,7 @@ export class RecipientsManagerComponent implements OnInit {
         this.accountNo = '';
         this.recipientAction = 'Manage';
         this.refresh();
+        this.showNotification('success','',`Recipient has been successfully added`,8000);
       });
     }
 
@@ -89,13 +110,10 @@ export class RecipientsManagerComponent implements OnInit {
         this.accountNo = '';
         this.recipientAction = 'Manage';
         this.refresh();
+        this.showNotification('success','',`Recipient has been successfully edited`,8000);
       });
     }
 
-  }
-
-  applyFilter(filterValue: string) {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   getRowData(row) {
@@ -106,6 +124,7 @@ export class RecipientsManagerComponent implements OnInit {
   ngOnInit() {
     this.refresh();
   }
+  
   refresh() {
     this.recipientsService.getAll().subscribe((res:any) => {
       console.log(res);

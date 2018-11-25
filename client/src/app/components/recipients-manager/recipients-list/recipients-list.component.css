@@ -1,0 +1,21 @@
+.no-data-container{
+    background: rgba(220, 220, 220, 0.3);
+}
+
+.message{
+    color: #6f6f6f;
+}
+
+  
+tr.table-row:not(.expanded-row):hover {
+    background: #f5f5f5;
+  }
+  
+  tr.table-row:not(.expanded-row):active {
+    background: #f5f5f5;
+  }
+  
+  .table-row{
+    cursor: pointer;
+    font-weight: bold;
+    }

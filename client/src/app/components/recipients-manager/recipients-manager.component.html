@@ -1,10 +1,11 @@
-<div class="body" fxLayout="row" fxLayoutAlign="space-between">
+<div class="body" fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between">
   <mat-card fxFlex="58">
-    <mat-card-title>Recipients manager</mat-card-title>
+    <mat-card-title>Recipients</mat-card-title>
     <div class="content" (clickOutside)="selection.clear()">
       <div class="data-table-overflow">
         <div fxLayout="row" class="buttons-row">
           <div fxLayoutAlign="end center" class="buttons">
+
             <button (click)="add()" class="add-btn" mat-raised-button>
               <mat-icon>add</mat-icon>
               <span class="hide-lg"> Add</span>
@@ -107,7 +108,7 @@
     </div>
   </mat-card>
 
-  <mat-card fxFlex="40">
+  <mat-card fxFlex="40" #recipientManager id="recipientManager">
     <mat-card-title>{{recipientAction}} recipient</mat-card-title>
     <div fxLayout="column">
       <mat-form-field appearance="outline">
@@ -129,9 +130,11 @@
     </div>
     <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
         <div fxFlex fxLayoutAlign="end none">
-          <button mat-raised-button *ngIf="recipientAction=='Add'" [disabled]="!data.title || !accountNo" color="primary" (click)="submit('add')">Add recipient</button>
-          <button mat-raised-button *ngIf="recipientAction=='Edit'" (click)="submit('edit')" color="primary">Edit recipient</button>
+          <button mat-raised-button *ngIf="recipientAction=='Add'" [disabled]="!data.title || !accountNo || accountNo.length!==32" color="primary" (click)="submit('add')">Add recipient</button>
+          <button mat-raised-button *ngIf="recipientAction=='Edit'" [disabled]="!data.title || !accountNo || accountNo.length!==32" (click)="submit('edit')" color="primary">Edit recipient</button>
         </div>
       </div>
   </mat-card>
 </div>
+
+<simple-notifications></simple-notifications>

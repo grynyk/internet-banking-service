@@ -1,0 +1,25 @@
+<h3 fxLayout="row">
+  <span fxFlex fxLayoutAlign="start center">
+    RECIPIENTS LIST
+  </span>
+  <div fxFlex="10" fxLayoutAlign="end center">
+    <button mat-icon-button color="warn" (click)="closeBottomSheet()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</h3>
+
+  <table mat-table [dataSource]="dataSource" style="width:100%">
+
+    <ng-container matColumnDef="title">
+      <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+    </ng-container>
+
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" (click)="SendData(row)"></tr>
+  </table>
+  <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
+    <div fxLayoutAlign="center center">
+      <h4 class="message" fxLayoutAlign="center center">You don't have any recipients yet</h4>
+    </div>
+  </div>
+  <mat-paginator [pageSizeOptions]="[5]" [showFirstLastButtons]="false"></mat-paginator>

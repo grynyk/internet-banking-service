@@ -183,12 +183,16 @@
         </tr>
         <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
       </table>
-      <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="showFirstLastButtons"></mat-paginator>
+
       <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
         <div fxLayoutAlign="center center">
           <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions yet</h4>
         </div>
       </div>
+
+      <mat-paginator [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="showFirstLastButtons">
+    </mat-paginator>
     </div>
   </div>
 </mat-card>
