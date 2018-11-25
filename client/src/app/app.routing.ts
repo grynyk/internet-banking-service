@@ -22,7 +22,7 @@ const appRoutes: Routes = [
     children: [
       { path: '', component: HomeComponent },
       { path: 'transactions-history', component: PaymentsHistoryComponent},
-      { path: 'recipients', component: RecipientsManagerComponent}
+      { path: 'recipients-manager', component: RecipientsManagerComponent}
     ]
   },
   { path: 'registration', component: RegistrationComponent },

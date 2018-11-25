@@ -10,15 +10,17 @@ import { AddExpenseDialogComponent } from './add-expense-dialog/add-expense-dial
 import { ExpenseDetailsDialogComponent } from './expense-details-dialog/expense-details-dialog.component';
 import { ImportedDataComponent } from './imported-data/imported-data.component';
 import { TransactionsService } from '../../services/transactions.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import jsPDF from 'jspdf';
+
 @Component({
   selector: 'app-payments-history',
   templateUrl: './payments-history.component.html',
   styleUrls: ['./payments-history.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ]
@@ -43,9 +45,10 @@ export class PaymentsHistoryComponent implements OnInit {
   public selectedRowIndex: any;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @Input() pageSizeOptions = [ 10,25,50 ];
+  @Input() pageSizeOptions = [10, 25, 50];
   @Input() showFirstLastButtons = true;
-  constructor(private transactionsService: TransactionsService,
+  constructor(
+    private transactionsService: TransactionsService,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
     public canDeactivateGuard: CanDeactivateGuard) {
@@ -65,7 +68,7 @@ export class PaymentsHistoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res.rows);
       this.dataSource.paginator = this.paginator;
       console.log(this.dataSource.data);
-     })
+    })
   }
 
   applyFilter(filterValue: string) {
@@ -74,13 +77,40 @@ export class PaymentsHistoryComponent implements OnInit {
 
   public filterType = 'all';
 
-  getIncoming(){
+  generatePdf(row) {
+    var doc = new jsPDF();
+    doc.setFontSize(22);
+    doc.text(`PAYMENT DETAILS`, 70, 15);
+    doc.setFontSize(14);
+    doc.text(`date:`, 10, 30);
+    doc.text(`${moment(row.created_date).format('DD-MM-YYYY HH:mm')}`, 50, 30);
+    doc.text(`status:`, 10, 40);
+    doc.text(`${(''+row.status).toUpperCase()}`, 50, 40);
+    doc.text(`type:`, 10, 50);
+    doc.text(`${row.type.toUpperCase()}`, 50, 50);
+
+    doc.text(`sender:`, 10, 65);
+    doc.text(`${row.sender_name.toUpperCase()} (${row.sender_account_type.toUpperCase()})`, 50, 65);
+    doc.text(`receiver:`, 10, 75);
+    doc.text(`${row.receiver_name.toUpperCase()} (${row.receiver_account_type.toUpperCase()})`, 50, 75);
+
+    doc.text(`description:`, 10, 90);
+    doc.text(` ${row.description.toUpperCase()}`, 50, 90);
+
+    doc.setFontSize(20);
+    doc.text(`amount:  ${row.amount}`, 140, 120);
+
+
+    doc.save(`payment_${row.created_date}.pdf`);
+  }
+
+  getIncoming() {
     this.transactionsService.getIncoming().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
     })
   }
 
-  getOutgoing(){
+  getOutgoing() {
     this.transactionsService.getOutgoing().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
     })

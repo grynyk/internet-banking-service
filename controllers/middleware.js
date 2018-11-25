@@ -5,7 +5,6 @@ const Auth = {
 
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
-    console.log(token);
     if(!token) {
       return res.status(400).send({ 'message': 'Token is not provided' });
     }

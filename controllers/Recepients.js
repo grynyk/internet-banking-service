@@ -38,7 +38,7 @@ const Recipients = {
 
             return res.status(201).send({ 'message': 'Recipient created successfully' });
         } catch (error) {
-            return res.status(400).send({ 'message': 'Unable to create recepient' });
+            return res.status(400).send({ 'message': 'Unable to create recipient' });
         }
     }, async getAll(req, res) {
         try {
@@ -79,7 +79,7 @@ const Recipients = {
 
             return res.status(201).send({ 'message': 'Recipient updated successfully' });
         } catch (error) {
-            return res.status(400).send({ 'message': 'Unable to updated recepient' });
+            return res.status(400).send({ 'message': 'Unable to updated recipient' });
         }
     },
     async delete(req, res) {

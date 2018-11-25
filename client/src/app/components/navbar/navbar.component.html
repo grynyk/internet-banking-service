@@ -2,7 +2,7 @@
     <mat-toolbar-row class="header-row">
         <div>
             <a class="logo" routerLink="/">
-            <!-- <mat-icon class="logo-icon" svgIcon="logo"> </mat-icon>-->
+                <!-- <mat-icon class="logo-icon" svgIcon="logo"> </mat-icon>-->
                 uBANK
             </a>
         </div>
@@ -25,7 +25,7 @@
                         <span fxLayoutAlign="none center">
                             session timeout:&nbsp;
                             <span>
-                                    <countdown [config]="{leftTime: 10*60}"  (finished)="onSessionExpired()">$!m!:$!s!</countdown>
+                                <countdown [config]="{leftTime: 10*60}" (finished)="onSessionExpired()">$!m!:$!s!</countdown>
                             </span>
                             <i class="material-icons refresh-icon">cached</i>
                         </span>
@@ -41,7 +41,7 @@
     <mat-toolbar-row class="navbar">
         <div fxFlex="5">
             <button mat-icon-button (click)="onToggleSidenav()">
-                <mat-icon class="icons-style" >menu</mat-icon>
+                <mat-icon class="icons-style">menu</mat-icon>
             </button>
         </div>
         <div fxFlex fxLayout fxLayoutAlign="start center" fxHide fxShow.gt-sm>
@@ -51,6 +51,9 @@
                 </li>
                 <li>
                     <a class="navbar-item" routerLink="/transactions-history">Transactions history</a>
+                </li>
+                <li>
+                    <a class="navbar-item" routerLink="/recipients-manager">Recipients manager</a>
                 </li>
             </ul>
         </div>
