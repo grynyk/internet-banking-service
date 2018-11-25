@@ -67,7 +67,6 @@ export class PaymentsHistoryComponent implements OnInit {
     this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
       this.dataSource.paginator = this.paginator;
-      console.log(this.dataSource.data);
     })
   }
 
@@ -90,16 +89,22 @@ export class PaymentsHistoryComponent implements OnInit {
     doc.text(`${row.type.toUpperCase()}`, 50, 50);
 
     doc.text(`sender:`, 10, 65);
+    doc.setFontSize(12);
     doc.text(`${row.sender_name.toUpperCase()} (${row.sender_account_type.toUpperCase()})`, 50, 65);
-    doc.text(`receiver:`, 10, 75);
-    doc.text(`${row.receiver_name.toUpperCase()} (${row.receiver_account_type.toUpperCase()})`, 50, 75);
+    doc.setFontSize(14);
+    doc.text(`${row.sender_account_number.toUpperCase()}`, 50, 73);
 
-    doc.text(`description:`, 10, 90);
-    doc.text(` ${row.description.toUpperCase()}`, 50, 90);
+    doc.text(`receiver:`, 10, 83);
+    doc.setFontSize(12);
+    doc.text(`${row.receiver_name.toUpperCase()} (${row.receiver_account_type.toUpperCase()})`, 50, 83);
+    doc.setFontSize(14);
+    doc.text(`${row.sender_account_number.toUpperCase()}`, 50, 91);
+
+    doc.text(`description:`, 10, 106);
+    doc.text(`${row.description.toUpperCase()}`, 50, 106);
 
     doc.setFontSize(20);
-    doc.text(`amount:  ${row.amount}`, 140, 120);
-
+    doc.text(`amount:  ${row.amount}`, 140, 125);
 
     doc.save(`payment_${row.created_date}.pdf`);
   }

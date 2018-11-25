@@ -89,8 +89,8 @@ const Transaction = {
           await client.query(`UPDATE ${receiverAccountData.type} SET
               balance = $1 WHERE id = $2 returning *`, [receiversUpdatedBalance, req.body.receiverAccountNo]);
           await client.query(`INSERT INTO
-              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
-              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
+              transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name,sender_account_number,receiver_account_number)
+              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12,$13,$14) returning *`, [
               uuid.v4(),
               req.body.description,
               req.body.amount,
@@ -102,7 +102,9 @@ const Transaction = {
               receiverAccountData.type,
               'domestic_transaction',
               receiverUserData.firstname + ' ' + receiverUserData.lastname,
-              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname
+              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname,
+              rows[0].id,
+              req.body.receiverAccountNo
             ]);
         } else {
           throw 'not enough funds';
@@ -128,8 +130,8 @@ const Transaction = {
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
 
           await client.query(`INSERT INTO
-                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name)
-                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12) returning *`, [
+                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name,sender_account_number,receiver_account_number)
+                VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12,$13,$14) returning *`, [
               uuid.v4(),
               req.body.description,
               req.body.amount,
@@ -141,7 +143,9 @@ const Transaction = {
               'primary_account',
               'external_transaction',
               req.body.receiverName,
-              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname
+              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname,
+              rows[0].id,
+              req.body.receiverAccountNo
             ]);
         } else {
           throw 'not enough funds';
