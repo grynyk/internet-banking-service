@@ -58,6 +58,7 @@ a {
 }
 
 .user-data{
+    cursor: pointer;
     font-size: 14px;
     color: #4F5D6F;
     padding-right:10px;

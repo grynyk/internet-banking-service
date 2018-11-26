@@ -9,7 +9,7 @@ import Recipients from './controllers/Recepients';
 
 dotenv.config();
 
-const app = express()
+const app = express();
 
 app.use(express.json())
 
@@ -39,9 +39,11 @@ app.delete('/api/recipients/delete/:id', Auth.verifyToken, Recipients.delete);
 app.get('/api/transaction/getAll', Auth.verifyToken, Transaction.getAllTransactions);
 app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomingTransactions);
 app.get('/api/transaction/getOutgoing', Auth.verifyToken, Transaction.getOutgoingTransactions);
+app.post('/api/transaction/custom', Auth.verifyToken, Transaction.addCustomTransaction);
 app.post('/api/transaction/domestic', Auth.verifyToken, Transaction.domesticTransaction);
 app.post('/api/transaction/external', Auth.verifyToken, Transaction.externalTransaction);
 app.post('/api/transaction/transfer', Auth.verifyToken, Transaction.transfer);
+app.delete('/api/transaction/delete/:id', Auth.verifyToken, Transaction.deleteTransaction);
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});

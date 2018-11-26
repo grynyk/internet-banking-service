@@ -55,12 +55,49 @@ const Transaction = {
     } catch (error) {
       return res.status(400).send(error);
     }
-  },
+  },  async addCustomTransaction(req, res) {
+    try {
+      const { rows, rowCount } = await db.query(
+        `INSERT INTO
+              transactions(id, description, amount, created_date, sender_uuid,
+              receiver_uuid, status, sender_account_type, receiver_account_type,
+              type,receiver_name,sender_name,sender_account_number,receiver_account_number)
+              VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12,$13,$14) returning *`, [
+              uuid.v4(),
+              req.body.description,
+              req.body.amount,
+              moment(new Date()),
+              req.user.id,
+              null,
+              true,
+              null,
+              null,
+              'custom_transaction',
+              null,
+              req.user.firstname + ' ' +  req.user.lastname,
+              null,
+              null
+            ]);
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },async deleteTransaction(req, res) {
+    try {
+        const { rows } = await db.query(`DELETE FROM transactions WHERE id=$1 returning *`, [req.params.id]);
+        if (!rows[0]) {
+            return res.status(404).send({ 'message': 'transaction not found' });
+        }
+        return res.status(200).send({ 'message': 'transaction successfully deleted' });
+    } catch (error) {
+        return res.status(400).send({ 'message': 'unable to delete transaction' });
+    }
+},
   async domesticTransaction(req, res) {
     tx(async client => {
       const { rows } = await client.query(`SELECT * FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
 
-      const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
+      // const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
 
       const sendersBalance = rows[0].balance;
       const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
@@ -104,7 +141,7 @@ const Transaction = {
               receiverAccountData.type,
               'domestic_transaction',
               receiverUserData.firstname + ' ' + receiverUserData.lastname,
-              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname,
+              req.user.firstname + ' ' +  req.user.lastname,
               rows[0].id,
               req.body.receiverAccountNo
             ]);
@@ -122,8 +159,7 @@ const Transaction = {
       const sendersBalance = rows[0].balance;
       const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
 
-      const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
-      console.log(rows, senderName, sendersBalance, req.body.amount);
+      // const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
 
       try {
 
@@ -145,7 +181,7 @@ const Transaction = {
               'primary_account',
               'external_transaction',
               req.body.receiverName,
-              senderName.rows[0].firstname + ' ' + senderName.rows[0].lastname,
+              req.user.firstname + ' ' + req.user.lastname,
               rows[0].id,
               req.body.receiverAccountNo
             ]);

@@ -160,9 +160,10 @@ export class PaymentsHistoryComponent implements OnInit {
     });
   }
 
-  deleteDialog(waterMeterId) {
+  deleteDialog() {
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
-      data: { title: 'Are you sure you want to hide this payment' }
+      width:'500px',
+      data: { title: 'Do you want to hide this payment ?' }
     });
 
     dialogRef.afterClosed().subscribe(result => {

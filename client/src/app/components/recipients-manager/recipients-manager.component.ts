@@ -74,7 +74,8 @@ export class RecipientsManagerComponent implements OnInit {
 
   delete(id){
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
-      data: { title: `Are you sure you want to delete ${this.selectedRow.title} from your recipients list ?` }
+      width:'500px',
+      data: { title: `Do you want to delete this recipient ?` }
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -40,7 +40,7 @@ import { SideMenuComponent } from './components/sidemenu/sidemenu.component';
 import { LoginComponent } from './components/login/login.component';
 import { MainComponent } from './components/main/main.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
-import { UsersComponent } from './components/users/users.component';
+
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Http, HttpModule } from '@angular/http';
@@ -71,6 +71,7 @@ import { SimpleNotificationsModule } from 'angular2-notifications';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { RecipientsListComponent } from './components/recipients-manager/recipients-list/recipients-list.component';
 import { AboutComponent } from './components/about/about.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 const options = {};
 
 @NgModule({
@@ -81,7 +82,6 @@ const options = {};
     MainComponent,
     NavbarComponent,
     HomeComponent,
-    UsersComponent,
     RegistrationComponent,
     Page404Component,
     ErrorHandlerDialogComponent,
@@ -97,6 +97,7 @@ const options = {};
     RecipientsManagerComponent,
     RecipientsListComponent,
     AboutComponent,
+    UserProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -166,7 +167,8 @@ const options = {};
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
     AccountDetailsComponent,
-    RecipientsListComponent
+    RecipientsListComponent,
+    UserProfileComponent
   ]
 })
 export class AppModule { }

@@ -10,7 +10,7 @@
         <div fxFlex fxLayoutAlign="end center">
             <ul fxLayout fxLayoutGap="10px" class="header-items">
                 <li class="user-data">
-                    <a routerLink="/profile">
+                    <a (click)="openAccount()">
                         <span fxLayoutAlign="none center">
                             <i class="material-icons  account-icon">
                                 person_pin
@@ -50,7 +50,7 @@
                     <a class="navbar-item" routerLink="/">Home</a>
                 </li>
                 <li>
-                    <a class="navbar-item" routerLink="/transactions-history">Transactions history</a>
+                    <a class="navbar-item" routerLink="/payments-history">Payments history manager</a>
                 </li>
                 <li>
                     <a class="navbar-item" routerLink="/recipients-manager">Recipients manager</a>

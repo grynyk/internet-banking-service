@@ -1,4 +1,12 @@
-<h1 class="dialog-title" mat-dialog-title>Add custom spending</h1>
+<h3 mat-dialog-title fxLayout="row">
+    <div fxFlex fxLayoutAlign="start center">
+        Add custom payment
+    </div>
+
+    <div fxFlex="10" fxLayoutAlign="end center">
+        <button mat-icon-button color="warn" mat-dialog-close><mat-icon>close</mat-icon></button>
+    </div>
+  </h3>
 
 <div fxLayout="column">
   <mat-form-field appearance="outline">
@@ -17,7 +25,6 @@
 
 <div mat-dialog-actions fxLayout="row" class="dialog-actions">
     <div fxFlex fxLayoutAlign="end none">
-      <button color="warn" mat-button mat-dialog-close>Close</button>
       <button color="primary" type="submit" [mat-dialog-close]="customPayment"
         mat-raised-button>Submit</button>
     </div>

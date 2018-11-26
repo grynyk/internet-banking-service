@@ -7,13 +7,14 @@ import { CountdownComponent } from 'ngx-countdown';
 import { Router, NavigationStart, NavigationEnd, NavigationError } from '@angular/router';
 import { ErrorHandlerDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
 import { AuthenticationService } from '../../services/authentication.service';
+import { UserProfileComponent } from '../user-profile/user-profile.component';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent{
   @ViewChild(CountdownComponent) counter: CountdownComponent;
 
 
@@ -44,12 +45,16 @@ export class NavbarComponent implements OnInit {
     );
   }
 
-  ngOnInit() {
-
-  }
-
   refreshSession() {
     this.counter.restart();
+  }
+
+  openAccount() {
+    const dialogRef = this.dialog.open(UserProfileComponent, {
+      width: '650px',
+      disableClose: true,
+      data: { user: this.user }
+    });
   }
 
   onSessionExpired() {

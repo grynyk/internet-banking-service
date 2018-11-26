@@ -1,0 +1,46 @@
+<div fxLayout="row">
+    <div fxFlex="30" fxLayout="column" fxHide.xs>
+        <mat-icon class="user-icon" svgIcon="profile-icon"></mat-icon>
+    </div>
+    <div fxFlex fxLayout="column">
+      <div>
+          <mat-list>
+              <mat-list-item>
+                  <h3 mat-line class="profile-header">{{data.user.firstname}} {{data.user.lastname}}
+                    <span *ngIf="data.user.admin==true">
+                      &nbsp;(admin)
+                    </span>
+                  </h3>
+              </mat-list-item>
+  
+              <table>
+                      <tr>
+                        <td><strong>email:</strong></td>
+                        <td>{{data.user.email}}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>address:</strong></td>
+                        <td>{{data.user.address}}</td>
+                      </tr>
+                      <tr>
+                          <td><strong>birthdate:</strong></td>
+                          <td>DD.MM.YYY</td>
+                        </tr>
+                    </table>
+  
+            </mat-list>
+      </div>
+      <div>
+
+      </div>
+      <div></div>
+      <div></div>
+    </div>
+  
+  </div>
+  
+  <div mat-dialog-actions fxLayout="row" class="dialog-actions">
+      <div fxFlex fxLayoutAlign="end none">
+          <button color="warn" mat-button mat-dialog-close>Close</button>
+      </div>
+  </div>
