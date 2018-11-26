@@ -36,14 +36,17 @@ export class PaymentsDialogComponent {
   openRecipients() {
     this.recipientsService.getAll().subscribe((result: any) => {
       let listData:any;
+      let noDataMessage:string;
       if(this.data.type=='external'){
         listData = result.rows.filter(res => res.type=='external_transaction');
+        noDataMessage = "You don't have any recipients for external transactions";
       }
       if(this.data.type=='domestic'){
         listData = result.rows.filter(res => res.type=='domestic_transaction');
+        noDataMessage = "You don't have any recipients for domestic transactions";
       }
       const bottomSheetRef = this.bottomSheet.open(RecipientsListComponent, {
-        data: { recipients: listData }
+        data: { recipients: listData ,noDataMessage:noDataMessage}
       });
       bottomSheetRef.afterDismissed().subscribe(result => {
         if(this.data.type=='external'){

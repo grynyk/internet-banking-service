@@ -13,10 +13,10 @@
             <span class="hide-lg"> Add</span>
           </button>
 
-          <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="deleteDialog(selectedRowIndex)"
-            class="delete-btn" mat-raised-button>
-            <mat-icon>delete_outline</mat-icon>
-            <span class="hide-lg"> Delete</span>
+          <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" (click)="deleteDialog(selectedRowIndex)"
+            class="hide-btn" mat-raised-button>
+            <mat-icon>visibility_off</mat-icon>
+            <span class="hide-lg"> Hide</span>
           </button>
         </div>
       </div>
@@ -60,7 +60,7 @@
             <span *ngIf="element.type=='external_transaction'">
               EXTERNAL TRANSACTION
             </span>
-            <span *ngIf="element.type=='domestic'">
+            <span *ngIf="element.type=='domestic_transaction'">
               DOMESTIC TRANSACTION
             </span>
             <span *ngIf="element.type=='deposit'">
@@ -72,6 +72,9 @@
             <span *ngIf="element.type=='transfer'">
               TRANSFER
             </span>
+            <span *ngIf="element.type=='custom_transaction'">
+                CUSTOM
+              </span>
           </td>
         </ng-container>
 
@@ -117,7 +120,7 @@
           <td mat-cell style="background: #f5f5f5;" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
             <div class="row-details" [@detailExpand]="element == selectedRow&&element.type!=='deposit'&&element.type!=='withdrawal'&&selection.isSelected(element) ? 'expanded' : 'collapsed'">
               <div class="expanded-description" fxLayout="row" fxLayoutAlign="space-between">
-                <div fxFlex="45" fxLayout="column" style="border-right:dashed 1px #aeaeae">
+                <div fxFlex="45" fxLayout="column" *ngIf="element.type!=='custom_transaction'" style="border-right:dashed 1px #aeaeae">
                   <mat-list>
                     <mat-list-item>
                       <mat-icon mat-list-icon>trending_flat</mat-icon>
@@ -160,7 +163,8 @@
                     <textarea matInput disabled class="title-textarea" [value]="element.description"></textarea>
                   </mat-form-field>
                   <div fxLayout="row" fxLayoutAlign="end none">
-                    <button mat-raised-button color="primary" (click)="generatePdf(element)">
+                    <button mat-raised-button
+                    *ngIf="(element.type!=='transfer')&&(element.type!=='custom_transaction')" color="primary" (click)="generatePdf(element)">
                       <i class="material-icons">
                         file_copy
                       </i> Download *.pdf</button>
@@ -192,3 +196,5 @@
     </div>
   </div>
 </mat-card>
+
+<simple-notifications></simple-notifications>

@@ -1,51 +1,24 @@
-<h1 class="dialog-title" mat-dialog-title>Add receipt</h1>
-<div class="addReceiptToggle">
-  <mat-slide-toggle color="accent" [(ngModel)]="addReceiptToggle">
-    <strong> Add manually</strong>
-  </mat-slide-toggle>
-</div>
+<h1 class="dialog-title" mat-dialog-title>Add custom spending</h1>
 
-
-<div fxLayout="row" class="file-input-row" *ngIf="addReceiptToggle==false">
-  <div fxFlex fxLayoutAlign="start center">
-    <label class="file-upload-input-button">
-      <input #inputFile type="file" (change)="getReceiptData($event)" />
-      <a [disabled]="fileReaded!==undefined" mat-raised-button color="primary">Choose file</a>
-    </label>
-    <small class="file-upload-input-name">{{fileName}}</small>
-  </div>
-  <div fxFlex="20" fxLayoutAlign="end center">
-    <button *ngIf="fileReaded!==undefined" mat-icon-button color="warn" (click)="resetFileInput()">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-</div>
-<div fxLayout="column" *ngIf="addReceiptToggle==true">
+<div fxLayout="column">
   <mat-form-field appearance="outline">
-    <mat-label>Product name</mat-label>
-    <input matInput placeholder="Beer" name="productName" [(ngModel)]="manualReceipt.productName">
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Price</mat-label>
-    <input matInput placeholder="5 USD" name="productPrice" [(ngModel)]="manualReceipt.productPrice">
-  </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>Location</mat-label>
-    <input matInput placeholder="Stara zajezdnia" name="location" [(ngModel)]="manualReceipt.location">
+    <mat-label>Amount</mat-label>
+    <input matInput placeholder="5 USD" name="amount" type="number" [(ngModel)]="customPayment.amount">
   </mat-form-field>
 
   <mat-form-field appearance="outline">
-      <mat-label>Type</mat-label>
-      <input matInput placeholder="Grocery store" name="type" [(ngModel)]="manualReceipt.type">
+      <mat-label>Description</mat-label>
+      <textarea matInput placeholder="Grocery store" name="Description" rows="5" [(ngModel)]="customPayment.description">
+
+      </textarea>
     </mat-form-field>
 </div>
-<mat-progress-bar *ngIf="fileIsLoading == true" class="loading" mode="indeterminate" value="40"></mat-progress-bar>
 
 
 <div mat-dialog-actions fxLayout="row" class="dialog-actions">
     <div fxFlex fxLayoutAlign="end none">
       <button color="warn" mat-button mat-dialog-close>Close</button>
-      <button color="primary" type="submit" [mat-dialog-close]="manualReceipt"
-        mat-raised-button>Accept</button>
+      <button color="primary" type="submit" [mat-dialog-close]="customPayment"
+        mat-raised-button>Submit</button>
     </div>
   </div>

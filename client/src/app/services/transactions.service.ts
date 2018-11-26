@@ -22,6 +22,10 @@ export class TransactionsService {
     return this.httpClient.get(`${this.url}/getOutgoing`).map(response => response);
   }
 
+  custom(data) {
+    return this.httpClient.post(`${this.url}/custom`, data).map(response => response);
+  }
+
   domestic(data) {
     return this.httpClient.post(`${this.url}/domestic`, data).map(response => response);
   }
@@ -32,6 +36,10 @@ export class TransactionsService {
 
   transfer(data) {
     return this.httpClient.post(`${this.url}/transfer`, data).map(response => response);
+  }
+
+  delete(id) {
+    return this.httpClient.delete(`${this.url}/delete/${id}`).map(response => response);
   }
 }
 

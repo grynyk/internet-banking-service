@@ -19,7 +19,7 @@
   </table>
   <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
     <div fxLayoutAlign="center center">
-      <h4 class="message" fxLayoutAlign="center center">You don't have any recipients yet</h4>
+      <h4 class="message" fxLayoutAlign="center center">{{data.noDataMessage}}</h4>
     </div>
   </div>
   <mat-paginator [pageSizeOptions]="[5]" [showFirstLastButtons]="false"></mat-paginator>

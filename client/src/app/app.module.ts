@@ -57,7 +57,6 @@ import { ManageItemDialogComponent } from './components/dialogs/manage-item-dial
 import { AddExpenseDialogComponent } from './components/payments-history/add-expense-dialog/add-expense-dialog.component';
 import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { SharedModule } from './shared/shared.module';
-import { ExpenseDetailsDialogComponent } from './components/payments-history/expense-details-dialog/expense-details-dialog.component';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { ImportedDataComponent } from './components/payments-history/imported-data/imported-data.component';
 import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
@@ -71,6 +70,7 @@ import { AccountDetailsComponent } from './components/home/account-details/accou
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { RecipientsListComponent } from './components/recipients-manager/recipients-list/recipients-list.component';
+import { AboutComponent } from './components/about/about.component';
 const options = {};
 
 @NgModule({
@@ -87,7 +87,6 @@ const options = {};
     ErrorHandlerDialogComponent,
     ManageItemDialogComponent,
     AddExpenseDialogComponent,
-    ExpenseDetailsDialogComponent,
     ImportedDataComponent,
     MoneyBoxesDialogComponent,
     SendMoneyComponent,
@@ -97,6 +96,7 @@ const options = {};
     AccountDetailsComponent,
     RecipientsManagerComponent,
     RecipientsListComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -162,7 +162,6 @@ const options = {};
     ManageItemDialogComponent,
     AddExpenseDialogComponent,
     ImportedDataComponent,
-    ExpenseDetailsDialogComponent,
     MoneyBoxesDialogComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent,

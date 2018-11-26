@@ -7,11 +7,12 @@ import { ManageItemDialogComponent } from '../../components/dialogs/manage-item-
 import * as model from '../../shared/exportModels'
 import * as moment from 'moment';
 import { AddExpenseDialogComponent } from './add-expense-dialog/add-expense-dialog.component';
-import { ExpenseDetailsDialogComponent } from './expense-details-dialog/expense-details-dialog.component';
 import { ImportedDataComponent } from './imported-data/imported-data.component';
 import { TransactionsService } from '../../services/transactions.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import jsPDF from 'jspdf';
+import { FormBuilder } from '@angular/forms';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-payments-history',
@@ -47,7 +48,8 @@ export class PaymentsHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @Input() pageSizeOptions = [10, 25, 50];
   @Input() showFirstLastButtons = true;
-  constructor(
+  constructor(private fb: FormBuilder,
+    private notificationsService: NotificationsService,
     private transactionsService: TransactionsService,
     public dialog: MatDialog,
     private changeDetectorRefs: ChangeDetectorRef,
@@ -75,6 +77,21 @@ export class PaymentsHistoryComponent implements OnInit {
   }
 
   public filterType = 'all';
+
+  showNotification(type,title,content,timeOut){
+    let options= this.fb.group({
+			type: type,
+			title: title,
+			content: content,
+      timeOut: timeOut,
+      clickIconToClose:true,
+      showProgressBar:false,
+			clickToClose: true,
+			animate: 'scale'
+    }).getRawValue();
+
+    this.notificationsService.create(options.title, options.content,options.type,options);
+  }
 
   generatePdf(row) {
     var doc = new jsPDF();
@@ -133,30 +150,28 @@ export class PaymentsHistoryComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const dialogRef = this.dialog.open(ImportedDataComponent, {
-          width: '500px',
-          data: { receipt: result }
+        this.transactionsService.custom(result).subscribe((result: any) => {
+          console.log(result);
+          this.showNotification('success','Payment',`was just successfully added`,8000);
+          this.refresh();
         });
       }
 
     });
   }
 
-  detailsDialog(row) {
-    const dialogRef = this.dialog.open(ExpenseDetailsDialogComponent, {
-      width: '500px',
-      data: { rowData: row }
-    });
-  }
-
   deleteDialog(waterMeterId) {
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
-      data: { title: 'Are you sure you want to delete this item ?' }
+      data: { title: 'Are you sure you want to hide this payment' }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
-
+        this.transactionsService.delete(this.selectedRow.id).subscribe((result: any) => {
+          console.log(result);
+          this.showNotification('success','Payment',`was just successfully hidden`,8000);
+          this.refresh();
+        });
       }
     });
   }

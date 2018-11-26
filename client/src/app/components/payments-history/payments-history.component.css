@@ -35,8 +35,9 @@ mat-checkbox{
     margin-left: 10px;
 }
 
-.delete-btn{
+.hide-btn{
     color: #fff;
+    background: #6f6f6f;
     margin-left: 10px;
     margin-right: 10px;
 }
@@ -95,10 +96,6 @@ table {
     padding:5px;
   }
 
-  .footer-row{
-    background-color: #4390bc;
-    font-weight:bold;
-  }
 
   :host ::ng-deep .mat-list .mat-list-item {
     height: 60px;
@@ -133,7 +130,7 @@ table {
     .add-btn{
         min-width:1%!important;
     }
-    .delete-btn{
+    .hide-btn{
         min-width:1%!important;
     }
 }

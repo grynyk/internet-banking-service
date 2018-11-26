@@ -12,7 +12,7 @@ export class SideMenuComponent implements OnInit {
   menuItems: { icon: string, text: string, url: string }[] = [
     { 'icon': 'assignment_ind',     'text': 'Recipients',         'url': '/recipients' },
     { 'icon': 'trending_up',     'text': 'Analytics',         'url': '/analytics' },
-    { 'icon': 'info',     'text': 'About',         'url': '/manage-history' }
+    { 'icon': 'info',     'text': 'About',         'url': '/about' }
   ];
 
   constructor(private router: Router) {
