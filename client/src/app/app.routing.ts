@@ -10,6 +10,7 @@ import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { AboutComponent } from './components/about/about.component';
+import { StatsComponent } from './components/stats/stats.component';
 
 
 
@@ -23,7 +24,7 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'payments-history', component: PaymentsHistoryComponent},
       { path: 'recipients-manager', component: RecipientsManagerComponent},
-      { path: 'about', component: AboutComponent}
+      { path: 'stats', component: StatsComponent}
     ]
   },
   { path: 'registration', component: RegistrationComponent },

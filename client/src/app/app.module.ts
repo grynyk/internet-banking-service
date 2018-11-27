@@ -72,6 +72,9 @@ import { RecipientsManagerComponent } from './components/recipients-manager/reci
 import { RecipientsListComponent } from './components/recipients-manager/recipients-list/recipients-list.component';
 import { AboutComponent } from './components/about/about.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+
+import { ChartsModule } from 'ng2-charts';
+import { StatsComponent } from './components/stats/stats.component';
 const options = {};
 
 @NgModule({
@@ -98,6 +101,7 @@ const options = {};
     RecipientsListComponent,
     AboutComponent,
     UserProfileComponent,
+    StatsComponent,
   ],
   imports: [
     BrowserModule,
@@ -144,7 +148,8 @@ const options = {};
     FlexLayoutModule,
     CountdownModule,
     HttpModule,
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot(options),
+    ChartsModule
   ],
   providers: [
     {

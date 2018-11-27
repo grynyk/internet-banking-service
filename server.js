@@ -6,6 +6,7 @@ import User from './controllers/User';
 import Auth from './controllers/middleware';
 import Transaction from './controllers/Transaction';
 import Recipients from './controllers/Recepients';
+import Statistics from './controllers/Statistics';
 
 dotenv.config();
 
@@ -35,7 +36,6 @@ app.get('/api/recipients/getAll', Auth.verifyToken, Recipients.getAll);
 app.put('/api/recipients/update/:id', Auth.verifyToken, Recipients.update);
 app.delete('/api/recipients/delete/:id', Auth.verifyToken, Recipients.delete);
 
-
 app.get('/api/transaction/getAll', Auth.verifyToken, Transaction.getAllTransactions);
 app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomingTransactions);
 app.get('/api/transaction/getOutgoing', Auth.verifyToken, Transaction.getOutgoingTransactions);
@@ -45,9 +45,11 @@ app.post('/api/transaction/external', Auth.verifyToken, Transaction.externalTran
 app.post('/api/transaction/transfer', Auth.verifyToken, Transaction.transfer);
 app.delete('/api/transaction/delete/:id', Auth.verifyToken, Transaction.deleteTransaction);
 
+app.get('/api/statistics/getAll', Auth.verifyToken, Statistics.getStatistics);
+
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});
-})
+});
 
 app.listen(3000)
 console.log('app running on port ', 3000);

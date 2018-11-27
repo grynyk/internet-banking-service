@@ -1,0 +1,24 @@
+<div fxLayout="row" class="body">
+  <mat-card fxFlex="48">
+    <div style="display: block;">
+    <canvas baseChart height="300"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+    </div>
+</mat-card>
+<mat-card fxFlex="48">
+  <div style="display: block;">
+    <canvas baseChart height="300"
+                [datasets]="lineChartData"
+                [labels]="lineChartLabels"
+                [options]="lineChartOptions"
+                [colors]="lineChartColors"
+                [legend]="lineChartLegend"
+                [chartType]="lineChartType"></canvas>
+  </div>
+</mat-card>
+</div>
