@@ -1,14 +1,18 @@
-<div class="page">
-<app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
-<mat-sidenav-container fullscreen class="sidenav-container">
-    <mat-sidenav style="background: #eeeeee;border-right-style: none" #sidenav role="navigation" mode="side">
-        <app-sidemenu (closeSidenav)="sidenav.close()"></app-sidemenu>
-    </mat-sidenav>
-    
-    <mat-sidenav-content>
-        <main >
-            <router-outlet></router-outlet>
-        </main>
-    </mat-sidenav-content>
-</mat-sidenav-container>
-</div>
+<div class="page" fullscreen>
+        <app-navbar (sidenavToggle)="sidenav.toggle()"></app-navbar>
+        <mat-sidenav-container class="sidenav-container">
+            <mat-sidenav class="side-sidenav"
+            style="background: #eeeeee;border-right-style: none;padding-right:15px"
+            #sidenav
+            role="navigation"
+            [mode]="sidemenuMode">
+                <app-sidemenu (closeSidenav)="sidenav.close()"></app-sidemenu>
+            </mat-sidenav>
+        
+            <mat-sidenav-content>
+                <main>
+                    <router-outlet></router-outlet>
+                </main>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+        </div>

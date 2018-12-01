@@ -9,6 +9,16 @@ mat-card{
     margin-bottom:15px;
 }
 
+:host ::ng-deep .mat-list{
+    padding: 0!important;
+    margin: 0!important;
+  }
+
+:host ::ng-deep .mat-list .mat-list-item {
+    height: 40px;
+    font-size: 14px;
+  }
+
 .buttons{
     margin-bottom:10px;
     margin-top:10px;
@@ -54,7 +64,13 @@ mat-card{
 .message{
     color: #6f6f6f;
 }
-
+.title-textarea{
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    min-height:80px;
+    color: #404004;
+    padding:8px;
+}
 table {
     width: 100%;
   }
@@ -85,7 +101,9 @@ table {
     padding:5px;
   }
 
-
+.details-first-section{
+    border-right:dashed 1px #aeaeae
+}
 
 .selected-row{
     background: #f5f5f5;
@@ -93,6 +111,12 @@ table {
 
 mat-form-field{
     margin-bottom: -1.25em!important;
+ }
+
+ .account-number-field{
+    font-weight: bold;
+    padding-left:15px;
+    padding-top:5px;
  }
 
 @media only screen and (max-width: 599px) {
@@ -107,5 +131,31 @@ mat-form-field{
     }
     .edit-btn{
         min-width:1%!important;
+    }
+    .details-first-section{
+        border-right:none;
+    }
+
+    .row-details {
+        min-height:250px;
+        margin:0!important;
+        padding:0!important;
+      }
+      .account-number-field{
+        font-size:12px;
+     }
+     :host ::ng-deep .mat-list .mat-list-item {
+        font-size: 12px;
+      }
+}
+
+@media only screen and (max-width: 959px) {
+    .row-details {
+        min-height:250px;
+        margin:0!important;
+        padding:0!important;
+      }
+      .details-first-section{
+        border-right:none;
     }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { StatisticsService } from '../../services/statistics.service';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
@@ -39,11 +39,22 @@ export class StatsComponent implements OnInit {
         return +item.amount;
       });
     });
-
-    for (let i = 1; i <= 29; i++) {
-      this.lineChartLabels.push(i);
-    }
-    this.lineChartLabels.push('today');
+    let finishDate =  moment();
+    let startDate = moment().subtract(30, 'days');
+    console.log(startDate,finishDate);
+    for (let i = moment(startDate) ; i.isBefore(finishDate) ; i.add(1,'days')) {
+      this.lineChartLabels.push(i.format('DD.MM'));
+      }
+ 
+    // for (let i = 1; i <= 30; i++) {
+    //   if(i==30){
+    //     this.lineChartLabels.push('today');
+    //   }else if(i==29){
+    //     this.lineChartLabels.push('yest.');
+    //   }else{
+    //     this.lineChartLabels.push(i);
+    //   }
+    // }
   }
 
 

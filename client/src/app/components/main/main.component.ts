@@ -1,4 +1,4 @@
-import { Component, OnInit ,Input} from '@angular/core';
+import { Component, OnInit ,Input, HostListener} from '@angular/core';
 import { UserService } from '../../services/user.service';
 
 
@@ -9,7 +9,16 @@ import { UserService } from '../../services/user.service';
 })
 export class MainComponent implements OnInit {
   currentUser:any;
-
+  sidemenuMode:any;
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+   if(event.target.innerWidth<600){
+    this.sidemenuMode = 'push';
+   }
+   if(event.target.innerWidth>600){
+    this.sidemenuMode = 'side';
+   }
+  }
 
   @Input() opened:string;
   innerWidth: any;
@@ -19,6 +28,12 @@ export class MainComponent implements OnInit {
   }
 
   ngOnInit() {
+    if( window.innerWidth<600){
+      this.sidemenuMode = 'push';
+     }
+     if(window.innerWidth>600){
+      this.sidemenuMode = 'side';
+     }
   }
 
   openSideNav(){

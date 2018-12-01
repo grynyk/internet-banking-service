@@ -10,16 +10,10 @@ mat-checkbox{
     padding: 0;
 }
 
-.filter-input{
-    margin-left:10px;
-    margin-right:10px;
-}
-
 .table-row{
     cursor: pointer;
     font-weight: bold;
 }
-
 
 .selected-row{
     background: #f5f5f5;
@@ -29,10 +23,22 @@ mat-checkbox{
     background: rgba(102,187,106, 0.5)!important;
 }
 
+.filter-input{
+    margin-left:10px;
+    margin-right:10px;
+}
+
+.filter-selector{
+    margin-left:10px;
+    margin-right:10px
+}
+
 .add-btn{
     background: #66bb6a;
     color: #fff;
     margin-left: 10px;
+    margin-bottom:25px;
+    margin-top:10px;
 }
 
 .hide-btn{
@@ -40,11 +46,13 @@ mat-checkbox{
     background: #6f6f6f;
     margin-left: 10px;
     margin-right: 10px;
-}
-
-.buttons{
     margin-bottom:25px;
     margin-top:10px;
+}
+
+.export-pdf-btn{
+    background: #4390bc!important;
+    color: #fff!important;
 }
 
 .buttons-row{
@@ -70,11 +78,14 @@ mat-cell{
 .outgoing-color{
     color:#c62828;
 }
+  
 
 table {
-    width: 100%;
+    min-width: 100%;
   }
-  
+.select-column{
+
+}
   tr.details-row {
     height: 0;
   }
@@ -94,11 +105,13 @@ table {
   .row-details {
     overflow: hidden;
     padding:5px;
+
   }
 
 
   :host ::ng-deep .mat-list .mat-list-item {
-    height: 60px;
+    height: 50px;
+    font-size: 14px;
   }
 
   
@@ -123,14 +136,71 @@ table {
         font-weight: 600;
     }
 
-@media only screen and (max-width: 599px) {
-    .hide-lg{
-        display:none;
+    .details-first-section{
+        border-right:dashed 1px #aeaeae;
     }
+@media only screen and (max-width: 599px) {
+    .select-column{
+        margin:0!important;
+        padding:0!important;
+    }
+    .table-container {    
+        overflow-x: auto;
+      }
+
     .add-btn{
         min-width:1%!important;
     }
     .hide-btn{
         min-width:1%!important;
     }
+    .details-first-section{
+        border-right:none;
+    }
+    .row-mobile-details {
+        min-height:360px;
+        margin:0!important;
+        padding:0!important;
+      }
+    .row-mobile-few-details{
+        min-height:250px;
+        margin:0!important;
+        padding:0!important;
+    }
+    .filter-input{
+        order:1;
+        margin-left:10px;
+        margin-right:10px;
+    }
+    
+    .filter-selector{
+        order:2;
+        margin-left:10px;
+        margin-right:10px
+    }
+    
+    .add-btn{
+        order:3;
+        background: #66bb6a;
+        color: #fff;
+        margin-left: 10px;
+        margin-bottom:25px;
+        margin-top:10px;
+    }
+    
+    .hide-btn{
+        order:4;
+        color: #fff;
+        background: #6f6f6f;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-bottom:25px;
+        margin-top:10px;
+    }
+    
+    .export-pdf-btn{
+        background-color: #4390bc!important;
+        color: #000!important;
+    }
+    
 }

@@ -10,10 +10,10 @@
         <div fxFlex fxLayoutAlign="end center">
             <ul fxLayout fxLayoutGap="10px" class="header-items">
                 <li class="user-data">
-                    <a (click)="openAccount()">
+                    <a (click)="openProfile()">
                         <span fxLayoutAlign="none center">
                             <i class="material-icons  account-icon">
-                                person_pin
+                                    account_circle
                             </i>
                             <strong>{{user.firstname}} {{user.lastname}} </strong>
                             <span *ngIf="user.admin">&nbsp;(Admin)</span>
@@ -39,11 +39,19 @@
 
     </mat-toolbar-row>
     <mat-toolbar-row class="navbar">
-        <div fxFlex="5">
+        <div fxFlex="5" fxHide fxShow.lt-md>
             <button mat-icon-button (click)="onToggleSidenav()">
                 <mat-icon class="icons-style">menu</mat-icon>
             </button>
         </div>
+
+        <div fxFlex="10" fxHide fxShow.lt-sm>
+                <a style="color:#fff;margin-left:20px" routerLink="/">
+                    <!-- <mat-icon class="logo-icon" svgIcon="logo"> </mat-icon>-->
+                    uBANK
+                </a>
+            </div>
+
         <div fxFlex fxLayout fxLayoutAlign="start center" fxHide fxShow.gt-sm>
             <ul fxLayout fxLayoutGap="30px" class="navigation-items">
                 <li>
@@ -62,16 +70,25 @@
             </ul>
         </div>
 
-        <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide fxShow.lt-md>
+        <div fxFlex fxLayout fxLayoutAlign="end center" fxHide fxShow.lt-sm>
+                <small fxFlex fxLayoutAlign="end center" style="color: #fff;cursor: pointer;" (click)="smallTimer.restart()">
+                    <countdown #smallTimer [config]="{leftTime: 10*60}" (finished)="onSessionExpired()">$!m!:$!s!</countdown>
+                    <i style="color: #fff" class="material-icons refresh-icon">cached</i>
+                </small>
             <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon class="icons-style">more_vert</mat-icon>
             </button>
+
             <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="/profile">Account</button>
-                <button mat-menu-item routerLink="/profile">Payments</button>
-                <button mat-menu-item routerLink="/profile">Analytics</button>
-                <button mat-menu-item routerLink="/login">Log out</button>
-            </mat-menu>
+                    <button mat-menu-item (click)="openProfile()">
+                      <mat-icon>account_circle</mat-icon>
+                      <span>{{user.firstname}} {{user.lastname}}</span>
+                    </button>
+                    <button mat-menu-item routerLink="/login">
+                      <mat-icon>exit_to_app</mat-icon>
+                      <span>Log out</span>
+                    </button>
+                  </mat-menu>
         </div>
     </mat-toolbar-row>
 </mat-toolbar>

@@ -49,7 +49,7 @@ export class NavbarComponent{
     this.counter.restart();
   }
 
-  openAccount() {
+  openProfile() {
     const dialogRef = this.dialog.open(UserProfileComponent, {
       width: '650px',
       disableClose: true,

@@ -21,7 +21,7 @@ import { NotificationsService } from 'angular2-notifications';
 export class RecipientsManagerComponent implements OnInit {
   public dataSource = new MatTableDataSource();
   public selection = new SelectionModel(true, []);
-  displayedColumns = ['select','title','accountNumber'];
+  displayedColumns = ['select','title'];
   constructor(private fb: FormBuilder,
     private notificationsService: NotificationsService,
     public dialog: MatDialog,private recipientsService:RecipientsService) { }
@@ -52,6 +52,7 @@ export class RecipientsManagerComponent implements OnInit {
   }
 
   add(){
+    window.scrollBy(0,600);
     this.recipientAction = 'Add';
     this.accountNo = '';
     this.data = {
@@ -62,6 +63,7 @@ export class RecipientsManagerComponent implements OnInit {
   }
 
   edit(row){
+    window.scrollBy(0,600);
     this.recipientAction = 'Edit';
     this.accountNo = row.account_number;
     this.recipientId = row.id;

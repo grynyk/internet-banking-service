@@ -10,8 +10,10 @@ export class SideMenuComponent implements OnInit {
 
   @Output() closeSidenav = new EventEmitter<void>();
   menuItems: { icon: string, text: string, url: string }[] = [
-    { 'icon': 'assignment_ind',     'text': 'Recipients',         'url': '/recipients' },
-    { 'icon': 'trending_up',     'text': 'Analytics',         'url': '/analytics' },
+    { 'icon': 'home',     'text': 'Home',         'url': '/' },
+    { 'icon': 'money',     'text': 'Payments',         'url': '/payments-history' },
+    { 'icon': 'trending_up',     'text': 'Statistics',         'url': '/stats' },
+    { 'icon': 'assignment_ind',     'text': 'Recipients',         'url': '/recipients-manager' },
     { 'icon': 'info',     'text': 'About',         'url': '/about' }
   ];
 

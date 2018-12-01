@@ -75,6 +75,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 
 import { ChartsModule } from 'ng2-charts';
 import { StatsComponent } from './components/stats/stats.component';
+import { FooterComponent } from './components/footer/footer.component';
 const options = {};
 
 @NgModule({
@@ -102,6 +103,7 @@ const options = {};
     AboutComponent,
     UserProfileComponent,
     StatsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

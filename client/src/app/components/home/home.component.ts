@@ -157,6 +157,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  keyPress(event: any) {
+    const pattern = /[$\&\+\,\=\?\@\|\<\>\^\%\!\"\_\`\~\-\e\E]/;
+    let inputChar = String.fromCharCode(event.charCode);
+
+    if (pattern.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
+
   accountTypeToDeposit: String;
   amountToDeposit: number;
   depositMoney(type, amount) {

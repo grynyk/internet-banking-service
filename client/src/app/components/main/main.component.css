@@ -1,19 +1,27 @@
-.page{
-    overflow: initial;
-}
 mat-sidenav-content{
     background: #eeeeee;
 }
 
 .sidenav-container{
-    top: 164px!important;
+
+    /* top: 164px!important; */
 }
 
+/* @media screen and (min-width: 599px) and (max-width: 955px){
+ .push-sidenav{
+    display:none
+ }
+ .side-sidenav{
+    display:block;
+ }
+} */
+
 @media screen and (max-width: 599px){
+
     mat-sidenav{
-        width: 100%;
+        width: 180px;
     }
     .sidenav-container{
-        top: 64px!important;
+        /* top: 64px!important; */
     }
 }

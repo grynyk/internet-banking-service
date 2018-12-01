@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, Input, ViewChild } from '@angular/core';
-import { MatDialog, MatTableDataSource, MatPaginator,MatSort } from '@angular/material';
+import { Component, OnInit, ChangeDetectorRef, Input, ViewChild, HostListener } from '@angular/core';
+import { MatDialog, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { CanDeactivateGuard } from '../../guards/can-deactivate.guard';
 import { map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -29,7 +29,7 @@ import { NotificationsService } from 'angular2-notifications';
 export class PaymentsHistoryComponent implements OnInit {
 
   @Input() displayOnlyTable = false;
-
+  displayColumn = true;
   displayedColumns: string[];
   dataSource = new MatTableDataSource();
 
@@ -59,12 +59,44 @@ export class PaymentsHistoryComponent implements OnInit {
 
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    if (event.target.innerWidth < 600) {
+      if (this.displayOnlyTable == false) {
+        this.displayedColumns = ['select', 'date', 'amount', 'type'];
+        this.displayColumn = false;
+      } else {
+        this.displayedColumns = ['date', 'amount', 'type'];
+        this.displayColumn = false;
+      }
+    }
+    if (event.target.innerWidth > 600) {
+      if (this.displayOnlyTable == false) {
+        this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name'];
+        this.displayColumn = true;
+      } else {
+        this.displayedColumns = ['date', 'amount', 'type', 'receiver_name'];
+        this.displayColumn = true;
+      }
+    }
+  }
   ngOnInit() {
     this.refresh();
-    if (this.displayOnlyTable == false) {
-      this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name'];
-    } else {
-      this.displayedColumns = ['date', 'amount', 'type', 'receiver_name'];
+    if (window.innerWidth < 600) {
+      if (this.displayOnlyTable == false) {
+        this.displayedColumns = ['select', 'date', 'amount', 'type'];
+        this.displayColumn = false;
+      } else {
+        this.displayedColumns = ['date', 'amount', 'type'];
+        this.displayColumn = false;
+      }
+    }
+    if (window.innerWidth > 600) {
+      if (this.displayOnlyTable == false) {
+        this.displayedColumns = ['select', 'date', 'amount', 'type', 'receiver_name'];
+      } else {
+        this.displayedColumns = ['date', 'amount', 'type', 'receiver_name'];
+      }
     }
   }
   refresh() {
@@ -81,19 +113,19 @@ export class PaymentsHistoryComponent implements OnInit {
 
   public filterType = 'all';
 
-  showNotification(type,title,content,timeOut){
-    let options= this.fb.group({
-			type: type,
-			title: title,
-			content: content,
+  showNotification(type, title, content, timeOut) {
+    let options = this.fb.group({
+      type: type,
+      title: title,
+      content: content,
       timeOut: timeOut,
-      clickIconToClose:true,
-      showProgressBar:false,
-			clickToClose: true,
-			animate: 'scale'
+      clickIconToClose: true,
+      showProgressBar: false,
+      clickToClose: true,
+      animate: 'scale'
     }).getRawValue();
 
-    this.notificationsService.create(options.title, options.content,options.type,options);
+    this.notificationsService.create(options.title, options.content, options.type, options);
   }
 
   generatePdf(row) {
@@ -104,7 +136,7 @@ export class PaymentsHistoryComponent implements OnInit {
     doc.text(`date:`, 10, 30);
     doc.text(`${moment(row.created_date).format('DD-MM-YYYY HH:mm')}`, 50, 30);
     doc.text(`status:`, 10, 40);
-    doc.text(`${(''+row.status).toUpperCase()}`, 50, 40);
+    doc.text(`${('' + row.status).toUpperCase()}`, 50, 40);
     doc.text(`type:`, 10, 50);
     doc.text(`${row.type.toUpperCase()}`, 50, 50);
 
@@ -155,7 +187,7 @@ export class PaymentsHistoryComponent implements OnInit {
       if (result) {
         this.transactionsService.custom(result).subscribe((result: any) => {
           console.log(result);
-          this.showNotification('success','Payment',`was just successfully added`,8000);
+          this.showNotification('success', 'Payment', `was just successfully added`, 8000);
           this.refresh();
         });
       }
@@ -165,7 +197,7 @@ export class PaymentsHistoryComponent implements OnInit {
 
   deleteDialog() {
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
-      width:'500px',
+      width: '500px',
       data: { title: 'Do you want to hide this payment ?' }
     });
 
@@ -173,7 +205,7 @@ export class PaymentsHistoryComponent implements OnInit {
       if (result == true) {
         this.transactionsService.delete(this.selectedRow.id).subscribe((result: any) => {
           console.log(result);
-          this.showNotification('success','Payment',`was just successfully hidden`,8000);
+          this.showNotification('success', 'Payment', `was just successfully hidden`, 8000);
           this.refresh();
         });
       }
