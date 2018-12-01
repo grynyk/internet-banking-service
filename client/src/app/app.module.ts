@@ -59,9 +59,6 @@ import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { SharedModule } from './shared/shared.module';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { ImportedDataComponent } from './components/payments-history/imported-data/imported-data.component';
-import { MoneyBoxesDialogComponent } from './components/home/money-boxes-dialog/money-boxes-dialog.component';
-
-import { SendMoneyComponent } from './components/home/send-money/send-money.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
 import {NgxMaskModule} from 'ngx-mask';
@@ -92,8 +89,6 @@ const options = {};
     ManageItemDialogComponent,
     AddExpenseDialogComponent,
     ImportedDataComponent,
-    MoneyBoxesDialogComponent,
-    SendMoneyComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
     PaymentsHistoryComponent,
@@ -170,7 +165,6 @@ const options = {};
     ManageItemDialogComponent,
     AddExpenseDialogComponent,
     ImportedDataComponent,
-    MoneyBoxesDialogComponent,
     CreateAccountDialogComponent,
     PaymentsDialogComponent,
     AccountDetailsComponent,

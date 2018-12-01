@@ -3,7 +3,6 @@ import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MatDialog, MatBottomSheet } from '@angular/material';
 import { Router } from '@angular/router';
-import { MoneyBoxesDialogComponent } from './money-boxes-dialog/money-boxes-dialog.component';
 import { CreateAccountDialogComponent } from './create-account-dialog/create-account-dialog.component';
 import { AccountsService } from '../../services/accounts.service';
 import { ErrorHandlerDialogComponent } from '../dialogs/error-dialog/error-dialog.component';
@@ -93,12 +92,6 @@ export class HomeComponent implements OnInit {
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
         this.transactionsHistory.refresh();
       }
-    });
-  }
-
-  openMoney() {
-    const dialogRef = this.dialog.open(MoneyBoxesDialogComponent, {
-      width: '600px'
     });
   }
 
