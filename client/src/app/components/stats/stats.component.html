@@ -1,24 +1,54 @@
-<div fxLayout="row" class="body">
-  <mat-card fxFlex="48">
-    <div style="display: block;">
-    <canvas baseChart height="300"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"></canvas>
-    </div>
-</mat-card>
-<mat-card fxFlex="48">
-  <div style="display: block;">
-    <canvas baseChart height="300"
-                [datasets]="lineChartData"
-                [labels]="lineChartLabels"
-                [options]="lineChartOptions"
-                [colors]="lineChartColors"
-                [legend]="lineChartLegend"
-                [chartType]="lineChartType"></canvas>
-  </div>
-</mat-card>
+<div fxLayout="column" class="body">
+    <div fxLayout="row">
+        <mat-card fxFlex="50">
+          <mat-card-title>30-days spendings</mat-card-title>
+          <div style="display: block;">
+          <canvas baseChart style="max-height:300px;width:100%"
+                      [data]="lineChartData"
+                      [labels]="lineChartLabels"
+                      [options]="lineChartOptions"
+                      [colors]="lineChartColors"
+                      [legend]="lineChartLegend"
+                      [chartType]="lineChartType"></canvas>
+          </div>
+      </mat-card>
+      <mat-card fxFlex="48">
+          <mat-card-title>Payment types</mat-card-title>
+        <div style="display: block;">
+          <div style="display: block">
+            <canvas baseChart
+            [data]="pieChartData"
+            [labels]="pieChartLabels"
+            [chartType]="pieChartType"
+            [legend]="pieChartLegend"></canvas>
+          </div>
+        </div>
+      </mat-card>
+      </div>
+      <div fxLayout="row">
+          <mat-card fxFlex="35">
+              <mat-card-title>Accounts</mat-card-title>
+            <div style="display: block;">
+              <div style="display: block">
+                <canvas baseChart
+                [data]="doughnutChartData"
+                [labels]="doughnutChartLabels"
+                [chartType]="doughnutChartType"
+                [legend]="doughnutChartLegend"></canvas>
+              </div>
+            </div>
+          </mat-card>
+          <mat-card fxFlex="63">
+              <mat-card-title>Primary account</mat-card-title>
+            <div style="display: block;">
+              <div style="display: block">
+                <canvas baseChart
+                [data]="polarAreaChartData"
+                [labels]="polarAreaChartLabels"
+                [legend]="polarAreaLegend"
+                [chartType]="polarAreaChartType"></canvas>
+              </div>
+            </div>
+          </mat-card>
+      </div>
 </div>

@@ -56,22 +56,22 @@
                                     </table>
                               </mat-grid-tile>
                         </a>
-                        <a (click)="openMoney()">
-                              <mat-grid-tile class="grid-item grid-item-last">
+                        <a>
+                              <mat-grid-tile class="grid-item grid-item-last" routerLink='/stats'>
                                     <table>
                                           <tr>
                                                 <th class="statistics-icon-small">
-                                                      <mat-icon class="small-icon" svgIcon="moneybox"></mat-icon>
+                                                      <mat-icon class="small-icon" svgIcon="statistics"></mat-icon>
                                                 </th>
                                           </tr>
                                           <tr>
                                                 <td rowspan="2" class="statistics-icon-section" style="width:50%">
-                                                      <mat-icon class="statistics-icon" svgIcon="moneybox"></mat-icon>
+                                                      <mat-icon class="statistics-icon" svgIcon="statistics"></mat-icon>
                                                 </td>
-                                                <td valign="bottom" class="statistics-title">Money boxes</td>
+                                                <td valign="bottom" class="statistics-title">Spent today</td>
                                           </tr>
                                           <tr>
-                                                <td valign="top" class="statistics-detail"> 127.33 </td>
+                                                <td valign="top" class="statistics-detail"> {{todaySpendings}} </td>
                                           </tr>
                                     </table>
                               </mat-grid-tile>

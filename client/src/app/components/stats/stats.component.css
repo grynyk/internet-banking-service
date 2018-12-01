@@ -1,8 +1,9 @@
 .body{
     height: 100%;
     padding: 0;
+    margin:15px;
 }
 
 mat-card{
-    margin:15px;
+    margin:5px;
 }

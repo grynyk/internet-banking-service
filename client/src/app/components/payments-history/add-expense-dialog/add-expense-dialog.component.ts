@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, ElementRef} from '@angular/core';
+import { Component, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 @Component({
@@ -6,16 +6,16 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
   templateUrl: './add-expense-dialog.component.html',
   styleUrls: ['./add-expense-dialog.component.css']
 })
-export class AddExpenseDialogComponent{
+export class AddExpenseDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<AddExpenseDialogComponent>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data) { }
 
-    
 
-    customPayment = { amount:0,description:''};
+
+  customPayment = { amount: 0, description: '' };
 
 
 }

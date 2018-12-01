@@ -5,7 +5,7 @@ import Accounts from './controllers/Accounts';
 import User from './controllers/User';
 import Auth from './controllers/middleware';
 import Transaction from './controllers/Transaction';
-import Recipients from './controllers/Recepients';
+import Recipients from './controllers/Recipients';
 import Statistics from './controllers/Statistics';
 
 dotenv.config();
@@ -46,6 +46,7 @@ app.post('/api/transaction/transfer', Auth.verifyToken, Transaction.transfer);
 app.delete('/api/transaction/delete/:id', Auth.verifyToken, Transaction.deleteTransaction);
 
 app.get('/api/statistics/getAll', Auth.verifyToken, Statistics.getStatistics);
+app.get('/api/statistics/getToday', Auth.verifyToken, Statistics.getTodaySpendings);
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});

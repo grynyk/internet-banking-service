@@ -4,12 +4,48 @@ import db from '../index';
 import Helper from './Helper';
 
 const Statistics = {
+    async getTodaySpendings(req, res) {
+        try{
+            const todaySpendings = (await db.query(`
+            SELECT
+            date_part('year', created_date) as year,
+            date_part('month', created_date) as month,
+            date_part('day', created_date) as day,
+            sum(amount) AS spendings
+                FROM   transactions
+                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date::date = current_date::date
+                GROUP  BY 1,2,3`, [
+                    req.user.id,
+                    'domestic_transaction',
+                    'external_transaction',
+                    'withdrawal',
+                    'custom_transaction'
+                ])).rows[0]; 
+
+                return res.status(200).send(todaySpendings);
+            } catch (error) {
+                return res.status(400).send(error);
+            }
+        
+    },
     async getStatistics(req, res) {
         try {
-
             let overral = (await db.query(`
             SELECT count(*) FROM transactions where (sender_uuid = $1 OR receiver_uuid = $1)`, [
                     req.user.id
+                ])).rows[0];
+
+
+            let primary = (await db.query(`
+                SELECT count(*) FROM transactions where (sender_uuid = $1 OR receiver_uuid = $1) AND sender_account_type = $2`, [
+                    req.user.id,
+                    'primary_account'
+                ])).rows[0];
+
+            let savings = (await db.query(`
+                SELECT count(*) FROM transactions where (sender_uuid = $1 OR receiver_uuid = $1) AND sender_account_type = $2`, [
+                    req.user.id,
+                    'savings_account'
                 ])).rows[0];
 
             let depositStats = (await db.query(`
@@ -96,19 +132,19 @@ const Statistics = {
                     'external_transaction'
                 ])).rows;
 
-                externalStats[0].outgoing = (await db.query(`
+            externalStats[0].outgoing = (await db.query(`
                     SELECT count(*) AS outgoing FROM transactions where sender_uuid = $1 AND type = $2`, [
                     req.user.id,
                     'external_transaction'
                 ])).rows[0].outgoing;
 
-                externalStats[0].incoming = (await db.query(`
+            externalStats[0].incoming = (await db.query(`
                         SELECT count(*) AS incoming FROM transactions where receiver_uuid = $1 AND type = $2`, [
                     req.user.id,
                     'external_transaction'
                 ])).rows[0].incoming;
 
-                externalStats[0].primary = (await db.query(`
+            externalStats[0].primary = (await db.query(`
                 SELECT count(*) AS primary FROM transactions where (sender_uuid = $1 OR receiver_uuid = $1) AND type = $2 AND sender_account_type = $3`, [
                     req.user.id,
                     'external_transaction',
@@ -122,23 +158,25 @@ const Statistics = {
             date_part('day', created_date) as day,
             sum(amount) AS amount
                 FROM   transactions
-                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date > current_date - 14
+                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date > current_date - 30
                 GROUP  BY 1,2,3
                 ORDER  BY 1,2,3`, [
                     req.user.id,
                     'domestic_transaction',
                     'external_transaction',
-                    'deposit',
-                    'withdrawal'
+                    'withdrawal',
+                    'custom_transaction'
                 ])).rows;
 
             const stats = {
                 "overral": overral.count,
+                "primary":primary.count,
+                "savings":savings.count,
                 "daily_spendings_per_month": dailySpendingsPerMonth,
                 "deposits": depositStats,
                 "withdrawals": withdrawalStats,
                 "domestic_transactions": domesticStats,
-                "external_transaction": externalStats
+                "external_transactions": externalStats
             }
 
             return res.status(200).send(stats);

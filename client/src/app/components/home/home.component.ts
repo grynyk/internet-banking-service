@@ -12,6 +12,7 @@ import { TransactionsService } from '../../services/transactions.service';
 import { AccountDetailsComponent } from './account-details/account-details.component';
 import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder } from '@angular/forms';
+import { StatisticsService } from '../../services/statistics.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     private notificationsService: NotificationsService,
     private transactionsService: TransactionsService,
     private accountsService: AccountsService,
+    private statisticsService:StatisticsService,
     private matIconRegistry: MatIconRegistry,
     private router: Router,
     public dialog: MatDialog,
@@ -48,8 +50,8 @@ export class HomeComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/savingsacc.svg")
     );
     this.matIconRegistry.addSvgIcon(
-      "moneybox",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/moneybox.svg")
+      "statistics",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../../../assets/statistics.svg")
     );
     this.matIconRegistry.addSvgIcon(
       "addacc",
@@ -59,7 +61,7 @@ export class HomeComponent implements OnInit {
 
   primaryAccount = new Array();
   savingsAccount = new Array();
-
+  todaySpendings:any;
   showNotification(type,title,content,timeOut){
     let options= this.fb.group({
 			type: type,
@@ -80,6 +82,10 @@ export class HomeComponent implements OnInit {
   }
 
   refresh() {
+    this.statisticsService.getToday().subscribe((res: any) => {
+      console.log(res);
+      this.todaySpendings = res.spendings;
+    });
     this.accountsService.getAll().subscribe((result: any) => {
       console.log(result);
       if (result.rowCount !== 0) {

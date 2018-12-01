@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatIconRegistry } from '@angular/material';
 import { UserService } from '../../services/user.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import * as model from '../../shared/exportModels';
 
 @Component({
   selector: 'app-user-profile',

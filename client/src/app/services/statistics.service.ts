@@ -13,4 +13,8 @@ export class StatisticsService {
   getAll() {
     return this.httpClient.get(`${this.url}/getAll`).map(response => response);
   }
+
+  getToday(){
+    return this.httpClient.get(`${this.url}/getToday`).map(response => response);
+  }
 }
