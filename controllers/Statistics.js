@@ -6,7 +6,7 @@ import Helper from './Helper';
 const Statistics = {
     async getTodaySpendings(req, res) {
         try{
-            const todaySpendings = (await db.query(`
+            let todaySpendings = (await db.query(`
             SELECT
             date_part('year', created_date) as year,
             date_part('month', created_date) as month,
@@ -21,7 +21,9 @@ const Statistics = {
                     'withdrawal',
                     'custom_transaction'
                 ])).rows[0]; 
-
+                if(!todaySpendings){
+                    todaySpendings = { spendings:"0.00"};
+                }
                 return res.status(200).send(todaySpendings);
             } catch (error) {
                 return res.status(400).send(error);

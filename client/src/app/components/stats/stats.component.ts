@@ -10,7 +10,7 @@ export class StatsComponent implements OnInit {
 
   constructor(private statisticsService: StatisticsService) { }
 
-  public lineChartData: Array<any> = [1, 2];
+  public lineChartData: Array<any> = [];
   public lineChartLabels: Array<any> = [];
   public lineChartLegend = false;
   public lineChartType: string = 'line';
@@ -41,7 +41,7 @@ export class StatsComponent implements OnInit {
     });
     let finishDate =  moment();
     let startDate = moment().subtract(30, 'days');
-    console.log(startDate,finishDate);
+    
     for (let i = moment(startDate) ; i.isBefore(finishDate) ; i.add(1,'days')) {
       this.lineChartLabels.push(i.format('DD.MM'));
       }

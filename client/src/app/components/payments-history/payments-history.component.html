@@ -193,7 +193,11 @@
                     </table>
                   </div>
                     <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
-                      <div fxLayoutAlign="center center">
+                      <div fxLayout="row" fxLayoutAlign="center center">
+                          <mat-spinner *ngIf="loading==true"></mat-spinner>
+                      </div>
+                
+                      <div fxLayoutAlign="center center" *ngIf="loading==false">
                         <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions yet</h4>
                       </div>
                     </div>

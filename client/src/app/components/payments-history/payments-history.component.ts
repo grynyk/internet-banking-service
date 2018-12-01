@@ -99,12 +99,17 @@ export class PaymentsHistoryComponent implements OnInit {
       }
     }
   }
+
+  loading = true;
   refresh() {
     this.transactionsService.getAll().subscribe((res: any) => {
       this.dataSource = new MatTableDataSource(res.rows);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-    })
+      setTimeout(res => {
+        this.loading = false;
+       }, 800);
+    });
   }
 
   applyFilter(filterValue: string) {

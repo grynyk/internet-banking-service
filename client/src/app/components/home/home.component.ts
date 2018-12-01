@@ -61,6 +61,9 @@ export class HomeComponent implements OnInit {
   primaryAccount = new Array();
   savingsAccount = new Array();
   todaySpendings:any;
+
+  loading = true;
+
   showNotification(type,title,content,timeOut){
     let options= this.fb.group({
 			type: type,
@@ -77,13 +80,14 @@ export class HomeComponent implements OnInit {
   }
   ngOnInit() {
     this.refresh();
-    
   }
 
   refresh() {
     this.statisticsService.getToday().subscribe((res: any) => {
       console.log(res);
       this.todaySpendings = res.spendings;
+
+     
     });
     this.accountsService.getAll().subscribe((result: any) => {
       console.log(result);
@@ -92,6 +96,9 @@ export class HomeComponent implements OnInit {
         this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
         this.transactionsHistory.refresh();
       }
+      setTimeout(res => {
+        this.loading = false;
+       }, 800);
     });
   }
 

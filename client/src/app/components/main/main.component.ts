@@ -34,6 +34,7 @@ export class MainComponent implements OnInit {
      if(window.innerWidth>600){
       this.sidemenuMode = 'side';
      }
+     document.querySelector('body').style.backgroundColor = '#eeeeee';
   }
 
   openSideNav(){

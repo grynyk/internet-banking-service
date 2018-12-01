@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RecipientsService } from '../../services/recipients.service';
 import { MatTableDataSource, MatPaginator, MatDialog } from '@angular/material';
@@ -26,6 +26,18 @@ export class RecipientsManagerComponent implements OnInit {
     private notificationsService: NotificationsService,
     public dialog: MatDialog,private recipientsService:RecipientsService) { }
 
+    smallScreen = false;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+      if (event.target.innerWidth < 600) {
+       this.smallScreen = true;
+      }
+      if (event.target.innerWidth > 600) {
+        this.smallScreen = false;
+      }
+    }
+
   showNotification(type,title,content,timeOut){
     let options= this.fb.group({
 			type: type,
@@ -52,7 +64,10 @@ export class RecipientsManagerComponent implements OnInit {
   }
 
   add(){
-    window.scrollBy(0,600);
+    if(this.smallScreen==true || window.innerWidth<600){
+      window.scrollBy(0,600);
+    }
+
     this.recipientAction = 'Add';
     this.accountNo = '';
     this.data = {
@@ -63,7 +78,9 @@ export class RecipientsManagerComponent implements OnInit {
   }
 
   edit(row){
-    window.scrollBy(0,600);
+    if(this.smallScreen==true || window.innerWidth<600){
+      window.scrollBy(0,600);
+    }
     this.recipientAction = 'Edit';
     this.accountNo = row.account_number;
     this.recipientId = row.id;

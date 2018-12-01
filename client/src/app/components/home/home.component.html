@@ -4,7 +4,8 @@
                   <mat-grid-list cols="3" rowHeight="7em">
                         <a (click)="openPrimary()">
                               <mat-grid-tile class="grid-item">
-                                    <table>
+                                          <mat-spinner *ngIf="loading==true"></mat-spinner>
+                                    <table *ngIf="loading==false">
                                           <tr>
                                                 <th class="statistics-icon-small" *ngIf="primaryAccount.length!==0">
                                                       <mat-icon class="small-icon" svgIcon="primaryacc"></mat-icon>
@@ -31,7 +32,8 @@
                         </a>
                         <a (click)="openSavings()">
                               <mat-grid-tile class="grid-item">
-                                    <table>
+                                          <mat-spinner *ngIf="loading==true"></mat-spinner>
+                                    <table *ngIf="loading==false">
                                           <tr>
                                                 <th class="statistics-icon-small" *ngIf="savingsAccount.length!==0">
                                                       <mat-icon class="small-icon" svgIcon="savingsacc"></mat-icon>
@@ -58,7 +60,8 @@
                         </a>
                         <a>
                               <mat-grid-tile class="grid-item grid-item-last" routerLink='/stats'>
-                                    <table>
+                                    <mat-spinner *ngIf="loading==true"></mat-spinner>
+                                    <table *ngIf="loading==false">
                                           <tr>
                                                 <th class="statistics-icon-small">
                                                       <mat-icon class="small-icon" svgIcon="statistics"></mat-icon>
