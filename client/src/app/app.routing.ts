@@ -11,21 +11,29 @@ import { PaymentsHistoryComponent } from './components/payments-history/payments
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { AboutComponent } from './components/about/about.component';
 import { StatsComponent } from './components/stats/stats.component';
+import { RoleGuard } from './guards/role.guard';
 
 
 
 
 const appRoutes: Routes = [
-  { 
+  {
     path: '',
     component: MainComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', component: HomeComponent },
-      { path: 'payments-history', component: PaymentsHistoryComponent},
-      { path: 'recipients-manager', component: RecipientsManagerComponent},
-      { path: 'stats', component: StatsComponent}
+      { path: 'payments-history', component: PaymentsHistoryComponent },
+      { path: 'recipients-manager', component: RecipientsManagerComponent },
+      { path: 'stats', component: StatsComponent, },
     ]
+  },
+  {
+    path: 'admin-panel', loadChildren: './admin-panel/admin-panel.module#AdminPanelModule',
+    canActivate: [AuthGuard, RoleGuard],
+    data: {
+      isAdmin: true
+    }
   },
   { path: 'registration', component: RegistrationComponent },
   { path: 'login', component: LoginComponent },
@@ -35,3 +43,4 @@ const appRoutes: Routes = [
 export const AppRouting = RouterModule.forRoot(appRoutes, {
   preloadingStrategy: PreloadAllModules
 });
+

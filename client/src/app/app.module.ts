@@ -73,6 +73,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { ChartsModule } from 'ng2-charts';
 import { StatsComponent } from './components/stats/stats.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { RoleGuard } from './guards/role.guard';
 const options = {};
 
 @NgModule({
@@ -155,6 +156,7 @@ const options = {};
       multi: true
     },
     AuthGuard,
+    RoleGuard,
     CanDeactivateGuard,
     AuthenticationService,
     UserService

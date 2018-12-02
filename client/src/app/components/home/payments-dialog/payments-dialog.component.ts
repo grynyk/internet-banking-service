@@ -43,7 +43,7 @@ export class PaymentsDialogComponent {
   }
 
   onlyLettersPattern(event: any) {
-    const pattern = /[$\&\+\,\=\?\@\|\<\>\^\%\!\"\_\`\~\-\e\E\0-9]/;
+    const pattern = /[$\&\+\,\=\?\@\|\<\>\^\%\!\"\_\`\~\-]/;
     let inputChar = String.fromCharCode(event.charCode);
 
     if (pattern.test(inputChar)) {

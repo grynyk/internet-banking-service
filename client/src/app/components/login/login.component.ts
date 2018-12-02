@@ -38,7 +38,12 @@ export class LoginComponent implements OnInit {
         .subscribe(
             data => {
               this.loading = false;
-                this.router.navigate([this.returnUrl]);
+                if (JSON.parse(localStorage.getItem('currentUser')).userData.admin == true) {
+                  this.router.navigate(['/admin-panel']);
+                }else{
+                  this.router.navigate([this.returnUrl]);
+                }
+
             },
             error => {
               this.error = true;

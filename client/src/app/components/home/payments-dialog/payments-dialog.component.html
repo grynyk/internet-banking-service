@@ -45,10 +45,11 @@
       </mat-form-field>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between">
-        <button color="primary" style="margin:4px 5px 9px 0" (click)="openRecipients()" mat-raised-button><i class="material-icons" style="font-size: 2em">
+        <button fxFlex color="primary" style="margin:4px 5px 9px 0" (click)="openRecipients()" mat-raised-button>
+          <i class="material-icons" style="font-size: 2em">
             assignment_ind
             </i></button>
-      <mat-form-field fxFlex="68" appearance="outline">
+      <mat-form-field fxFlex.xs="68" fxFlex.gt-xs="90" appearance="outline">
         <mat-label>Account No.</mat-label>
         <input matInput [(ngModel)]="receiverAccountNo" style="text-transform: uppercase" minlength="32" placeholder="1234-5678-9123-4567-8912-3456-7891-2345"
           type="text" mask="AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA-AAAA" required/>
