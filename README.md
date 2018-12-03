@@ -8,8 +8,8 @@ View all users list, create/edit/block users, view users details, view users tra
 
 ## Technologies
 
-**Front-end:** Html/CSS, JavaScript, TypeScript, Angular 6, Angular Material design, FxLayout
+**Front-end:** Angular X, TypeScript, JavaScript, Angular Material Design, Html/CSS, FxLayout
 
-**Back-end:** Node.js, Express.js, PostgreSQL, non-blocking PostgreSQL client - PG, babel.js, Babel watch, moment.js, bcrypt jsonWebToken
+**Back-end:** Node.js, Express.js, PostgreSQL, non-blocking PostgreSQL client - PG, babel.js, moment.js, bcrypt jsonWebToken
 
 **others:** ngx-mask, angular2-notifications, jsPDF
