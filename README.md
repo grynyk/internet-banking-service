@@ -1,7 +1,6 @@
 # internet-banking-service
 
-**Internet banking progressive web app, which lets user to:**
-
+**Internet banking progressive web app, which lets user to:** 
 Deposit, withdraw money, transfer money between accounts, process domestic and external transactions, add custom transactions, hide transactions from list, export specific transaction details to .pdf , manage recipients(create/read/edit/delete), view statistics (for spendings, accounts etc.).
 
 **Admin-panel allow admins to:**
