@@ -1,10 +1,10 @@
 # internet-banking-service
 
 **Internet banking progressive web app, which lets user to:** 
-Deposit, withdraw money, transfer money between accounts, process domestic and external transactions, add custom transactions, hide transactions from list, export specific transaction details to .pdf , manage recipients(create/read/edit/delete), view statistics (for spendings, accounts etc.).
+Deposit, withdraw money, transfer money between accounts, process domestic and external transactions, add custom transactions, hide transactions from list, export specific transactions details to .pdf , manage recipients(create/read/edit/delete), view statistics (for spendings, accounts etc.).
 
 **Admin-panel allow admins to:**
-View all users list, create/edit/block users, view users details, view users transactions, view all transactions list, export specific transaction details to .pdf, view system statistics.
+View all users list, create/edit/block users, view users details, view users transactions, view all transactions list, export specific transactions details to .pdf, view system statistics.
 
 ## Technologies
 
