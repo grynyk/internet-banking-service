@@ -1,0 +1,14 @@
+mat-form-field{
+    margin-bottom: -1em!important;
+ }
+
+ .block-btn{
+    color: #fff;
+    margin-left: 10px;
+}
+
+.edit-btn{
+    background-color:#ffa726;
+    color: #fff;
+    margin-left: 10px;
+}

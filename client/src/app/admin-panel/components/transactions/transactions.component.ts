@@ -1,18 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { AdminPanelService } from '../../admin-panel.service';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import jsPDF from 'jspdf';
 import * as moment from 'moment';
-import { AdminPanelService } from '../../../admin-panel.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  selector: 'app-user-transactions',
-  templateUrl: './user-transactions.component.html',
-  styleUrls: ['./user-transactions.component.css']
+  selector: 'app-transactions',
+  templateUrl: './transactions.component.html',
+  styleUrls: ['./transactions.component.css']
 })
-export class UserTransactionsComponent implements OnInit {
-  userData:any;
+export class TransactionsComponent implements OnInit {
   displayedColumns: string[] = ['select','created_date', 'id', 'type', 'amount'];
   dataSource = new MatTableDataSource();
 
@@ -21,22 +19,16 @@ export class UserTransactionsComponent implements OnInit {
 
   public selection = new SelectionModel(true, []);
 
-  constructor(private router:Router, private route:ActivatedRoute, private service:AdminPanelService) { }
-
+  constructor(
+    private service: AdminPanelService) {
+  }
 
   ngOnInit() {
-    this.route.params.forEach(params => {
-      this.service.getTransactionsByUserId(params.id).subscribe((res:any)=>{
-        this.dataSource = new MatTableDataSource(res.rows);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
-      this.service.getUserById(params.id).subscribe((res:any) => {
-        console.log(res);
-        this.userData = res.rows[0];
-      });
-    });
-
+    this.service.getAllTransactions().subscribe((res:any)=>{
+      this.dataSource = new MatTableDataSource(res.rows);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    })
   }
 
   applyFilter(filterValue: string) {
@@ -84,10 +76,6 @@ export class UserTransactionsComponent implements OnInit {
     doc.text(`amount:  ${row.amount}`, 140, 125);
 
     doc.save(`payment_${row.created_date}.pdf`);
-  }
-
-  goBack(){
-    window.history.back()
   }
 
 }

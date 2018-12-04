@@ -11,7 +11,7 @@ export class TransactionsService {
   private url = '/api/transaction';
 
   getAll() {
-    return this.httpClient.get(`${this.url}/getAll`).map(response => response);
+    return this.httpClient.get(`${this.url}/getAllForUser`).map(response => response);
   }
 
   getIncoming() {

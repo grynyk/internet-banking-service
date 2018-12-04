@@ -1,14 +1,4 @@
 <mat-card style="margin:15px">
-    <mat-card-title fxLayout="row" style="margin-bottom:15px;padding-bottom:15px;border-bottom:dashed 1px #aeaeae">
-        <div fxFlex="10" fxLayoutAlign="start center">
-          <button mat-raised-button color="primary" style="min-width:1%" (click)="goBack()">
-            <mat-icon>keyboard_return</mat-icon>
-          </button>
-        </div>
-        <div fxFlex fxLayoutAlign="start center" style="font-size:1em">
-          {{userData.firstname}} {{userData.lastname}} transactions
-        </div>
-      </mat-card-title>
     <div fxLayout="row" class="buttons-row">
         <div fxFlex="80" fxLayoutAlign="none center">
           <mat-form-field appearance="outline" style="width:100%">
@@ -24,7 +14,7 @@
           </button>
         </div>
       </div>
-
+  
     <table mat-table [dataSource]="dataSource" style="width:100%;border-top:solid 1px #ddd;" matSort>
   
       <ng-container matColumnDef="select">

@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">
+    <div>
+        <button mat-icon-button (click)="onToggleSidenav()" fxHide fxShow.lt-md>
+            <mat-icon>menu</mat-icon>
+        </button>
+    </div>
+    <div>
+        <a routerLink="/admin-panel">Admin panel
+        </a>
+    </div>
+
+    <div fxFlex fxLayoutAlign="end center">
+        <a routerLink="/login">Log out</a>
+    </div>
+</mat-toolbar>

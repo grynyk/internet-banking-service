@@ -1,14 +1,28 @@
 .filter-input{
-    margin-left:10px;
-    margin-right:10px;
-
+    width:100%!important;
 }
 
-.download-btn{
-    margin-left: 10px;
+.buttons{
     margin-bottom:20px;
+}
+
+.add-btn{
+    background: #66bb6a;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.view-profile-btn{
     background: #42a5f5;
     color: #fff;
+}
+.view-transacions-btn{
+    background: #607d8b;
+    color: #fff;
+}
+.block-btn{
+    color: #fff;
+    margin-left: 10px;
 }
 
 .table-row{

@@ -20,7 +20,7 @@ const appRoutes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
     children: [
       { path: '', component: HomeComponent },
       { path: 'payments-history', component: PaymentsHistoryComponent },

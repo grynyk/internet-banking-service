@@ -1,0 +1,82 @@
+<mat-card style="margin:15px">
+
+  <div fxLayout="row" class="buttons-row">
+    <div fxFlex="80" fxLayoutAlign="none center">
+      <mat-form-field appearance="outline" style="width:100%">
+        <mat-label>Search for user</mat-label>
+        <input matInput (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+    <div fxFlex fxLayoutAlign="end center" class="buttons">
+      <button (click)="add()" class="add-btn" mat-raised-button>
+        <mat-icon>add</mat-icon>
+        <span class="hide-lg"> Add</span>
+      </button>
+      <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="delete(selectedRow.id)"
+        class="block-btn" mat-raised-button>
+        <mat-icon>block</mat-icon>
+        <span class="hide-lg"> Block</span>
+      </button>
+    </div>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" style="width:100%;border-top:solid 1px #ddd;" matSort>
+
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef>
+
+      </th>
+      <td mat-cell *matCellDef="let row" class="select-column">
+        <mat-checkbox color="primary" disabled [checked]="selectedRow == row && selection.isSelected(row)" style="cursor: pointer"
+          (click)="selectedRow = row" (click)="selection.toggle(row)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Creation </th>
+      <td mat-cell *matCellDef="let row"> {{row.created_date | date:'dd.MM.yyyy HH:mm'}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let row"> {{row.firstname}} {{row.lastname}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let row"> {{row.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="manage">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> </th>
+      <td mat-cell *matCellDef="let row">
+        <div fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="end none">
+          <button fxFlex [disabled]="selectedRow !== row || !selection.isSelected(selectedRow)"
+          (click)="goToProfile(row)" 
+          class="view-profile-btn"
+            mat-raised-button>
+            <mat-icon>person_outline</mat-icon>
+            <span class="hide-lg"> Profile</span>
+          </button>
+
+          <button fxFlex [disabled]="selectedRow !== row || !selection.isSelected(selectedRow)"
+          (click)="goToTransactions(row)" 
+            class="view-transacions-btn" mat-raised-button>
+            <mat-icon>compare_arrows</mat-icon>
+            <span class="hide-lg"> Transactions</span>
+          </button>
+
+        </div>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="[selectedRow == row && selection.isSelected(row) ? 'table-row-selected':'table-row']"
+      (click)="selectedRow = row" (click)="selection.toggle(row)">
+    </tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+</mat-card>

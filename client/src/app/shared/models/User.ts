@@ -6,5 +6,6 @@ export class User {
     birthdate?: any;
     admin?:boolean;
     password?:string;
+    phone?:string;
     confirmPassword?:string;
   }

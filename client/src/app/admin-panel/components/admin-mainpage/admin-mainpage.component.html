@@ -1,0 +1,16 @@
+<div>
+    <app-admin-navbar (sidenavToggle)="sidenav.toggle()"></app-admin-navbar>
+    <mat-sidenav-container fullscreen class="sidenav-container" style="top: 64px !important;">
+        <mat-sidenav #sidenav role="navigation" mode="side" [opened]="openSideNav()">
+            <app-admin-sidemenu fxHide fxShow.gt-sm></app-admin-sidemenu>
+            <app-admin-sidemenu (closeSidenav)="sidenav.close()" fxHide fxShow.lt-md></app-admin-sidemenu>
+        </mat-sidenav>
+        
+        <mat-sidenav-content>
+            <main >
+                <router-outlet></router-outlet>
+            </main>
+           
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+    </div>

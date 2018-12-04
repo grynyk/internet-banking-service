@@ -23,6 +23,9 @@
                 <mat-form-field>
                     <input matInput type="text" placeholder="Address" [(ngModel)]="user.address" autocomplete="address" name="address" required>
                 </mat-form-field>
+                <mat-form-field>
+                        <input matInput type="text" placeholder="Phone" [(ngModel)]="user.phone" autocomplete="phone" name="phone" required>
+                    </mat-form-field>
                 <!-- (dateInput)="getBirthdate($event)" -->
                 <mat-form-field>
                     <input matInput [min]="minBirthdate" [max]="currentDate" [matDatepicker]="picker" 

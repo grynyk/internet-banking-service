@@ -1,3 +1,58 @@
-<p>
-  user-details works!
-</p>
+<mat-card style="margin:15px">
+  <mat-card-title fxLayout="row" style="margin-bottom:15px;padding-bottom:15px;border-bottom:dashed 1px #aeaeae">
+    <div fxFlex="10" fxLayoutAlign="start center">
+      <button mat-raised-button color="primary" style="min-width:1%" (click)="goBack()">
+        <mat-icon>keyboard_return</mat-icon>
+      </button>
+    </div>
+    <div fxFlex fxLayoutAlign="start center" style="font-size:1em">
+      {{userData.firstname}} {{userData.lastname}} details
+    </div>
+    <div fxFlex fxLayoutAlign="end center" class="buttons">
+        <button class="edit-btn" mat-raised-button>
+          <mat-icon>edit</mat-icon>
+          <span class="hide-lg"> Edit</span>
+        </button>
+        <button color="warn"
+          class="block-btn" mat-raised-button>
+          <mat-icon>block</mat-icon>
+          <span class="hide-lg"> Block</span>
+        </button>
+      </div>
+  </mat-card-title>
+
+  <div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <mat-form-field fxFlex="48" appearance="outline">
+        <mat-label>Firstname</mat-label>
+        <input matInput name="firstname" [(ngModel)]="userData.firstname" disabled required>
+      </mat-form-field>
+      <mat-form-field fxFlex="48" appearance="outline">
+        <mat-label>Lastname</mat-label>
+        <input matInput name="lastname" [(ngModel)]="userData.lastname" disabled required>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+        <mat-form-field fxFlex="48" appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput name="phone" [(ngModel)]="userData.phone" disabled required>
+        </mat-form-field>
+        <mat-form-field fxFlex="48" appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput name="email" [(ngModel)]="userData.email" disabled required>
+        </mat-form-field>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+          <mat-form-field fxFlex="100" appearance="outline">
+            <mat-label>Address</mat-label>
+            <input matInput name="email" [(ngModel)]="userData.address" disabled required>
+          </mat-form-field>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-between">
+            <mat-form-field fxFlex="100" appearance="outline">
+              <mat-label>Creation date</mat-label>
+              <input matInput name="email" value="{{userData.created_date | date:'dd.MM.yyyy HH:m'}}" disabled required>
+            </mat-form-field>
+          </div>
+  </div>
+</mat-card>

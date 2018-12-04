@@ -30,8 +30,7 @@ export class CreateAccountDialogComponent implements OnInit {
     passwordToVerify = '';
 
     verifyPassword(password,stepper: MatStepper){
-      const loginRespond = JSON.parse(localStorage.getItem('currentUser'));
-      this.userService.verifyPassword(loginRespond.userData.userId,password).subscribe((result: any) => {
+      this.userService.verifyPassword(password).subscribe((result: any) => {
         stepper.next();
       });
     }
