@@ -14,6 +14,7 @@ import {
   MatSortModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDialogModule ,
   MatInputModule
 
 } from '@angular/material';
@@ -29,6 +30,8 @@ import { UsersComponent } from './components/users/users.component';
 import { AdminPanelService } from './admin-panel.service';
 import { ApiInterceptor } from '../interceptors/api.interceptor';
 import { TransactionsComponent } from './components/transactions/transactions.component';
+import { AddUserDialogComponent } from './components/users/add-user-dialog/add-user-dialog.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -40,7 +43,8 @@ import { TransactionsComponent } from './components/transactions/transactions.co
     AdminSidemenuComponent,
     AdminHomeComponent,
     UsersComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    AddUserDialogComponent
   ],
   providers:[
     {
@@ -52,6 +56,7 @@ import { TransactionsComponent } from './components/transactions/transactions.co
   ],
   imports: [
     CommonModule,
+    SharedModule,
     FormsModule,
     HttpClientModule,
     MatTableModule,
@@ -67,7 +72,11 @@ import { TransactionsComponent } from './components/transactions/transactions.co
     MatIconModule,
     MatCheckboxModule,
     MatListModule,
+    MatDialogModule,
     AdminPanelRouting
+  ],
+  entryComponents:[
+    AddUserDialogComponent
   ]
 })
 export class AdminPanelModule { }

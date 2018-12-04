@@ -8,14 +8,9 @@
       </mat-form-field>
     </div>
     <div fxFlex fxLayoutAlign="end center" class="buttons">
-      <button (click)="add()" class="add-btn" mat-raised-button>
+      <button (click)="addUser()" class="add-btn" mat-raised-button>
         <mat-icon>add</mat-icon>
-        <span class="hide-lg"> Add</span>
-      </button>
-      <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="delete(selectedRow.id)"
-        class="block-btn" mat-raised-button>
-        <mat-icon>block</mat-icon>
-        <span class="hide-lg"> Block</span>
+        <span class="hide-lg"> Add new user</span>
       </button>
     </div>
   </div>

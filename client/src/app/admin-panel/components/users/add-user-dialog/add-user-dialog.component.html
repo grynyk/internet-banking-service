@@ -1,0 +1,61 @@
+<h3 mat-dialog-title fxLayout="row">
+  <div fxFlex fxLayoutAlign="start center">
+    CREATE NEW USER
+  </div>
+  <div fxFlex="10" fxLayoutAlign="end center">
+    <button mat-icon-button color="warn" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</h3>
+
+<div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>Firstname</mat-label>
+      <input matInput type="text" name="firstname" [(ngModel)]="userData.firstname" required>
+    </mat-form-field>
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>Lastname</mat-label>
+      <input matInput type="text" name="lastname" [(ngModel)]="userData.lastname" required>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>Phone</mat-label>
+      <input matInput type="number" max="9" name="phone" [(ngModel)]="userData.phone" required>
+    </mat-form-field>
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="text" name="email" placeholder="email@gmail.com" [(ngModel)]="userData.email" required>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="100" appearance="outline">
+      <mat-label>Address</mat-label>
+      <input matInput type="text" name="address" placeholder="Poland, Malopolskie, Krakow, Warszawska 24" [(ngModel)]="userData.address"
+        required>
+    </mat-form-field>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" name="password" [(ngModel)]="userData.password" required>
+    </mat-form-field>
+    <mat-form-field fxFlex="48" appearance="outline">
+      <mat-label>Confirm password</mat-label>
+      <input matInput type="password" name="confirmPassword" [(ngModel)]="userData.confirmPassword" required>
+    </mat-form-field>
+  </div>
+
+  <div mat-dialog-actions fxLayout="row" fxLayoutGap="15px">
+    <div fxFlex fxLayoutAlign="end none">
+      <button color="primary" mat-raised-button [disabled]="!userData.firstname || !userData.lastname || !userData.email || !userData.phone || !userData.address || !userData.password || !userData.confirmPassword"
+        [mat-dialog-close]="userData">
+        <mat-icon>send</mat-icon>
+        <span> Submit</span>
+      </button>
+    </div>
+  </div>
+</div>
