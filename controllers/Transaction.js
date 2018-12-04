@@ -27,6 +27,31 @@ const tx = async callback => {
 
 const Transaction = {
   async getAllTransactions(req, res) {
+    try {
+      const { rows, rowCount } = await db.query(`
+      SELECT * FROM transactions where (type = $1 OR type = $2) ORDER BY created_date DESC`,[
+        'domestic_transaction',
+        'external_transaction'
+      ]);
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async getTransactionsByUserId(req, res) {
+    try {
+      const { rows, rowCount } = await db.query(`
+      SELECT * FROM transactions where (type = $1 OR type = $2) AND (sender_uuid = $3 OR receiver_uuid = $3) ORDER BY created_date DESC`,[
+        'domestic_transaction',
+        'external_transaction',
+        req.params.id
+      ]);
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async getAllTransactionsForUser(req, res) {
     const findAllQuery = `
         SELECT * FROM transactions where sender_uuid = $1 OR receiver_uuid = $1 ORDER BY created_date DESC`;
     try {

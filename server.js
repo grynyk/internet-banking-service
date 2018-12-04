@@ -16,7 +16,7 @@ app.use(express.json())
 
 app.post('/api/user/create', User.create);
 app.post('/api/user/login',User.login);
-app.post('/api/user/verifyPassword/:id',User.verifyPassword);
+app.post('/api/user/verifyPassword',Auth.verifyToken, User.verifyPassword);
 app.delete('/api/user/delete', Auth.verifyToken, User.delete);
 
 app.get('/api/accounts/getAll', Auth.verifyToken, Accounts.getAllAcounts);
@@ -36,7 +36,7 @@ app.get('/api/recipients/getAll', Auth.verifyToken, Recipients.getAll);
 app.put('/api/recipients/update/:id', Auth.verifyToken, Recipients.update);
 app.delete('/api/recipients/delete/:id', Auth.verifyToken, Recipients.delete);
 
-app.get('/api/transaction/getAll', Auth.verifyToken, Transaction.getAllTransactions);
+app.get('/api/transaction/getAllForUser', Auth.verifyToken, Transaction.getAllTransactionsForUser);
 app.get('/api/transaction/getIncoming', Auth.verifyToken, Transaction.getIncomingTransactions);
 app.get('/api/transaction/getOutgoing', Auth.verifyToken, Transaction.getOutgoingTransactions);
 app.post('/api/transaction/custom', Auth.verifyToken, Transaction.addCustomTransaction);
@@ -47,6 +47,12 @@ app.delete('/api/transaction/delete/:id', Auth.verifyToken, Transaction.deleteTr
 
 app.get('/api/statistics/getAll', Auth.verifyToken, Statistics.getStatistics);
 app.get('/api/statistics/getToday', Auth.verifyToken, Statistics.getTodaySpendings);
+
+/** ADMIN PANEL */
+app.get('/api/user/getAll', Auth.verifyToken, Auth.isAdmin,User.getAll);
+app.get('/api/user/:id', Auth.verifyToken, Auth.isAdmin,User.getUserById);
+app.get('/api/transaction/getAll', Auth.verifyToken, Auth.isAdmin, Transaction.getAllTransactions);
+app.get('/api/transaction/:id', Auth.verifyToken, Auth.isAdmin, Transaction.getTransactionsByUserId);
 
 app.get('/', (req, res) => {
   return res.status(200).send({'message': 'Welcome to bank app !'});

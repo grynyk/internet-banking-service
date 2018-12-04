@@ -4,7 +4,22 @@ import db from '../index';
 import Helper from './Helper';
 
 const User = {
-
+  async getAll(req, res) {
+    try {
+      const { rows, rowCount } = await db.query('SELECT * FROM users');
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async getUserById(req, res) {
+    try {
+      const { rows, rowCount } = await db.query('SELECT * FROM users where id = $1',[req.params.id]);
+      return res.status(200).send({ rows, rowCount });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
   async create(req, res) {
     if (!req.body.email || !req.body.password) {
       return res.status(400).send({'message': 'Some values are missing'});
@@ -15,8 +30,8 @@ const User = {
     const hashPassword = Helper.hashPassword(req.body.password);
 
     const createQuery = `INSERT INTO
-      users(id, firstname, lastname, address, admin, email, password, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      users(id, firstname, lastname, address, admin, email, password, phone, created_date, modified_date)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       returning *`;
     const values = [
       uuid.v4(),
@@ -26,6 +41,7 @@ const User = {
       false,
       req.body.email,
       hashPassword,
+      req.body.phone,
       moment(new Date()),
       moment(new Date())
     ];
@@ -50,7 +66,7 @@ const User = {
 
     const text = 'SELECT * FROM users WHERE id = $1';
     try {
-      const { rows } = await db.query(text, [req.params.id]);
+      const { rows } = await db.query(text, [req.user.id]);
 
       if(!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ 'message': 'Password is incorrect' });

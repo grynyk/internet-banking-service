@@ -13,7 +13,7 @@ const Statistics = {
             date_part('day', created_date) as day,
             sum(amount) AS spendings
                 FROM   transactions
-                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date::date = current_date::date
+                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date > current_date - 1 
                 GROUP  BY 1,2,3`, [
                     req.user.id,
                     'domestic_transaction',
@@ -21,6 +21,7 @@ const Statistics = {
                     'withdrawal',
                     'custom_transaction'
                 ])).rows[0]; 
+        
                 if(!todaySpendings){
                     todaySpendings = { spendings:"0.00"};
                 }
