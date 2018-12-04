@@ -68,7 +68,11 @@
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="[selectedRow == row && selection.isSelected(row) ? 'table-row-selected':'table-row']"
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+    [ngClass]="[selectedRow == row && selection.isSelected(row) && row.active==true ? 'table-row-selected':'']"
+    [class.blocked-user-row]="row.active==false"
+    [class.table-row]="row.active==true"
+    [ngClass]="[selectedRow == row && selection.isSelected(row) && row.active==false ? 'blocked-user-row':'']"
       (click)="selectedRow = row" (click)="selection.toggle(row)">
     </tr>
   </table>

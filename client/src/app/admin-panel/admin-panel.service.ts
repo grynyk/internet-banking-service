@@ -25,6 +25,18 @@ export class AdminPanelService {
         return this.httpClient.post('/api/user/create', user);
     }
 
+    editUser(id,user) {
+        return this.httpClient.put(`/api/user/edit/${id}`,user);
+    }
+
+    blockUser(id) {
+        return this.httpClient.put(`/api/user/block/${id}`,{});
+    }
+
+    unblockUser(id) {
+        return this.httpClient.put(`/api/user/unblock/${id}`,{});
+    }
+
     deleteUser(user) {
         return this.httpClient.delete('/api/user/delete', user);
     }

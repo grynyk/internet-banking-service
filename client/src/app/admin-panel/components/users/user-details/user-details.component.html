@@ -13,11 +13,16 @@
           <mat-icon>edit</mat-icon>
           <span class="hide-lg"> Edit</span>
         </button>
-        <button color="warn"
+        <button color="warn" (click)="blockUser()" *ngIf="userData.active==true"
           class="block-btn" mat-raised-button>
           <mat-icon>block</mat-icon>
           <span class="hide-lg"> Block</span>
         </button>
+        <button color="primary" (click)="unblockUser()" *ngIf="userData.active==false"
+        class="block-btn" mat-raised-button>
+        <mat-icon>panorama_fish_eye</mat-icon>
+        <span class="hide-lg"> Unblock</span>
+      </button>
       </div>
   </mat-card-title>
 
@@ -63,7 +68,9 @@
       <mat-icon>close</mat-icon>
       <span> Cancel</span>
     </button>
-    <button color="primary" mat-raised-button [disabled]="!userData.firstname || !userData.lastname || !userData.email || !userData.phone || !userData.address">
+    <button color="primary" mat-raised-button
+    [disabled]="!userData.firstname || !userData.lastname || !userData.email || !userData.phone || !userData.address"
+    (click)="editUser()">
       <mat-icon>send</mat-icon>
       <span> Submit</span>
     </button>

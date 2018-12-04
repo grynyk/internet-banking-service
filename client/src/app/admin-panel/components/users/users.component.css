@@ -29,8 +29,17 @@
     cursor: pointer;
 }
 
+.blocked-user-row{
+    cursor: pointer;
+    background: rgba(220,0,0,0.4);
+}
+
+.blocked-user-row:hover {
+    background: rgba(220,0,0,0.3);
+}
+
 .table-row:hover {
-    background: #f5f5f5;
+    background: rgba(220,220,220,0.5);
   }
 
 .table-row-selected {

@@ -47,8 +47,8 @@ export class LoginComponent implements OnInit {
             },
             error => {
               this.error = true;
-              if(error.status==409){
-                this.errorMessage = error.error;
+              if(error.status==401){
+                this.errorMessage = error.status + ' ' + error.error.message;
               }else{
                 this.errorMessage = error.status + ' ' + 'Server does not respond';
               }

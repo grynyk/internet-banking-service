@@ -24,6 +24,10 @@ export class UserDetailsComponent implements OnInit {
     private route:ActivatedRoute, private service:AdminPanelService) { }
 
   ngOnInit() {
+    this.refresh();
+  }
+
+  refresh(){
     this.route.params.forEach(params => {
       console.log(params);
       this.userId = params['id'];
@@ -34,15 +38,39 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  blockUser(row){
+  editUser(){
+    this.service.editUser(this.userId,this.userData).subscribe(res => {
+      this.refresh();
+      this.editUserProfile = false;
+    });
+  }
+
+  blockUser(){
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
       width: '500px',
-      data: { title: `Do you want to block ${row.firstname} ${row.lastname} ?` }
+      data: { title: `Do you really want to block ${this.userData.firstname} ${this.userData.lastname} ?` }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
+        this.service.blockUser(this.userId).subscribe((res:any) => {
+          this.refresh();
+        })
+      }
+    });
+  }
 
+  unblockUser(){
+    const dialogRef = this.dialog.open(ManageItemDialogComponent, {
+      width: '500px',
+      data: { title: `Do you really want to unblock ${this.userData.firstname} ${this.userData.lastname} ?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.service.unblockUser(this.userId).subscribe((res:any) => {
+          this.refresh();
+        })
       }
     });
   }

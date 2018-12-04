@@ -25,7 +25,20 @@ const Auth = {
     const token = req.headers['x-access-token'];
     try {
       if (req.user.admin==false) {
-        return res.status(400).send({ 'message': "Access denied! You don't have enough rights" });
+        return res.status(401).send({ 'message': "Access denied! You don't have enough rights" });
+      }
+      next();
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }, async isBlocked(req, res, next) {
+    try {
+      const { rows } = await db.query('SELECT * FROM users where email = $1', [
+        req.body.email
+      ]);
+      console.log(rows);
+      if (rows[0].active==false) {
+        return res.status(401).send({ 'message': "Your account has been blocked" });
       }
       next();
     } catch (error) {

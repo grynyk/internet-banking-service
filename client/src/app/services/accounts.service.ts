@@ -23,8 +23,12 @@ export class AccountsService {
     return this.httpClient.get(`${this.primary_url}/getAll`).map(response => response);
   }
 
-  primaryUpdate(id, balance) {
-    return this.httpClient.put(`${this.primary_url}/update/${id}`, { balance: balance }).map(response => response);
+  primaryDeposit(id, amount) {
+    return this.httpClient.put(`${this.primary_url}/deposit/${id}`, { amount: amount }).map(response => response);
+  }
+
+  primaryWithdraw(id, amount) {
+    return this.httpClient.put(`${this.primary_url}/withdraw/${id}`, { amount: amount }).map(response => response);
   }
 
   savingsCreate() {
@@ -35,8 +39,13 @@ export class AccountsService {
     return this.httpClient.get(`${this.savings_url}/getAll`).map(response => response);
   }
 
-  savingsUpdate(id, balance) {
-    return this.httpClient.put(`${this.savings_url}/update/${id}`, { balance: balance }).map(response => response);
+  savingsDeposit(id, amount) {
+    return this.httpClient.put(`${this.savings_url}/deposit/${id}`, { amount: amount }).map(response => response);
   }
+
+  savingsWithdraw(id, amount) {
+    return this.httpClient.put(`${this.savings_url}/withdraw/${id}`, { amount: amount }).map(response => response);
+  }
+
 
 }

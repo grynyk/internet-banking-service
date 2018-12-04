@@ -12,6 +12,7 @@ import { AccountDetailsComponent } from './account-details/account-details.compo
 import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder } from '@angular/forms';
 import { StatisticsService } from '../../services/statistics.service';
+import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-item.component';
 
 
 @Component({
@@ -169,24 +170,20 @@ export class HomeComponent implements OnInit {
   accountTypeToDeposit: String;
   amountToDeposit: number;
   depositMoney(type, amount) {
-    let countedAmountToDeposit: number;
-    let accountIdToDeposit: any;
     if (type == 'primary_account') {
-      countedAmountToDeposit = +this.primaryAccount[0].balance + +amount;
-      accountIdToDeposit = this.primaryAccount[0].id;
-      this.accountsService.primaryUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
+      this.accountsService.primaryDeposit(this.primaryAccount[0].id, amount).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
-        this.showNotification('success','Deposit',`was just successfully processed`,8000);
+        this.showNotification('success','Deposit',`was just successfully processed`,5000);
         this.refresh();
       });
-    } else if (type == 'savings_account') {
-      countedAmountToDeposit = +this.savingsAccount[0].balance + +amount;
-      accountIdToDeposit = this.savingsAccount[0].id;
-      this.accountsService.savingsUpdate(accountIdToDeposit, countedAmountToDeposit).subscribe((result: any) => {
+    }
+    
+    if (type == 'savings_account') {
+      this.accountsService.primaryDeposit(this.savingsAccount[0].id, amount).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
         this.amountToDeposit = null;
-        this.showNotification('success','Deposit',`was just successfully processed`,8000);
+        this.showNotification('success','Deposit',`was just successfully processed`,5000);
         this.refresh();
       });
     }
@@ -195,47 +192,36 @@ export class HomeComponent implements OnInit {
   accountTypeToWithdraw: String;
   amountToWithdraw: number;
   withdrawMoney(type, amount) {
-    let countedAmountToWithdraw: number;
-    let accountIdToWithdraw: any;
     if (type == 'primary_account') {
-      countedAmountToWithdraw = +this.primaryAccount[0].balance - +amount;
-      accountIdToWithdraw = this.primaryAccount[0].id;
-      if (countedAmountToWithdraw >= 0) {
-        this.accountsService.primaryUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
+        this.accountsService.primaryWithdraw(this.primaryAccount[0].id, amount).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
           this.amountToWithdraw = null;
           this.showNotification('success','Withdrawal',`was just successfully processed`,8000);
           this.refresh();
         });
-      } else {
-        const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
-          disableClose: true,
-          width:'500px',
-          data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
-        });
       }
-    } else if (type == 'savings_account') {
-      countedAmountToWithdraw = +this.savingsAccount[0].balance - +amount;
-      accountIdToWithdraw = this.savingsAccount[0].id;
-      if (countedAmountToWithdraw > -1) {
-        this.accountsService.savingsUpdate(accountIdToWithdraw, countedAmountToWithdraw.toFixed(2)).subscribe((result: any) => {
-          this.accountTypeToWithdraw = '';
-          this.amountToWithdraw = null;
-          this.showNotification('success','Withdrawal',`was just successfully processed`,8000);
-          this.refresh();
+
+      if (type == 'savings_account') {
+        const dialogRef = this.dialog.open(ManageItemDialogComponent, {
+          width: '500px',
+          data: { title: `We will take 0.15% (${(amount*0.0015).toFixed(2)}) as commission , Do you Agree ? ` }
         });
-      } else {
-        const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
-          disableClose: true,
-          width:'500px',
-          data: { title: "You don't have enough funds", message: "Choose another amount please", button: "OK" },
+    
+        dialogRef.afterClosed().subscribe(result => {
+          if (result == true) {
+            this.accountsService.savingsWithdraw(this.savingsAccount[0].id, amount).subscribe((result: any) => {
+              this.accountTypeToWithdraw = '';
+              this.amountToWithdraw = null;
+              this.showNotification('success','Withdrawal',`was just successfully processed`,5000);
+              this.refresh();
+            });
+          }
         });
-      }
     }
   }
 
   paymentType: string;
-  openTransactions(type) {
+  processTransactions(type) {
     const dialogRef = this.dialog.open(PaymentsDialogComponent, {
       width: '650px',
       disableClose: true,
@@ -254,7 +240,7 @@ export class HomeComponent implements OnInit {
           }
           this.transactionsService.external(externalData).subscribe((result: any) => {
             this.paymentType = undefined;
-            this.showNotification('success','Transaction',`was just successfully processed`,8000);
+            this.showNotification('success','Transaction',`was just successfully processed`,5000);
             this.refresh();
           });
         }
@@ -265,12 +251,35 @@ export class HomeComponent implements OnInit {
             description: result[1],
             receiverAccountNo: accountNo,
             senderAccountType: result[3]
-          }
-          this.transactionsService.domestic(domesticData).subscribe((result: any) => {
-            this.paymentType = undefined;
-            this.showNotification('success','Transaction',`was just successfully processed`,8000);
-            this.refresh();
-          });
+          };
+            if(result[3]=='savings_account'){
+              const dialogRef = this.dialog.open(ManageItemDialogComponent, {
+                width: '500px',
+                data: { title: `We will take 0.15% (${(domesticData.amount*0.0015).toFixed(2)}) as commission , Do you Agree ? ` }
+              });
+          
+              dialogRef.afterClosed().subscribe(result => {
+                if (result == true) {
+                  this.transactionsService.domestic(domesticData).subscribe((result: any) => {
+                    this.paymentType = undefined;
+                    this.showNotification('success','Transaction',`was just successfully processed`,5000);
+                    this.refresh();
+                  });
+                }else{
+                  const dialogRef = this.dialog.open(PaymentsDialogComponent, {
+                    width: '650px',
+                    disableClose: true,
+                    data: { type: type, primary: this.primaryAccount.length == 0, savings: this.savingsAccount.length == 0 }
+                  });
+                }
+              });
+            }else{
+              this.transactionsService.domestic(domesticData).subscribe((result: any) => {
+                this.paymentType = undefined;
+                this.showNotification('success','Transaction',`was just successfully processed`,5000);
+                this.refresh();
+              });
+            }
         }
 
         if (type == 'transfer') {
@@ -281,7 +290,7 @@ export class HomeComponent implements OnInit {
             description:result[3]
           }
             this.transactionsService.transfer(transferData).subscribe(res =>{
-                this.showNotification('success','Transfer',`was just successfully processed`,8000);
+                this.showNotification('success','Transfer',`was just successfully processed`,5000);
                this.refresh();
               })
         }

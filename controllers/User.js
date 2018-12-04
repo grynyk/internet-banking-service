@@ -14,7 +14,7 @@ const User = {
   },
   async getUserById(req, res) {
     try {
-      const { rows, rowCount } = await db.query('SELECT * FROM users where id = $1',[req.params.id]);
+      const { rows, rowCount } = await db.query('SELECT * FROM users where id = $1', [req.params.id]);
       return res.status(200).send({ rows, rowCount });
     } catch (error) {
       return res.status(400).send(error);
@@ -22,7 +22,7 @@ const User = {
   },
   async create(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.status(400).send({'message': 'Some values are missing'});
+      return res.status(400).send({ 'message': 'Some values are missing' });
     }
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -54,7 +54,7 @@ const User = {
         rows[0].lastname,
         rows[0].address);
       return res.status(201).send({ token });
-    } catch(error) {
+    } catch (error) {
       if (error.routine === '_bt_check_unique') {
         return res.status(400).send({ 'message': 'User with that EMAIL already exist' })
       }
@@ -68,17 +68,17 @@ const User = {
     try {
       const { rows } = await db.query(text, [req.user.id]);
 
-      if(!Helper.comparePassword(rows[0].password, req.body.password)) {
+      if (!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ 'message': 'Password is incorrect' });
       }
 
       return res.status(200).send();
-    } catch(error) {
+    } catch (error) {
       return res.status(400).send(error)
     }
-  },  async login(req, res) {
+  }, async login(req, res) {
     if (!req.body.email || !req.body.password) {
-      return res.status(400).send({'message': 'Some values are missing'});
+      return res.status(400).send({ 'message': 'Some values are missing' });
     }
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -87,9 +87,9 @@ const User = {
     try {
       const { rows } = await db.query(text, [req.body.email]);
       if (!rows[0]) {
-        return res.status(400).send({'message': 'The credentials you provided is incorrect'});
+        return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
-      if(!Helper.comparePassword(rows[0].password, req.body.password)) {
+      if (!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
       const token = Helper.generateToken(
@@ -99,23 +99,84 @@ const User = {
         rows[0].lastname,
         rows[0].address);
       return res.status(200).send({ token });
-    } catch(error) {
+    } catch (error) {
       return res.status(400).send(error)
     }
   },
+  async block(req, res) {
+    try {
 
+      const user = (await db.query('SELECT * FROM users where id = $1', [req.params.id])).rows[0];
+      console.log(user)
+      if(user.active==false){
+        return res.status(404).send({ 'message': 'user is already blocked' });
+      }
+      const { rows } = await db.query(`UPDATE users
+      SET active=$1
+      WHERE id=$2 returning *`,[
+        false,
+        req.params.id
+      ]);
+      if (!rows[0]) {
+        return res.status(404).send({ 'message': 'user not found' });
+      }
+      return res.status(204).send({ 'message': 'user has been blocked' });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async unblock(req, res) {
+    try {
+      const user = (await db.query('SELECT * FROM users where id = $1', [req.params.id])).rows[0];
+      console.log(user)
+      if(user.active==true){
+        return res.status(404).send({ 'message': 'user is not blocked' });
+      }
+      const { rows } = await db.query(`UPDATE users
+      SET active=$1
+      WHERE id=$2 returning *`,[
+        true,
+        req.params.id
+      ]);
+      if (!rows[0]) {
+        return res.status(404).send({ 'message': 'user not found' });
+      }
+      return res.status(204).send({ 'message': 'user has been unblocked' });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
     try {
       const { rows } = await db.query(deleteQuery, [req.user.id]);
-      if(!rows[0]) {
-        return res.status(404).send({'message': 'user not found'});
+      if (!rows[0]) {
+        return res.status(404).send({ 'message': 'user not found' });
       }
       return res.status(204).send({ 'message': 'deleted' });
-    } catch(error) {
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async editUserById(req, res) {
+    try {
+      const { rows } = await db.query(`UPDATE users
+      SET firstname=$1, lastname=$2, phone=$3, email=$4, address=$5
+      WHERE id=$6 returning *`, [
+        req.body.firstname,
+        req.body.lastname,
+        req.body.phone,
+        req.body.email,
+        req.body.address,
+        req.params.id
+      ]);
+      if (!rows[0]) {
+        return res.status(404).send({ 'message': 'user not found' });
+      }
+      return res.status(204).send({ 'message': 'user edited' });
+    } catch (error) {
       return res.status(400).send(error);
     }
   }
 }
-
 export default User;
