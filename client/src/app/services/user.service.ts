@@ -20,4 +20,8 @@ export class UserService {
     deleteUser(user) {
         return this.httpClient.delete('/api/user/delete', user);
     }
+
+    getMyData() {
+        return this.httpClient.get('/api/user/getMyData').map(response => response);
+    }
 }

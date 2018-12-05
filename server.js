@@ -15,9 +15,10 @@ const app = express();
 app.use(express.json())
 
 app.post('/api/user/create', User.create);
-app.post('/api/user/login',Auth.isBlocked, User.login);
-app.post('/api/user/verifyPassword',Auth.verifyToken, User.verifyPassword);
+app.post('/api/user/login', Auth.isBlocked, User.login);
+app.post('/api/user/verifyPassword', Auth.verifyToken, User.verifyPassword);
 app.delete('/api/user/delete', Auth.verifyToken, User.delete);
+app.get('/api/user/getMyData', Auth.verifyToken, User.getMyData);
 
 app.get('/api/accounts/getAll', Auth.verifyToken, Accounts.getAllAcounts);
 
@@ -53,16 +54,16 @@ app.get('/api/statistics/getAll', Auth.verifyToken, Statistics.getStatistics);
 app.get('/api/statistics/getToday', Auth.verifyToken, Statistics.getTodaySpendings);
 
 /** ADMIN PANEL */
-app.get('/api/user/getAll', Auth.verifyToken, Auth.isAdmin,User.getAll);
-app.get('/api/user/:id', Auth.verifyToken, Auth.isAdmin,User.getUserById);
-app.put('/api/user/edit/:id', Auth.verifyToken, Auth.isAdmin,User.editUserById);
-app.put('/api/user/block/:id', Auth.verifyToken, Auth.isAdmin,User.block);
-app.put('/api/user/unblock/:id', Auth.verifyToken, Auth.isAdmin,User.unblock);
+app.get('/api/user/getAll', Auth.verifyToken, Auth.isAdmin, User.getAll);
+app.get('/api/user/:id', Auth.verifyToken, Auth.isAdmin, User.getUserById);
+app.put('/api/user/edit/:id', Auth.verifyToken, Auth.isAdmin, User.editUserById);
+app.put('/api/user/block/:id', Auth.verifyToken, Auth.isAdmin, User.block);
+app.put('/api/user/unblock/:id', Auth.verifyToken, Auth.isAdmin, User.unblock);
 app.get('/api/transaction/getAll', Auth.verifyToken, Auth.isAdmin, Transaction.getAllTransactions);
 app.get('/api/transaction/:id', Auth.verifyToken, Auth.isAdmin, Transaction.getTransactionsByUserId);
 
 app.get('/', (req, res) => {
-  return res.status(200).send({'message': 'Welcome to bank app !'});
+  return res.status(200).send({ 'message': 'Welcome to bank app !' });
 });
 
 app.listen(3000)

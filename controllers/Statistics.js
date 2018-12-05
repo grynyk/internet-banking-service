@@ -3,9 +3,10 @@ import uuid from 'uuid';
 import db from '../index';
 import Helper from './Helper';
 
+
 const Statistics = {
     async getTodaySpendings(req, res) {
-        try{
+        try {
             let todaySpendings = (await db.query(`
             SELECT
             date_part('year', created_date) as year,
@@ -13,23 +14,24 @@ const Statistics = {
             date_part('day', created_date) as day,
             sum(amount) AS spendings
                 FROM   transactions
-                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date > current_date - 1 
+                WHERE  sender_uuid = $1 AND (type = $2 OR type = $3 OR type = $4 OR type = $5) AND created_date::date = current_date
                 GROUP  BY 1,2,3`, [
                     req.user.id,
                     'domestic_transaction',
                     'external_transaction',
                     'withdrawal',
                     'custom_transaction'
-                ])).rows[0]; 
-        
-                if(!todaySpendings){
-                    todaySpendings = { spendings:"0.00"};
-                }
-                return res.status(200).send(todaySpendings);
-            } catch (error) {
-                return res.status(400).send(error);
+                ])).rows[0];
+            console.log(todaySpendings);
+
+            if(!todaySpendings){
+                todaySpendings = { spendings: "0.00" };
             }
-        
+            return res.status(200).send(todaySpendings);
+        } catch (error) {
+            return res.status(400).send(error);
+        }
+
     },
     async getStatistics(req, res) {
         try {
@@ -173,8 +175,8 @@ const Statistics = {
 
             const stats = {
                 "overral": overral.count,
-                "primary":primary.count,
-                "savings":savings.count,
+                "primary": primary.count,
+                "savings": savings.count,
                 "daily_spendings_per_month": dailySpendingsPerMonth,
                 "deposits": depositStats,
                 "withdrawals": withdrawalStats,

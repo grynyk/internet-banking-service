@@ -20,6 +20,14 @@ const User = {
       return res.status(400).send(error);
     }
   },
+  async getMyData(req, res) {
+    try {
+      const { rows, rowCount } = await db.query('SELECT * FROM users where id = $1', [req.user.id]);
+      return res.status(200).send(rows[0]);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
   async create(req, res) {
     if (!req.body.email || !req.body.password) {
       return res.status(400).send({ 'message': 'Some values are missing' });
@@ -30,8 +38,8 @@ const User = {
     const hashPassword = Helper.hashPassword(req.body.password);
 
     const createQuery = `INSERT INTO
-      users(id, firstname, lastname, address, admin, email, password, phone, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      users(id, firstname, lastname, address, admin, email, password, phone, created_date, modified_date, birthdate)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11)
       returning *`;
     const values = [
       uuid.v4(),
@@ -43,7 +51,8 @@ const User = {
       hashPassword,
       req.body.phone,
       moment(new Date()),
-      moment(new Date())
+      moment(new Date()),
+      moment(new Date(req.body.birthdate))
     ];
     try {
       const { rows } = await db.query(createQuery, values);
@@ -161,13 +170,14 @@ const User = {
   async editUserById(req, res) {
     try {
       const { rows } = await db.query(`UPDATE users
-      SET firstname=$1, lastname=$2, phone=$3, email=$4, address=$5
-      WHERE id=$6 returning *`, [
+      SET firstname=$1, lastname=$2, phone=$3, email=$4, address=$5, birthdate=$6
+      WHERE id=$7 returning *`, [
         req.body.firstname,
         req.body.lastname,
         req.body.phone,
         req.body.email,
         req.body.address,
+        req.body.birthdate,
         req.params.id
       ]);
       if (!rows[0]) {

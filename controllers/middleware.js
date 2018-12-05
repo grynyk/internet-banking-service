@@ -10,8 +10,8 @@ const Auth = {
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
-      const text = 'SELECT * FROM users WHERE id = $1';
-      const { rows } = await db.query(text, [decoded.userId]);
+
+      const { rows } = await db.query('SELECT * FROM users WHERE id = $1', [decoded.userId]);
       if (!rows[0]) {
         return res.status(400).send({ 'message': 'The token you provided is invalid' });
       }
@@ -36,7 +36,6 @@ const Auth = {
       const { rows } = await db.query('SELECT * FROM users where email = $1', [
         req.body.email
       ]);
-      console.log(rows);
       if (rows[0].active==false) {
         return res.status(401).send({ 'message': "Your account has been blocked" });
       }

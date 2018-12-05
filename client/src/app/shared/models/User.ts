@@ -1,11 +1,12 @@
 export class User {
-    email:string;
+    active?:boolean;
+    admin?:boolean;
     firstname:string;
     lastname: string;
+    email:string;
+    phone?:string;
     address: string;
     birthdate?: any;
-    admin?:boolean;
     password?:string;
-    phone?:string;
     confirmPassword?:string;
   }

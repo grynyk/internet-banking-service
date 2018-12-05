@@ -15,7 +15,9 @@ import {
   MatCardModule,
   MatCheckboxModule,
   MatDialogModule ,
-  MatInputModule
+  MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule
 
 } from '@angular/material';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -68,6 +70,8 @@ import { SharedModule } from '../shared/shared.module';
     MatSidenavModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     MatToolbarModule,
     MatIconModule,
     MatCheckboxModule,

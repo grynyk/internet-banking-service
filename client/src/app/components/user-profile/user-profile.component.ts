@@ -9,7 +9,7 @@ import * as model from '../../shared/exportModels';
   templateUrl: './user-profile.component.html',
   styleUrls: ['./user-profile.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class UserProfileComponent {
 
   constructor(
     public dialogRef: MatDialogRef<UserProfileComponent>,
@@ -21,10 +21,6 @@ export class UserProfileComponent implements OnInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/profile-icon.svg")
     );
 
-  }
-
-  ngOnInit() {
-   
   }
 
 }

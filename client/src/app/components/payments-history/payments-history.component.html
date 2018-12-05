@@ -169,11 +169,14 @@
                                   <textarea matInput disabled class="title-textarea" [value]="element.description"></textarea>
                                 </mat-form-field>
                                 <div fxLayout="row" fxLayoutAlign="end none">
-                                  <button fxFlex.xs="100" fxFlex="50" mat-button
+                                  <button fxFlex.xs="100" fxFlex="50"
+                                  color="primary"
+                                  mat-button
                                   class="export-pdf-btn"
                                   *ngIf="(element.type!=='transfer')&&(element.type!=='custom_transaction')"
                                   (click)="generatePdf(element)">
-                                    <mat-icon>file_copy</mat-icon> Download *.pdf
+                                    <mat-icon>file_copy</mat-icon>
+                                     Download *.pdf
                                   </button>
                                 </div>
                               </div>

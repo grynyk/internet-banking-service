@@ -54,7 +54,14 @@
           </mat-form-field>
         </div>
         <div fxLayout="row" fxLayoutAlign="space-between">
-            <mat-form-field fxFlex="100" appearance="outline">
+            <mat-form-field fxFlex="48" appearance="outline">
+                <mat-label>birthdate</mat-label>
+                <input matInput [matDatepicker]="picker" [min]="minBirthdate" [max]="currentDate" [disabled]="!editUserProfile" [value]="userData.birthdate"
+                (dateInput)="getBirthdate($event)">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+              </mat-form-field>
+            <mat-form-field fxFlex="48" appearance="outline">
               <mat-label>Creation date</mat-label>
               <input matInput name="email" value="{{userData.created_date | date:'dd.MM.yyyy HH:m'}}" disabled required>
             </mat-form-field>
@@ -69,7 +76,7 @@
       <span> Cancel</span>
     </button>
     <button color="primary" mat-raised-button
-    [disabled]="!userData.firstname || !userData.lastname || !userData.email || !userData.phone || !userData.address"
+    [disabled]="!userData.firstname || !userData.lastname || !userData.email || !userData.phone || !userData.address || !userData.birthdate"
     (click)="editUser()">
       <mat-icon>send</mat-icon>
       <span> Submit</span>

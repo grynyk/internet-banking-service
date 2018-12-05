@@ -2,6 +2,7 @@ import moment from 'moment';
 import uuid from 'uuid';
 import db from '../index';
 import tx from './Transaction';
+
 const Accounts = {
 
   // PRIMARY-ACCOUNT

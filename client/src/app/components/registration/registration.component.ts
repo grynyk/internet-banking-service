@@ -42,13 +42,10 @@ export class RegistrationComponent implements OnInit {
         });
   }
 
-  // getBirthdate(event: MatDatepickerInputEvent<Date>){
-  //     this.user.birthdate = event.value.getFullYear() + '-' + ('0' + (event.value.getMonth() + 1)).slice(-2) + '-'
-  //       + ('0' + event.value.getDate()).slice(-2) + 'T'
-  //       + ('0' + event.value.getHours()).slice(-2) + '-'
-  //       + ('0' + event.value.getMinutes()).slice(-2) + '-'
-  //       + ('0' + event.value.getSeconds()).slice(-2) + '.000';
-  // }
+  getBirthdate(event: MatDatepickerInputEvent<Date>){
+    this.user.birthdate = event.value;
+  }
+
   email = new FormControl('', [Validators.required, Validators.email]);
 
   getErrorMessage() {

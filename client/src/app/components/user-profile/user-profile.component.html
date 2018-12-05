@@ -23,8 +23,12 @@
                         <td>{{data.user.address}}</td>
                       </tr>
                       <tr>
+                          <td><strong>phone:</strong></td>
+                          <td>{{data.user.phone}}</td>
+                        </tr>
+                      <tr>
                           <td><strong>birthdate:</strong></td>
-                          <td>DD.MM.YYY</td>
+                          <td>{{data.user.birthdate | date:'dd.MM.yyyy'}}</td>
                         </tr>
                     </table>
   

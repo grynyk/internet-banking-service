@@ -26,10 +26,10 @@
                 <mat-form-field>
                         <input matInput type="text" placeholder="Phone" [(ngModel)]="user.phone" autocomplete="phone" name="phone" required>
                     </mat-form-field>
-                <!-- (dateInput)="getBirthdate($event)" -->
+          
                 <mat-form-field>
                     <input matInput [min]="minBirthdate" [max]="currentDate" [matDatepicker]="picker" 
-                   
+                    (dateInput)="getBirthdate($event)"
                     placeholder="Birthdate">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker touchUi #picker></mat-datepicker>
@@ -58,3 +58,5 @@
         </mat-card-footer>
     </mat-card>
 </main>
+
+{{user | json}}

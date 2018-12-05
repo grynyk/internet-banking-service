@@ -10,14 +10,16 @@ import { MatDialog } from '@angular/material';
   styleUrls: ['./user-details.component.css']
 })
 export class UserDetailsComponent implements OnInit {
-  
+  public currentDate = new Date();
+  public minBirthdate = this.currentDate.setFullYear(this.currentDate.getFullYear()-18);
   userId:number;
   userData:model.User = {
     firstname:'',
     lastname:'',
     email:'',
     phone:'',
-    address:''
+    address:'',
+    birthdate:''
   };
   editUserProfile = false;
   constructor(private router:Router,public dialog: MatDialog,
@@ -36,6 +38,10 @@ export class UserDetailsComponent implements OnInit {
         this.userData = res.rows[0];
       });
     });
+  }
+
+  getBirthdate(event){
+    this.userData.birthdate = event.value;
   }
 
   editUser(){
