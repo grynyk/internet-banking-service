@@ -43,10 +43,11 @@
             <div style="display: block;">
               <div style="display: block">
                 <canvas baseChart
-                [data]="polarAreaChartData"
-                [labels]="polarAreaChartLabels"
-                [legend]="polarAreaLegend"
-                [chartType]="polarAreaChartType"></canvas>
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                [chartType]="barChartType"></canvas>
               </div>
             </div>
           </mat-card>

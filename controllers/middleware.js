@@ -36,8 +36,20 @@ const Auth = {
       const { rows } = await db.query('SELECT * FROM users where email = $1', [
         req.body.email
       ]);
-      if (rows[0].active==false) {
+      if (rows[0].blocked==true) {
         return res.status(401).send({ 'message': "Your account has been blocked" });
+      }
+      next();
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }, async isActive(req, res, next) {
+    try {
+      const { rows } = await db.query('SELECT * FROM users where email = $1', [
+        req.body.email
+      ]);
+      if (rows[0].active==false) {
+        return res.status(401).send({ 'message': "Your account is not activated yet" });
       }
       next();
     } catch (error) {

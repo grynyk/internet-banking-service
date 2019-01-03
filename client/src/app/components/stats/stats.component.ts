@@ -24,6 +24,19 @@ export class StatsComponent implements OnInit {
   public doughnutChartType:string = 'doughnut';
   public doughnutChartLegend: boolean = false;
 
+
+  public barChartOptions:any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels:string[] = ['2006', '2007'];
+  public barChartType:string = 'bar';
+  public barChartLegend:boolean = false;
+ 
+  public barChartData:any[] = [
+    {data: [36, 59], label: 'Series A'},
+    {data: [28, 48], label: 'Series B'}
+  ];
   ngOnInit() {
     this.statisticsService.getAll().subscribe((res: any) => {
       console.log(res);

@@ -6,7 +6,7 @@ import Helper from './Helper';
 const User = {
   async getAll(req, res) {
     try {
-      const { rows, rowCount } = await db.query('SELECT * FROM users');
+      const { rows, rowCount } = await db.query('SELECT * FROM users ORDER BY created_date DESC');
       return res.status(200).send({ rows, rowCount });
     } catch (error) {
       return res.status(400).send(error);
@@ -38,8 +38,8 @@ const User = {
     const hashPassword = Helper.hashPassword(req.body.password);
 
     const createQuery = `INSERT INTO
-      users(id, firstname, lastname, address, admin, email, password, phone, created_date, modified_date, birthdate)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11)
+      users(id, firstname, lastname, address, admin, email, password, phone, created_date, modified_date, birthdate,active)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10,$11,$12)
       returning *`;
     const values = [
       uuid.v4(),
@@ -52,7 +52,8 @@ const User = {
       req.body.phone,
       moment(new Date()),
       moment(new Date()),
-      moment(new Date(req.body.birthdate))
+      moment(new Date(req.body.birthdate)),
+      false
     ];
     try {
       const { rows } = await db.query(createQuery, values);
@@ -117,13 +118,13 @@ const User = {
 
       const user = (await db.query('SELECT * FROM users where id = $1', [req.params.id])).rows[0];
       console.log(user)
-      if(user.active==false){
+      if(user.blocked==true){
         return res.status(404).send({ 'message': 'user is already blocked' });
       }
       const { rows } = await db.query(`UPDATE users
-      SET active=$1
+      SET blocked=$1
       WHERE id=$2 returning *`,[
-        false,
+        true,
         req.params.id
       ]);
       if (!rows[0]) {
@@ -138,8 +139,29 @@ const User = {
     try {
       const user = (await db.query('SELECT * FROM users where id = $1', [req.params.id])).rows[0];
       console.log(user)
-      if(user.active==true){
+      if(user.blocked==false){
         return res.status(404).send({ 'message': 'user is not blocked' });
+      }
+      const { rows } = await db.query(`UPDATE users
+      SET blocked=$1
+      WHERE id=$2 returning *`,[
+        false,
+        req.params.id
+      ]);
+      if (!rows[0]) {
+        return res.status(404).send({ 'message': 'user not found' });
+      }
+      return res.status(204).send({ 'message': 'user has been unblocked' });
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  },
+  async activate(req, res) {
+    try {
+      const user = (await db.query('SELECT * FROM users where id = $1', [req.params.id])).rows[0];
+      console.log(user)
+      if(user.active==true){
+        return res.status(404).send({ 'message': 'user is already activated' });
       }
       const { rows } = await db.query(`UPDATE users
       SET active=$1

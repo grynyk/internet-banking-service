@@ -55,7 +55,7 @@
             <span class="hide-lg"> Profile</span>
           </button>
 
-          <button fxFlex [disabled]="selectedRow !== row || !selection.isSelected(selectedRow)"
+          <button *ngIf="row.admin==false" fxFlex [disabled]="selectedRow !== row || !selection.isSelected(selectedRow)"
           (click)="goToTransactions(row)" 
             class="view-transacions-btn" mat-raised-button>
             <mat-icon>compare_arrows</mat-icon>
@@ -69,13 +69,17 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-    [ngClass]="[selectedRow == row && selection.isSelected(row) && row.active==true ? 'table-row-selected':'']"
-    [class.blocked-user-row]="row.active==false"
-    [class.table-row]="row.active==true"
+    [ngClass]="[selectedRow == row && selection.isSelected(row) ? 'table-row-selected':'']"
+    [class.blocked-user-row]="row.blocked==true"
+    [class.blocked-user-selected]="selectedRow == row && selection.isSelected(row) && row.blocked==true"
+    [class.not-active-user-row]="row.active==false"
+    [class.not-active-user-selected]="selectedRow == row && selection.isSelected(row) && row.active==false"
+    [class.table-row]="row.blocked==false"
+    
     [ngClass]="[selectedRow == row && selection.isSelected(row) && row.active==false ? 'blocked-user-row':'']"
       (click)="selectedRow = row" (click)="selection.toggle(row)">
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
 </mat-card>

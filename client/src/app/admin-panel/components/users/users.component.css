@@ -31,15 +31,36 @@
 
 .blocked-user-row{
     cursor: pointer;
-    background: rgba(220,0,0,0.4);
+    background: rgba(220,0,0,0.2);
 }
 
 .blocked-user-row:hover {
-    background: rgba(220,0,0,0.3);
+    background: rgba(220,0,0,0.15);
 }
 
+.blocked-user-selected {
+    cursor: pointer;
+    font-weight: bold;
+    background: rgba(220,0,0,0.2)!important;
+  }
+
+  .not-active-user-row{
+    cursor: pointer;
+    background: rgba(67,144,188,0.2);
+}
+
+.not-active-user-row:hover {
+    background: rgba(67,144,188,0.15)!important;
+}
+
+.not-active-user-selected {
+    cursor: pointer;
+    font-weight: bold;
+    background: rgba(67,144,188,0.2)!important;
+  }
+  
 .table-row:hover {
-    background: rgba(220,220,220,0.5);
+    background: rgba(220,220,220,0.4);
   }
 
 .table-row-selected {

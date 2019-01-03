@@ -81,6 +81,21 @@ export class UserDetailsComponent implements OnInit {
     });
   }
   
+  activateUser(){
+    const dialogRef = this.dialog.open(ManageItemDialogComponent, {
+      width: '500px',
+      data: { title: `Do you really want to activate ${this.userData.firstname} ${this.userData.lastname} ?` }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == true) {
+        this.service.activateUser(this.userId).subscribe((res:any) => {
+          this.refresh();
+        })
+      }
+    });
+  }
+
   goBack(){
     window.history.back()
   }

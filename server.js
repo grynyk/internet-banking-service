@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json())
 
 app.post('/api/user/create', User.create);
-app.post('/api/user/login', Auth.isBlocked, User.login);
+app.post('/api/user/login', Auth.isBlocked, Auth.isActive, User.login);
 app.post('/api/user/verifyPassword', Auth.verifyToken, User.verifyPassword);
 app.delete('/api/user/delete', Auth.verifyToken, User.delete);
 app.get('/api/user/getMyData', Auth.verifyToken, User.getMyData);
@@ -59,6 +59,7 @@ app.get('/api/user/:id', Auth.verifyToken, Auth.isAdmin, User.getUserById);
 app.put('/api/user/edit/:id', Auth.verifyToken, Auth.isAdmin, User.editUserById);
 app.put('/api/user/block/:id', Auth.verifyToken, Auth.isAdmin, User.block);
 app.put('/api/user/unblock/:id', Auth.verifyToken, Auth.isAdmin, User.unblock);
+app.put('/api/user/activate/:id', Auth.verifyToken, Auth.isAdmin, User.activate);
 app.get('/api/transaction/getAll', Auth.verifyToken, Auth.isAdmin, Transaction.getAllTransactions);
 app.get('/api/transaction/:id', Auth.verifyToken, Auth.isAdmin, Transaction.getTransactionsByUserId);
 

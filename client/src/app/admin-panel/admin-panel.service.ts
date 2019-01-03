@@ -29,6 +29,10 @@ export class AdminPanelService {
         return this.httpClient.put(`/api/user/edit/${id}`,user);
     }
 
+    activateUser(id) {
+        return this.httpClient.put(`/api/user/activate/${id}`,{});
+    }
+
     blockUser(id) {
         return this.httpClient.put(`/api/user/block/${id}`,{});
     }

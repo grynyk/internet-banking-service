@@ -5,24 +5,30 @@
         <mat-icon>keyboard_return</mat-icon>
       </button>
     </div>
-    <div fxFlex fxLayoutAlign="start center" style="font-size:1em">
-      {{userData.firstname}} {{userData.lastname}} details
+    <div fxFlex fxLayoutAlign="start center" style="font-size:1em;text-transform:uppercase">
+      {{userData.firstname}} {{userData.lastname}}
     </div>
     <div fxFlex fxLayoutAlign="end center" class="buttons">
         <button class="edit-btn" (click)="editUserProfile = true" mat-raised-button>
           <mat-icon>edit</mat-icon>
           <span class="hide-lg"> Edit</span>
         </button>
-        <button color="warn" (click)="blockUser()" *ngIf="userData.active==true"
+        <button color="warn" (click)="blockUser()" *ngIf="userData.blocked==false && userData.admin==false"
           class="block-btn" mat-raised-button>
           <mat-icon>block</mat-icon>
           <span class="hide-lg"> Block</span>
         </button>
-        <button color="primary" (click)="unblockUser()" *ngIf="userData.active==false"
+        <button color="primary" (click)="unblockUser()" *ngIf="userData.blocked==true && userData.admin==false"
         class="block-btn" mat-raised-button>
-        <mat-icon>panorama_fish_eye</mat-icon>
+        <mat-icon>play_circle_outline</mat-icon>
         <span class="hide-lg"> Unblock</span>
       </button>
+
+      <button color="accent" (click)="activateUser()" *ngIf="userData.active==false"
+      class="activate-btn" mat-raised-button>
+      <mat-icon>check_circle_outline</mat-icon>
+      <span class="hide-lg"> Activate</span>
+    </button>
       </div>
   </mat-card-title>
 
@@ -62,7 +68,7 @@
                 <mat-datepicker touchUi #picker></mat-datepicker>
               </mat-form-field>
             <mat-form-field fxFlex="48" appearance="outline">
-              <mat-label>Creation date</mat-label>
+              <mat-label>Registration date</mat-label>
               <input matInput name="email" value="{{userData.created_date | date:'dd.MM.yyyy HH:m'}}" disabled required>
             </mat-form-field>
           </div>

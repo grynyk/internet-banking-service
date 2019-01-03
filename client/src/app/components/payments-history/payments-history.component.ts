@@ -193,7 +193,7 @@ export class PaymentsHistoryComponent implements OnInit {
       if (result) {
         this.transactionsService.custom(result).subscribe((result: any) => {
           console.log(result);
-          this.showNotification('success', 'Payment', `was just successfully added`, 5000);
+          this.showNotification('success', 'Payment', `was just successfully added`, 3000);
           this.refresh();
         });
       }
@@ -211,7 +211,7 @@ export class PaymentsHistoryComponent implements OnInit {
       if (result == true) {
         this.transactionsService.delete(this.selectedRow.id).subscribe((result: any) => {
           console.log(result);
-          this.showNotification('success', 'Payment', `was just successfully hidden`, 5000);
+          this.showNotification('success', 'Payment', `was just successfully hidden`, 3000);
           this.refresh();
         });
       }
