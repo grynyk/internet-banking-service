@@ -1,4 +1,6 @@
-# INTERNET BANKING SERVICE
+# INTERNET BANKING SERVICE :moneybag: :credit_card:
+
+>![responsive web app](https://github.com/grynyk/internet-banking-service/blob/master/client/src/assets/1.png)
 
 **Internet banking SPA, which allows user to:** 
 Deposit, withdraw money, transfer money between user's accounts, process domestic and external transactions, add custom transactions, hide transactions from list, export specific transactions details to .pdf , manage recipients(create/read/update/delete), view statistics (for spendings, accounts etc.).
