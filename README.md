@@ -26,3 +26,11 @@ View all users list, create/update/activate/block/unblock users, view users deta
 - Start server with 'npm run dev-start' in internet-banking-service folder (root).
 - Start Angular app with 'npm start' in client folder using another terminal.
 - Voilà ! Our application is working on http://localhost:4200/ and server is working on http://localhost:3000/
+
+# TASKS
+- [x] Implement activation of users account by admin
+- [x] Count commission before processing transaction from savings account
+- [ ] Rewrite backend using Typescript
+- [ ] Improve user interface
+- [ ] Code refactoring, split app to separate modules
+- [ ] Create bank logo
