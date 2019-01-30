@@ -18,21 +18,33 @@ View all users list, create/update/activate/block/unblock users, view users deta
 
 # HOW TO RUN
 - Clone this repo.
-- Run 'npm install' in the internet-banking-service directory to install Node/Express dependencies.
+- Run 'npm install' in the internet-banking-service(root) directory to install Node/Express dependencies.
 - Run 'npm install' in the client directory to install Angular dependencies.
-- Install PostgreSQL to your computer.
+- Install PostgreSQL on your computer.
 - Run 'npm install --save pg dotenv' to install node-postgres package.
-- Run 'createdb bank_db' in console to create postgres database for our project.
+- Run psql 'createdb bank_db' in console to create postgres database for project.
 - Create .env file in root folder and declare an url to database in it (postgres://{db_username}:{db_password}@{host}:{port}/{db_name}).
 - Run 'node db createTables' in root folder to create all required tables in database.
-- Start server with 'npm run dev-start' in internet-banking-service folder (root).
-- Start Angular app with 'npm start' in client folder using another terminal.
+- Add "dev-start": "babel-watch server.js" to your package.json under scripts section.
+- Running 'npm run dev-start' in root directory should start your server.
+- Create proxyconfig.json in client directory to skip corse issues and add the following code into:
+```
+{
+    "/api":{
+        "target":"http://localhost:3000",
+        "secure": false,
+        "changeOrigin":true
+    }
+}
+```
+- Edit "start" to "ng serve --proxy-config proxyconfig.json" in client/package.json under scripts section.
+- Start Angular app with 'npm start' in client directory using another terminal.
 - Voilà ! Our application is working on http://localhost:4200/ and server is working on http://localhost:3000/
 
 # TASKS
 - [x] Implement activation of users account by admin
 - [x] Count commission before processing transaction from savings account
-- [ ] Rewrite backend using Typescript
+- [ ] Rewrite backend using Typescript (ev. Nest.js)
 - [ ] Improve user interface
 - [ ] Code refactoring, split app to separate modules
 - [ ] Create bank logo
