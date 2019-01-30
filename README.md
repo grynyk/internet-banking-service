@@ -27,7 +27,7 @@ View all users list, create/update/activate/block/unblock users, view users deta
 - Run 'node db createTables' in root folder to create all required tables in database.
 - Add "dev-start": "babel-watch server.js" to your package.json under scripts section.
 - Running 'npm run dev-start' in root directory should start your server.
-- Create proxyconfig.json in client directory to skip corse issues and add the following code into:
+- Create proxyconfig.json in client directory to skip CORS issues and add the following code into:
 ```
 {
     "/api":{
