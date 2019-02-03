@@ -1,12 +1,12 @@
 import { HomeComponent } from './components/home/home.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRouting } from './app.routing';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CountdownModule } from 'ngx-countdown';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule } from '@angular/material';
 import { RouterModule, Routes } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,7 +44,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { ScrollDispatchModule } from '@angular/cdk/scrolling';
 import { Http, HttpModule } from '@angular/http';
-import {MatStepperModule} from '@angular/material/stepper';
+import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import 'hammerjs';
@@ -55,13 +55,13 @@ import { ErrorHandlerDialogComponent } from './components/dialogs/error-dialog/e
 import { ManageItemDialogComponent } from './components/dialogs/manage-item-dialog/manage-item.component';
 
 import { AddExpenseDialogComponent } from './components/payments-history/add-expense-dialog/add-expense-dialog.component';
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { SharedModule } from './shared/shared.module';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { ImportedDataComponent } from './components/payments-history/imported-data/imported-data.component';
 import { CreateAccountDialogComponent } from './components/home/create-account-dialog/create-account-dialog.component';
 import { PaymentsDialogComponent } from './components/home/payments-dialog/payments-dialog.component';
-import {NgxMaskModule} from 'ngx-mask';
+import { NgxMaskModule } from 'ngx-mask';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 import { AccountDetailsComponent } from './components/home/account-details/account-details.component';
 import { SimpleNotificationsModule } from 'angular2-notifications';

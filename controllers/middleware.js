@@ -21,7 +21,9 @@ const Auth = {
     } catch (error) {
       return res.status(400).send(error);
     }
-  }, async isAdmin(req, res, next) {
+  }
+  
+  , async isAdmin(req, res, next) {
     const token = req.headers['x-access-token'];
     try {
       if (req.user.admin==false) {

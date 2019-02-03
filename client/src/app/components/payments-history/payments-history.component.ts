@@ -18,13 +18,11 @@ import { NotificationsService } from 'angular2-notifications';
   selector: 'app-payments-history',
   templateUrl: './payments-history.component.html',
   styleUrls: ['./payments-history.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ]
+  animations: [trigger('detailExpand', [
+    state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
+    state('expanded', style({ height: '*' })),
+    transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+  ])]
 })
 export class PaymentsHistoryComponent implements OnInit {
 

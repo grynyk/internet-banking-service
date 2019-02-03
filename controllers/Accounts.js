@@ -138,7 +138,9 @@ const Accounts = {
     } catch (err) {
       return res.status(400).send(err);
     }
-  },
+  }
+  
+  ,
   // SAVINGS-ACCOUNT
   async createSavings(req, res) {
     const createQuery = `INSERT INTO

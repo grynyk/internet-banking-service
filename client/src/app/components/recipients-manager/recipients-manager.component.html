@@ -11,13 +11,13 @@
               <span class="hide-lg"> Add</span>
             </button>
 
-            <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" (click)="edit(selectedRow)" class="edit-btn"
+            <button [disabled]="dataSource.data.length==0 || !selection.isSelected(selectedRow)" (click)="edit(selectedRow)" class="edit-btn"
               mat-raised-button>
               <mat-icon>edit</mat-icon>
               <span class="hide-lg"> Edit</span>
             </button>
 
-            <button [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="delete(selectedRow.id)"
+            <button [disabled]="dataSource.data.length==0 || !selection.isSelected(selectedRow)" color="warn" (click)="delete(selectedRow.id)"
               class="delete-btn" mat-raised-button>
               <mat-icon>delete_outline</mat-icon>
               <span class="hide-lg"> Delete</span>
@@ -100,7 +100,7 @@
         </table>
 
 
-        <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
+        <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length">
           <div fxLayoutAlign="center center">
             <h4 class="message" fxLayoutAlign="center center">You don't have any recipients yet</h4>
           </div>

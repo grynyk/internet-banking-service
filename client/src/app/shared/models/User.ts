@@ -9,4 +9,6 @@ export class User {
     birthdate?: any;
     password?:string;
     confirmPassword?:string;
+    blocked?:boolean;
+    created_date?:any;
   }

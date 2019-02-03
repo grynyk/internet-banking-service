@@ -26,28 +26,29 @@ mat-checkbox{
 .filter-input{
     margin-left:10px;
     margin-right:10px;
+    text-transform: uppercase!important;
 }
 
 .filter-selector{
-    margin-left:10px;
     margin-right:10px
 }
 
 .add-btn{
     background: #66bb6a;
     color: #fff;
-    margin-left: 10px;
-    margin-bottom:25px;
-    margin-top:10px;
+    text-transform: uppercase!important;
+    margin-bottom:30px;
+    margin-top:5px;
 }
 
 .hide-btn{
     color: #fff;
     background: #6f6f6f;
+    text-transform: uppercase!important;
     margin-left: 10px;
+    margin-bottom:30px;
+    margin-top:5px;
     margin-right: 10px;
-    margin-bottom:25px;
-    margin-top:10px;
 }
 
 .export-pdf-btn{

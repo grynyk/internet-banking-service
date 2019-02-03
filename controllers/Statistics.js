@@ -5,6 +5,7 @@ import Helper from './Helper';
 
 
 const Statistics = {
+    
     async getTodaySpendings(req, res) {
         try {
             let todaySpendings = (await db.query(`
@@ -31,8 +32,10 @@ const Statistics = {
         } catch (error) {
             return res.status(400).send(error);
         }
-
-    },
+    }
+    
+    
+    ,
     async getStatistics(req, res) {
         try {
             let overral = (await db.query(`

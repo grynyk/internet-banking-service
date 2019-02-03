@@ -178,13 +178,14 @@ const Transaction = {
       }
       return res.status(200).send({ "message": "transaction approved" });
     });
-  }, async externalTransaction(req, res) {
+  },
+  
+  
+  async externalTransaction(req, res) {
     tx(async client => {
       const { rows } = await client.query(`SELECT * FROM ${req.body.senderAccountType} WHERE owner_id = $1`, [req.user.id]);
       const sendersBalance = rows[0].balance;
       const sendersUpdatedBalance = +sendersBalance - +req.body.amount;
-
-      // const senderName = await client.query(`SELECT firstname,lastname FROM users WHERE id = $1`, [rows[0].owner_id]);
 
       try {
 
@@ -193,7 +194,8 @@ const Transaction = {
                 balance = $1 WHERE owner_id = $2 returning *`, [sendersUpdatedBalance, req.user.id]);
 
           await client.query(`INSERT INTO
-                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status, sender_account_type, receiver_account_type,type,receiver_name,sender_name,sender_account_number,receiver_account_number)
+                transactions(id, description, amount, created_date, sender_uuid, receiver_uuid, status,
+                sender_account_type, receiver_account_type,type,receiver_name,sender_name,sender_account_number,receiver_account_number)
                 VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9,$10,$11,$12,$13,$14) returning *`, [
               uuid.v4(),
               req.body.description,
@@ -218,7 +220,12 @@ const Transaction = {
       }
       return res.status(200).send({ "message": "transaction approved" });
     });
-  }, async transfer(req, res) {
+  }
+  
+  
+  
+  
+  , async transfer(req, res) {
     try {
       const fromAccount = (await db.query(`SELECT * FROM ${req.body.fromAccount} WHERE owner_id = $1`, [req.user.id])).rows[0];
      

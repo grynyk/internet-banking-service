@@ -1,6 +1,8 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { StatisticsService } from '../../services/statistics.service';
 import * as moment from 'moment';
+import { AnimationComponent } from '../../shared/animationsComponent';
+
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',

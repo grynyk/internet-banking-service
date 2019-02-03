@@ -3,12 +3,13 @@
                   <div class="data-table-overflow">
                     <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row" *ngIf="displayOnlyTable==false">
                      
-                      <mat-form-field fxFlex class="filter-input">
+                      <mat-form-field fxFlex class="filter-input" appearance="outline">
                         <mat-label>Search for transactions</mat-label>
                         <input matInput (keyup)="applyFilter($event.target.value)">
                       </mat-form-field>
                       <span fxLayout.xs="row" class="buttons">
-                          <mat-form-field fxFlex="25" class="filter-selector">
+                          <mat-form-field fxFlex="30" class="filter-selector"  appearance="outline">
+                              <mat-label>Filter</mat-label>
                               <mat-select name="filterType" [(ngModel)]="filterType">
                                 <mat-option value='all' (click)="refresh()">
                                   All

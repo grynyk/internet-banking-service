@@ -8,6 +8,8 @@ import { MatProgressSpinnerModule,
     MatFormFieldModule,
     MatSelectModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 @NgModule({
     declarations: [
         ClickOutsideDirective,
@@ -23,7 +25,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
         MatProgressSpinnerModule,
         MatFormFieldModule,
         MatIconModule,
-        MatButtonModule
+        MatButtonModule,
+        BrowserAnimationsModule
     ]
 })
 export class SharedModule { }

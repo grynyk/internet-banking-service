@@ -67,5 +67,11 @@ app.get('/', (req, res) => {
   return res.status(200).send({ 'message': 'Welcome to bank app !' });
 });
 
-app.listen(3000)
+app.listen(3000);
 console.log('app running on port ', 3000);
+
+// app.listen(3000, () => {
+//   console.log('Serwer is listening on http://localhost:3000');
+//   });
+
+  

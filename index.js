@@ -8,7 +8,6 @@ const pool = new Pool({
 });
 
 export default {
-
   query(text, params){
     return new Promise((resolve, reject) => {
       pool.query(text, params)

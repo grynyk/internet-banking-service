@@ -9,18 +9,15 @@
 
         <div fxFlex fxLayoutAlign="end center">
             <ul fxLayout fxLayoutGap="10px" class="header-items">
-                <li class="user-data">
-                    <a (click)="openProfile()">
+                <li (click)="openProfile()">
                         <span fxLayoutAlign="none center">
                             <i class="material-icons  account-icon">
                                     account_circle
                             </i>
                             <strong>{{user.firstname}} {{user.lastname}} </strong>
                         </span>
-                    </a>
                 </li>
-                <li class="session-timer" (click)="refreshSession()">
-                    <a>
+                <li (click)="refreshSession()">
                         <span fxLayoutAlign="none center">
                             session timeout:&nbsp;
                             <span>
@@ -28,10 +25,8 @@
                             </span>
                             <i class="material-icons refresh-icon">cached</i>
                         </span>
-                    </a>
                 </li>
-                <li class="log-out-link">
-                    <a routerLink="/login">log out</a>
+                <li routerLink="/login">log out
                 </li>
             </ul>
         </div>
@@ -52,19 +47,18 @@
             </div>
 
         <div fxFlex fxLayout fxLayoutAlign="start center" fxHide fxShow.gt-sm>
-            <ul fxLayout fxLayoutGap="30px" class="navigation-items">
-                <li>
-                    <a class="navbar-item" routerLink="/">Home</a>
+            <ul fxLayout fxLayoutGap="30px" class="navigation-items container pullRightLeft">
+                <li routerLink="/">
+                    <a class="navbar-item" >Home</a>
                 </li>
-                <li>
-                    <a class="navbar-item" routerLink="/payments-history">Payments history manager</a>
+                <li routerLink="/payments-history" [routerLinkActive]="['active']">
+                    <a class="navbar-item">Payments history manager</a>
                 </li>
-
-                <li>
-                    <a class="navbar-item" routerLink="/stats">Statistics</a>
+                <li routerLink="/recipients-manager" [routerLinkActive]="['active']">
+                    <a class="navbar-item">Recipients manager</a>
                 </li>
-                <li>
-                    <a class="navbar-item" routerLink="/recipients-manager">Recipients manager</a>
+                <li routerLink="/stats" [routerLinkActive]="['active']">
+                    <a class="navbar-item">Statistics</a>
                 </li>
             </ul>
         </div>
