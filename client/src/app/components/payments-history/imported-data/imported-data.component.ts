@@ -13,7 +13,7 @@ export class ImportedDataComponent {
   constructor(
     public dialogRef: MatDialogRef<ImportedDataComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 
 
 }

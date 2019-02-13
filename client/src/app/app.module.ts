@@ -34,7 +34,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { AppComponent } from './app.component';
 import { SideMenuComponent } from './components/sidemenu/sidemenu.component';
 import { LoginComponent } from './components/login/login.component';
@@ -72,7 +71,6 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 
 import { ChartsModule } from 'ng2-charts';
 import { StatsComponent } from './components/stats/stats.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { RoleGuard } from './guards/role.guard';
 const options = {};
 
@@ -99,7 +97,6 @@ const options = {};
     AboutComponent,
     UserProfileComponent,
     StatsComponent,
-    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -157,7 +154,6 @@ const options = {};
     },
     AuthGuard,
     RoleGuard,
-    CanDeactivateGuard,
     AuthenticationService,
     UserService
   ],

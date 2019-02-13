@@ -103,7 +103,7 @@
   <div fxLayout="row" fxLayoutAlign="space-between">
       <mat-form-field fxFlex="25" appearance="outline" color="primary">
           <mat-label>Amount</mat-label>
-          <input matInput [(ngModel)]="amount" placeholder="100.59" type="number" min="0" (keypress)="onlyNumbersPattern($event)" mask="0*.00" required/>
+          <input matInput [(ngModel)]="amount" placeholder="100.59" type="string" min="0" (keypress)="onlyNumbersPattern($event)" mask="0*.00" required/>
         </mat-form-field>
         <mat-form-field fxFlex="71" appearance="outline" color="primary">
             <mat-label>Title</mat-label>

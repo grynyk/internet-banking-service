@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AdminPanelService } from '../../../admin-panel.service';
 import * as model from '../../../../shared/models/User';
@@ -40,7 +40,7 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  getBirthdate(event){
+  getBirthdate(event:any){
     this.userData.birthdate = event.value;
   }
 

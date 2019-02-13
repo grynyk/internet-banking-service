@@ -12,7 +12,7 @@ export class AccountDetailsComponent implements OnInit {
   dataSource = new MatTableDataSource();
   constructor(private transactionsService: TransactionsService,
     private bottomSheetRef: MatBottomSheetRef<AccountDetailsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data) { }
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data:any) { }
 
   loginRespond = JSON.parse(localStorage.getItem('currentUser'));
   user = {

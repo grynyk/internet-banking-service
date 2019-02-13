@@ -13,6 +13,8 @@ import { NotificationsService } from 'angular2-notifications';
 import { FormBuilder } from '@angular/forms';
 import { StatisticsService } from '../../services/statistics.service';
 import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-item.component';
+import { User } from '../../shared/models/User';
+import { Account, Transaction } from '../../shared/exportModels';
 
 
 @Component({
@@ -23,12 +25,14 @@ import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-
 export class HomeComponent implements OnInit {
 
   loginRespond = JSON.parse(localStorage.getItem('currentUser'));
-  user = {
+
+  user:User = {
     id: this.loginRespond.userData.userId,
     firstname: this.loginRespond.userData.firstname,
     lastname: this.loginRespond.userData.lastname
   }
-  @ViewChild('transactionsHistory') transactionsHistory;
+
+  @ViewChild('transactionsHistory') transactionsHistory:any;
 
   constructor(private fb: FormBuilder,
     private notificationsService: NotificationsService,
@@ -65,7 +69,7 @@ export class HomeComponent implements OnInit {
 
   loading = true;
 
-  showNotification(type,title,content,timeOut){
+  showNotification(type:string ,title:string, content:string ,timeOut:number){
     let options= this.fb.group({
 			type: type,
 			title: title,
@@ -90,14 +94,15 @@ export class HomeComponent implements OnInit {
 
      
     });
+    
     this.accountsService.getAll().subscribe((result: any) => {
       console.log(result);
       if (result.rowCount !== 0) {
-        this.primaryAccount = result.rows.filter(res => res.type == 'primary_account');
-        this.savingsAccount = result.rows.filter(res => res.type == 'savings_account');
+        this.primaryAccount = result.rows.filter((account:Account) => account.type == 'primary_account');
+        this.savingsAccount = result.rows.filter((account:Account) => account.type == 'savings_account');
         this.transactionsHistory.refresh();
       }
-      setTimeout(res => {
+      setTimeout(() => {
         this.loading = false;
        }, 800);
     });
@@ -107,7 +112,7 @@ export class HomeComponent implements OnInit {
   openPrimary() {
     if (this.primaryAccount.length !== 0) {
       this.transactionsService.getAll().subscribe((res: any) => {
-        let primaryTransactions = res.rows.filter(row => (row.sender_account_type == 'primary_account' || row.receiver_account_type == 'primary_account')&&(row.sender_uuid == this.user.id || row.receiver_uuid == this.user.id));
+        let primaryTransactions = res.rows.filter((transaction:Transaction) => (transaction.sender_account_type == 'primary_account' || transaction.receiver_account_type == 'primary_account')&&(transaction.sender_uuid == this.user.id || transaction.receiver_uuid == this.user.id));
         this.bottomSheet.open(AccountDetailsComponent,{
           data:{ transactions:primaryTransactions,accountInfo:this.primaryAccount}
         });
@@ -133,7 +138,7 @@ export class HomeComponent implements OnInit {
   openSavings() {
     if (this.savingsAccount.length !== 0) {
       this.transactionsService.getAll().subscribe((res: any) => {
-        let savingsTransactions = res.rows.filter(row => (row.sender_account_type == 'savings_account' || row.receiver_account_type == 'savings_account')&&(row.sender_uuid == this.user.id || row.receiver_uuid == this.user.id));
+        let savingsTransactions = res.rows.filter((transaction:Transaction) => (transaction.sender_account_type == 'savings_account' || transaction.receiver_account_type == 'savings_account')&&(transaction.sender_uuid == this.user.id || transaction.receiver_uuid == this.user.id));
 
         this.bottomSheet.open(AccountDetailsComponent,{
           data:{ transactions:savingsTransactions,accountInfo:this.savingsAccount}
@@ -169,7 +174,7 @@ export class HomeComponent implements OnInit {
 
   accountTypeToDeposit: String;
   amountToDeposit: number;
-  depositMoney(type, amount) {
+  depositMoney(type:string , amount:number) {
     if (type == 'primary_account') {
       this.accountsService.primaryDeposit(this.primaryAccount[0].id, amount).subscribe((result: any) => {
         this.accountTypeToDeposit = '';
@@ -191,7 +196,7 @@ export class HomeComponent implements OnInit {
 
   accountTypeToWithdraw: String;
   amountToWithdraw: number;
-  withdrawMoney(type, amount) {
+  withdrawMoney(type:string, amount:number) {
     if (type == 'primary_account') {
         this.accountsService.primaryWithdraw(this.primaryAccount[0].id, amount).subscribe((result: any) => {
           this.accountTypeToWithdraw = '';
@@ -221,7 +226,7 @@ export class HomeComponent implements OnInit {
   }
 
   paymentType: string;
-  processTransactions(type) {
+  processTransactions(type:string) {
     const dialogRef = this.dialog.open(PaymentsDialogComponent, {
       width: '650px',
       disableClose: true,

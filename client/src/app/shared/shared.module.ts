@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClickOutsideDirective } from './click-outside.directive';
 import { PasswordMatcherDirective } from './password-matcher.directive';
 import { MatProgressSpinnerModule,
     MatIconModule,
@@ -12,11 +11,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
-        ClickOutsideDirective,
         PasswordMatcherDirective
     ],
     exports: [
-        ClickOutsideDirective,
         PasswordMatcherDirective
     ],imports: [
         CommonModule,

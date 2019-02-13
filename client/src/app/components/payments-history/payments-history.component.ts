@@ -1,18 +1,17 @@
 import { Component, OnInit, ChangeDetectorRef, Input, ViewChild, HostListener } from '@angular/core';
 import { MatDialog, MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
-import { CanDeactivateGuard } from '../../guards/can-deactivate.guard';
 import { map } from 'rxjs/operators';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ManageItemDialogComponent } from '../../components/dialogs/manage-item-dialog/manage-item.component';
-import * as model from '../../shared/exportModels'
 import * as moment from 'moment';
 import { AddExpenseDialogComponent } from './add-expense-dialog/add-expense-dialog.component';
 import { ImportedDataComponent } from './imported-data/imported-data.component';
 import { TransactionsService } from '../../services/transactions.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import jsPDF from 'jspdf';
+import * as jsPDF from 'jspdf';
 import { FormBuilder } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
+import { Transaction } from '../../shared/exportModels';
 
 @Component({
   selector: 'app-payments-history',
@@ -51,14 +50,12 @@ export class PaymentsHistoryComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private notificationsService: NotificationsService,
     private transactionsService: TransactionsService,
-    public dialog: MatDialog,
-    private changeDetectorRefs: ChangeDetectorRef,
-    public canDeactivateGuard: CanDeactivateGuard) {
+    public dialog: MatDialog) {
 
   }
 
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(event:any) {
     if (event.target.innerWidth < 600) {
       if (this.displayOnlyTable == false) {
         this.displayedColumns = ['select', 'date', 'amount', 'type'];
@@ -105,7 +102,7 @@ export class PaymentsHistoryComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res.rows);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      setTimeout(res => {
+      setTimeout(() => {
         this.loading = false;
        }, 800);
     });
@@ -117,7 +114,7 @@ export class PaymentsHistoryComponent implements OnInit {
 
   public filterType = 'all';
 
-  showNotification(type, title, content, timeOut) {
+  showNotification(type:string, title:string, content:string, timeOut:number) {
     let options = this.fb.group({
       type: type,
       title: title,
@@ -132,37 +129,37 @@ export class PaymentsHistoryComponent implements OnInit {
     this.notificationsService.create(options.title, options.content, options.type, options);
   }
 
-  generatePdf(row) {
+  generatePdf(transaction: Transaction) {
     var doc = new jsPDF();
     doc.setFontSize(22);
     doc.text(`PAYMENT DETAILS`, 70, 15);
     doc.setFontSize(14);
     doc.text(`date:`, 10, 30);
-    doc.text(`${moment(row.created_date).format('DD-MM-YYYY HH:mm')}`, 50, 30);
+    doc.text(`${moment(transaction.created_date).format('DD-MM-YYYY HH:mm')}`, 50, 30);
     doc.text(`status:`, 10, 40);
-    doc.text(`${('' + row.status).toUpperCase()}`, 50, 40);
+    doc.text(`${('' + transaction.status).toUpperCase()}`, 50, 40);
     doc.text(`type:`, 10, 50);
-    doc.text(`${row.type.toUpperCase()}`, 50, 50);
+    doc.text(`${transaction.type.toUpperCase()}`, 50, 50);
 
     doc.text(`sender:`, 10, 65);
     doc.setFontSize(12);
-    doc.text(`${row.sender_name.toUpperCase()} (${row.sender_account_type.toUpperCase()})`, 50, 65);
+    doc.text(`${transaction.sender_name.toUpperCase()} (${transaction.sender_account_type.toUpperCase()})`, 50, 65);
     doc.setFontSize(14);
-    doc.text(`${row.sender_account_number.toUpperCase()}`, 50, 73);
+    doc.text(`${transaction.sender_account_number.toUpperCase()}`, 50, 73);
 
     doc.text(`receiver:`, 10, 83);
     doc.setFontSize(12);
-    doc.text(`${row.receiver_name.toUpperCase()} (${row.receiver_account_type.toUpperCase()})`, 50, 83);
+    doc.text(`${transaction.receiver_name.toUpperCase()} (${transaction.receiver_account_type.toUpperCase()})`, 50, 83);
     doc.setFontSize(14);
-    doc.text(`${row.receiver_account_number.toUpperCase()}`, 50, 91);
+    doc.text(`${transaction.receiver_account_number.toUpperCase()}`, 50, 91);
 
     doc.text(`description:`, 10, 106);
-    doc.text(`${row.description.toUpperCase()}`, 50, 106);
+    doc.text(`${transaction.description.toUpperCase()}`, 50, 106);
 
     doc.setFontSize(20);
-    doc.text(`amount:  ${row.amount}`, 140, 125);
+    doc.text(`amount:  ${transaction.amount}`, 140, 125);
 
-    doc.save(`payment_${row.created_date}.pdf`);
+    doc.save(`payment_${transaction.created_date}.pdf`);
   }
 
   getIncoming() {
@@ -177,9 +174,9 @@ export class PaymentsHistoryComponent implements OnInit {
     })
   }
 
-  getRowData(row) {
-    this.selectedRow = row;
-    this.selectedRowIndex = row.id;
+  getRowData(transaction:Transaction) {
+    this.selectedRow = transaction;
+    this.selectedRowIndex = transaction.id;
   }
 
 

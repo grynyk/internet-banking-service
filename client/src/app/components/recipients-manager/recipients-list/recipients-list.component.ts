@@ -12,7 +12,7 @@ export class RecipientsListComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   constructor(private bottomSheetRef: MatBottomSheetRef<RecipientsListComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data) { }
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data:any) { }
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -21,7 +21,7 @@ export class RecipientsListComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     }
   
-    SendData(row){
+    SendData(row:any){
       this.bottomSheetRef.dismiss(row);
     }
 

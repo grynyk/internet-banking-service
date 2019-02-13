@@ -11,7 +11,7 @@ export class MainComponent implements OnInit {
   currentUser:any;
   sidemenuMode:any;
   @HostListener('window:resize', ['$event'])
-  onResize(event) {
+  onResize(event:any) {
    if(event.target.innerWidth<600){
     this.sidemenuMode = 'push';
    }

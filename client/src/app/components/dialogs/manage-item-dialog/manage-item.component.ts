@@ -10,5 +10,5 @@ export class ManageItemDialogComponent{
 
   constructor(
     public dialogRef: MatDialogRef<ManageItemDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 }

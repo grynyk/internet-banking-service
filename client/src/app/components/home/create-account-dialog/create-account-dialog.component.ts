@@ -16,7 +16,7 @@ export class CreateAccountDialogComponent implements OnInit {
   constructor(private userService:UserService,
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     public dialog: MatDialog,private _formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 
     ngOnInit() {
       this.firstFormGroup = this._formBuilder.group({
@@ -29,7 +29,7 @@ export class CreateAccountDialogComponent implements OnInit {
 
     passwordToVerify = '';
 
-    verifyPassword(password,stepper: MatStepper){
+    verifyPassword(password:string,stepper: MatStepper){
       this.userService.verifyPassword(password).subscribe((result: any) => {
         stepper.next();
       });

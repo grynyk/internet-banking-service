@@ -14,7 +14,7 @@ export class UserProfileComponent {
   constructor(
     public dialogRef: MatDialogRef<UserProfileComponent>,
     public dialog: MatDialog, private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) public data, private matIconRegistry: MatIconRegistry,
+    @Inject(MAT_DIALOG_DATA) public data:any, private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon(
       "profile-icon",

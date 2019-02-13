@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
+import { User } from '../shared/models/User';
 @Injectable()
 export class AdminPanelService {
     constructor(private httpClient: HttpClient) { }
@@ -13,35 +14,35 @@ export class AdminPanelService {
         return this.httpClient.get('/api/transaction/getAll').map(response => response);
     }
 
-    getTransactionsByUserId(id) {
+    getTransactionsByUserId(id:any) {
         return this.httpClient.get(`/api/transaction/${id}`).map(response => response);
     }
 
-    getUserById(id) {
+    getUserById(id:any) {
         return this.httpClient.get(`/api/user/${id}`).map(response => response);
     }
 
-    createUser(user) {
+    createUser(user:User) {
         return this.httpClient.post('/api/user/create', user);
     }
 
-    editUser(id,user) {
+    editUser(id:any,user:User) {
         return this.httpClient.put(`/api/user/edit/${id}`,user);
     }
 
-    activateUser(id) {
+    activateUser(id:any) {
         return this.httpClient.put(`/api/user/activate/${id}`,{});
     }
 
-    blockUser(id) {
+    blockUser(id:any) {
         return this.httpClient.put(`/api/user/block/${id}`,{});
     }
 
-    unblockUser(id) {
+    unblockUser(id:any) {
         return this.httpClient.put(`/api/user/unblock/${id}`,{});
     }
 
-    deleteUser(user) {
+    deleteUser(user:any) {
         return this.httpClient.delete('/api/user/delete', user);
     }
 }

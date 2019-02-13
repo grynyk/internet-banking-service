@@ -20,6 +20,6 @@ export class AddUserDialogComponent {
   };
   constructor(public dialogRef: MatDialogRef<AddUserDialogComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 
 }

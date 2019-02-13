@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Recipient } from '../shared/exportModels';
 
 @Injectable({
   providedIn: 'root'
@@ -19,15 +20,15 @@ export class RecipientsService {
     return this.httpClient.get(`${this.recipients_url}/getAll`).map(response => response);
   }
 
-  create(data) {
-    return this.httpClient.post(`${this.recipients_url}/create`, data).map(response => response);
+  create(recipient:Recipient) {
+    return this.httpClient.post(`${this.recipients_url}/create`, recipient).map(response => response);
   }
 
-  update(id, data) {
-    return this.httpClient.put(`${this.recipients_url}/update/${id}`, data).map(response => response);
+  update(id:any, recipient:Recipient) {
+    return this.httpClient.put(`${this.recipients_url}/update/${id}`, recipient).map(response => response);
   }
 
-  delete(id) {
+  delete(id:any) {
     return this.httpClient.delete(`${this.recipients_url}/delete/${id}`).map(response => response);
   }
 

@@ -9,7 +9,7 @@ declare var require: any;
 export class AuthenticationService {
   constructor(private http: HttpClient, public router: Router) { }
 
-  login(email, password) {
+  login(email:string, password:string) {
     const loginData = { email: email, password: password };
     const jwtDecode = require('jwt-decode');
     return this.http.post<any>('/api/user/login', loginData)

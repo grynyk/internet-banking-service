@@ -4,6 +4,7 @@ import { AdminPanelService } from '../../admin-panel.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Router } from '@angular/router';
 import { AddUserDialogComponent } from './add-user-dialog/add-user-dialog.component';
+import { User } from '../../../shared/models/User';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -58,16 +59,16 @@ export class UsersComponent implements OnInit {
   }
 
   selectedRow:any;
-  getRowData(row) {
-    this.selectedRow = row;
+  getRowData(user: User) {
+    this.selectedRow = user;
   }
 
-  goToProfile(row){
-    this.router.navigate(['admin-panel/users/',row.id]);
+  goToProfile(user: User){
+    this.router.navigate(['admin-panel/users/', user.id]);
   }
   
-  goToTransactions(row){
-    this.router.navigate(['admin-panel/transactions/',row.id]);
+  goToTransactions(user: User){
+    this.router.navigate(['admin-panel/transactions/',user.id]);
   }
 
 }

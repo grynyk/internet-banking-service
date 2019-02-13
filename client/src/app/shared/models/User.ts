@@ -1,14 +1,16 @@
 export class User {
-    active?:boolean;
-    admin?:boolean;
+    id?:any;
     firstname:string;
     lastname: string;
-    email:string;
-    phone?:string;
-    address: string;
-    birthdate?: any;
+    address?:string;
+    admin?:boolean;
+    email?:string;
     password?:string;
     confirmPassword?:string;
+    created_date?:Date;
+    modified_date?:Date;
+    phone?:string;
+    active?:boolean;
+    birthdate?: any;
     blocked?:boolean;
-    created_date?:any;
   }

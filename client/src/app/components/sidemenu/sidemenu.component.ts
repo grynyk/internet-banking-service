@@ -12,7 +12,7 @@ export class SideMenuComponent implements OnInit {
   menuItems: { icon: string, text: string, url: string }[] = [
     { 'icon': 'home',     'text': 'Home',         'url': '/' },
     { 'icon': 'money',     'text': 'Payments',         'url': '/payments-history' },
-    { 'icon': 'trending_up',     'text': 'Statistics',         'url': '/stats' },
+    { 'icon': 'trending_up',     'text': 'Statistics',         'url': '/statistics' },
     { 'icon': 'assignment_ind',     'text': 'Recipients',         'url': '/recipients-manager' },
     { 'icon': 'info',     'text': 'About',         'url': '/about' }
   ];

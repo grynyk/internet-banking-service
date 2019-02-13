@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog, MatBottomSheet, MatBottomShee
 import { FormBuilder } from '@angular/forms';
 import { RecipientsListComponent } from '../../recipients-manager/recipients-list/recipients-list.component';
 import { RecipientsService } from '../../../services/recipients.service';
+import { Recipient } from '../../../shared/exportModels';
 
 @Component({
   selector: 'app-payments-dialog',
@@ -20,8 +21,8 @@ export class PaymentsDialogComponent {
   transferSendAccount = '';
   transferReceiveAccount = '';
 
-  convertAccountNo(number) {
-    this.receiverAccountNo = number.slice(0, 8) + "-" + number.slice(8, 12) + "-" + number.slice(12, 16) + "-" + number.slice(16, 20) + "-" + number.slice(20, 32);
+  convertAccountNo(accnumber:any) {
+    this.receiverAccountNo = accnumber.slice(0, 8) + "-" + accnumber.slice(8, 12) + "-" + accnumber.slice(12, 16) + "-" + accnumber.slice(16, 20) + "-" + accnumber.slice(20, 32);
     console.log(this.receiverAccountNo);
   }
 
@@ -31,7 +32,7 @@ export class PaymentsDialogComponent {
     private userService: UserService,
     public dialogRef: MatDialogRef<PaymentsDialogComponent>,
     public dialog: MatDialog, private _formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 
   onlyNumbersPattern(event: any) {
     const pattern = /[$\&\+\,\=\?\@\|\<\>\^\%\!\"\_\`\~\-\e\E]/;
@@ -56,11 +57,11 @@ export class PaymentsDialogComponent {
       let listData: any;
       let noDataMessage: string;
       if (this.data.type == 'external') {
-        listData = result.rows.filter(res => res.type == 'external_transaction');
+        listData = result.rows.filter((recipient:Recipient) => recipient.type == 'external_transaction');
         noDataMessage = "You don't have any recipients for external transactions";
       }
       if (this.data.type == 'domestic') {
-        listData = result.rows.filter(res => res.type == 'domestic_transaction');
+        listData = result.rows.filter((recipient:Recipient) => recipient.type == 'domestic_transaction');
         noDataMessage = "You don't have any recipients for domestic transactions";
       }
       const bottomSheetRef = this.bottomSheet.open(RecipientsListComponent, {

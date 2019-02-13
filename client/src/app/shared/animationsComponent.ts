@@ -2,7 +2,7 @@ import { trigger, state, style, transition, animate, useAnimation } from '@angul
 import { bounceIn, bounceInRight, bounceInLeft, bounceInDown, zoomIn, fadeIn, bounceInX, bounce } from 'ng-animate';
 
 
-export const AnimationComponent = [];
+export const AnimationComponent:any = [];
 
 // bounceIn: trigger('bounceIn', [transition('* => *', useAnimation(bounceIn))]),
 // bounceInRight:trigger('bounceInRight', [transition('* => *', useAnimation(bounceInRight))]),

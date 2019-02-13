@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../../services/authentication.service'
 export class ErrorHandlerDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ErrorHandlerDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data,
+    @Inject(MAT_DIALOG_DATA) public data:any,
     private authenticationService: AuthenticationService) { }
   errorTitle: String = this.data.title;
   errorMessage: String = this.data.message;

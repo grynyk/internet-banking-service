@@ -6,6 +6,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-item.component';
 import { FormBuilder } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
+import { Recipient } from '../../shared/exportModels';
 @Component({
   selector: 'app-recipients-manager',
   templateUrl: './recipients-manager.component.html',
@@ -29,7 +30,7 @@ export class RecipientsManagerComponent implements OnInit {
     smallScreen = false;
 
     @HostListener('window:resize', ['$event'])
-    onResize(event) {
+    onResize(event:any) {
       if (event.target.innerWidth < 600) {
        this.smallScreen = true;
       }
@@ -38,7 +39,7 @@ export class RecipientsManagerComponent implements OnInit {
       }
     }
 
-  showNotification(type,title,content,timeOut){
+  showNotification(type:string, title:string,content:string,timeOut:number){
     let options= this.fb.group({
 			type: type,
 			title: title,
@@ -55,7 +56,7 @@ export class RecipientsManagerComponent implements OnInit {
 
   public selectedRow: any;
   public recipientAction = 'Manage';
-  public accountNo:any;
+  public accountNo:string;
   private recipientId:number;
   public data = {
     title:'',
@@ -77,21 +78,21 @@ export class RecipientsManagerComponent implements OnInit {
     }
   }
 
-  edit(row){
+  edit(recipient:Recipient){
     if(this.smallScreen==true || window.innerWidth<600){
       window.scrollBy(0,600);
     }
     this.recipientAction = 'Edit';
-    this.accountNo = row.account_number;
-    this.recipientId = row.id;
+    this.accountNo = recipient.account_number;
+    this.recipientId = recipient.id;
     this.data = {
-      title:row.title,
-      description:row.description,
-      account_number:row.account_number,
+      title:recipient.title,
+      description:recipient.description,
+      account_number:recipient.account_number,
     }
   }
 
-  delete(id){
+  delete(id:number){
     const dialogRef = this.dialog.open(ManageItemDialogComponent, {
       width:'500px',
       data: { title: `Do you want to delete this recipient ?` }
@@ -107,7 +108,7 @@ export class RecipientsManagerComponent implements OnInit {
     });
   }
 
-  submit(type){
+  submit(type:string){
     this.data.account_number = this.accountNo.slice(0, 8) + "-" + this.accountNo.slice(8,12) + "-" + this.accountNo.slice(12,16) + "-" + this.accountNo.slice(16,20) + "-" + this.accountNo.slice(20,32);
     console.log(this.data);
     if(type=='add'){
@@ -136,8 +137,8 @@ export class RecipientsManagerComponent implements OnInit {
 
   }
 
-  getRowData(row) {
-    this.selectedRow = row;
+  getRowData(recipient:Recipient) {
+    this.selectedRow = recipient;
   }
 
 

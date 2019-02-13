@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { StatisticsService } from '../../services/statistics.service';
-import * as moment from 'moment';
 import { AnimationComponent } from '../../shared/animationsComponent';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-stats',
@@ -50,7 +50,7 @@ export class StatsComponent implements OnInit {
       this.pieChartData.push(res.withdrawals[0].all);
       this.pieChartData.push(res.domestic_transactions[0].all);
       this.pieChartData.push(res.external_transactions[0].all);
-      this.lineChartData = res.daily_spendings_per_month.map((item, i, arr) => {
+      this.lineChartData = res.daily_spendings_per_month.map((item:any, i:number, arr:any) => {
         return +item.amount;
       });
     });
@@ -60,16 +60,6 @@ export class StatsComponent implements OnInit {
     for (let i = moment(startDate) ; i.isBefore(finishDate) ; i.add(1,'days')) {
       this.lineChartLabels.push(i.format('DD.MM'));
       }
- 
-    // for (let i = 1; i <= 30; i++) {
-    //   if(i==30){
-    //     this.lineChartLabels.push('today');
-    //   }else if(i==29){
-    //     this.lineChartLabels.push('yest.');
-    //   }else{
-    //     this.lineChartLabels.push(i);
-    //   }
-    // }
   }
 
 

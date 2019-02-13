@@ -11,7 +11,7 @@ export class AddExpenseDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<AddExpenseDialogComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data) { }
+    @Inject(MAT_DIALOG_DATA) public data:any) { }
 
 
 

@@ -6,15 +6,11 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { MainComponent } from './components/main/main.component';
 import { Page404Component } from './components/page404/page404.component';
 import { AuthGuard } from './guards/auth.guard';
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { PaymentsHistoryComponent } from './components/payments-history/payments-history.component';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { AboutComponent } from './components/about/about.component';
 import { StatsComponent } from './components/stats/stats.component';
 import { RoleGuard } from './guards/role.guard';
-
-
-
 
 const appRoutes: Routes = [
   {
@@ -25,7 +21,7 @@ const appRoutes: Routes = [
       { path: '', component: HomeComponent },
       { path: 'payments-history', component: PaymentsHistoryComponent },
       { path: 'recipients-manager', component: RecipientsManagerComponent },
-      { path: 'stats', component: StatsComponent, },
+      { path: 'statistics', component: StatsComponent, },
     ]
   },
   {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Transaction } from '../shared/exportModels';
 
 @Injectable({
   providedIn: 'root'
@@ -22,23 +23,23 @@ export class TransactionsService {
     return this.httpClient.get(`${this.url}/getOutgoing`).map(response => response);
   }
 
-  custom(data) {
-    return this.httpClient.post(`${this.url}/custom`, data).map(response => response);
+  custom(transaction:Transaction) {
+    return this.httpClient.post(`${this.url}/custom`, transaction).map(response => response);
   }
 
-  domestic(data) {
-    return this.httpClient.post(`${this.url}/domestic`, data).map(response => response);
+  domestic(transaction:Transaction) {
+    return this.httpClient.post(`${this.url}/domestic`, transaction).map(response => response);
   }
 
-  external(data) {
-    return this.httpClient.post(`${this.url}/external`, data).map(response => response);
+  external(transaction:Transaction) {
+    return this.httpClient.post(`${this.url}/external`, transaction).map(response => response);
   }
 
-  transfer(data) {
-    return this.httpClient.post(`${this.url}/transfer`, data).map(response => response);
+  transfer(transaction:Transaction) {
+    return this.httpClient.post(`${this.url}/transfer`, transaction).map(response => response);
   }
 
-  delete(id) {
+  delete(id:any) {
     return this.httpClient.delete(`${this.url}/delete/${id}`).map(response => response);
   }
 }

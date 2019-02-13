@@ -23,11 +23,11 @@ export class AccountsService {
     return this.httpClient.get(`${this.primary_url}/getAll`).map(response => response);
   }
 
-  primaryDeposit(id, amount) {
+  primaryDeposit(id:any, amount:number) {
     return this.httpClient.put(`${this.primary_url}/deposit/${id}`, { amount: amount }).map(response => response);
   }
 
-  primaryWithdraw(id, amount) {
+  primaryWithdraw(id:any, amount:number) {
     return this.httpClient.put(`${this.primary_url}/withdraw/${id}`, { amount: amount }).map(response => response);
   }
 
@@ -39,11 +39,11 @@ export class AccountsService {
     return this.httpClient.get(`${this.savings_url}/getAll`).map(response => response);
   }
 
-  savingsDeposit(id, amount) {
+  savingsDeposit(id:any, amount:number) {
     return this.httpClient.put(`${this.savings_url}/deposit/${id}`, { amount: amount }).map(response => response);
   }
 
-  savingsWithdraw(id, amount) {
+  savingsWithdraw(id:any, amount:number) {
     return this.httpClient.put(`${this.savings_url}/withdraw/${id}`, { amount: amount }).map(response => response);
   }
 
