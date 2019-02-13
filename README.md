@@ -44,7 +44,8 @@ View all users list, create/update/activate/block/unblock users, view users deta
 # TASKS
 - [x] Implement activation of users account by admin
 - [x] Count commission before processing transaction from savings account
+- [ ] Code refactoring: split app to separate modules
+- [x] Code refactoring, typescript typings (no implicit any limit)
 - [ ] Rewrite backend using Typescript (ev. Nest.js)
 - [ ] Improve user interface
-- [ ] Code refactoring, split app to separate modules
 - [ ] Create bank logo
