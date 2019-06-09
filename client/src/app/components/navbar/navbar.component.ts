@@ -13,26 +13,29 @@ import { UserService } from '../../services/user.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: [ './navbar.component.css' ]
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent implements OnInit {
   @ViewChild(CountdownComponent) counter: CountdownComponent;
-
 
   user: model.User = {
     firstname: '',
     lastname: '',
     address: '',
-    phone:  '',
+    phone: '',
     email: ''
-  }
+  };
 
   @Output() sidenavToggle = new EventEmitter<void>();
 
-  constructor(private router: Router,private userService:UserService,
+  constructor(
+    private router: Router,
+    private userService: UserService,
     private authenticationService: AuthenticationService,
-    public dialog: MatDialog, private matIconRegistry: MatIconRegistry,
-    private domSanitizer: DomSanitizer) {
+    public dialog: MatDialog,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer
+  ) {
     router.events.subscribe((event: any) => {
       if (event instanceof NavigationStart) {
         if (this.counter) {
@@ -41,13 +44,13 @@ export class NavbarComponent implements OnInit{
       }
     });
     this.matIconRegistry.addSvgIcon(
-      "logo",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../../assets/logo.svg")
+      'logo',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../../assets/logo.svg')
     );
   }
 
-  ngOnInit(){
-    this.userService.getMyData().subscribe((user:model.User)=>{
+  ngOnInit() {
+    this.userService.getMyData().subscribe((user: model.User) => {
       console.log(user);
       this.user = user;
     });
@@ -69,15 +72,14 @@ export class NavbarComponent implements OnInit{
     const dialogRef = this.dialog.open(ErrorHandlerDialogComponent, {
       width: '350px',
       disableClose: true,
-      data: { title: "Your session has expired", message: "Please relogin", button: "Log in", closeButton: false },
+      data: { title: 'Your session has expired', message: 'Please relogin', button: 'Log in', closeButton: false }
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         if (result == true) {
           this.authenticationService.logout();
-          this.router.navigate(['/login']);
+          this.router.navigate([ '/login' ]);
         } else {
-
         }
       }
     });
@@ -86,5 +88,4 @@ export class NavbarComponent implements OnInit{
   onToggleSidenav() {
     this.sidenavToggle.emit();
   }
-
 }

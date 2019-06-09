@@ -36,18 +36,6 @@
 .showPass-icon{
     cursor: pointer;
 }
-.error-message{
-    position:absolute;
-    left:50%;
-    top:0;
-    transform: translate(-50%);
-    text-align:center;
-    width:100%!important;
-    background: #8e18122d;
-    border-radius: 1px;
-    padding:3px 0 3px 0;
-    color: #000000;
-}
 
 .no-data-container{
     min-height:250px;

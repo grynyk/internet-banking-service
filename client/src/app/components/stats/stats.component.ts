@@ -1,12 +1,13 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { StatisticsService } from '../../services/statistics.service';
-import { AnimationComponent } from '../../shared/animationsComponent';
+import { ComponentAnimation } from '../../shared/animationsComponent';
 import * as moment from 'moment';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.css']
+  styleUrls: ['./stats.component.css'],
+  animations: [ComponentAnimation.bounceInRight]
 })
 export class StatsComponent implements OnInit {
 

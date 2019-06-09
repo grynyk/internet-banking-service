@@ -7,23 +7,32 @@ import { MatProgressSpinnerModule,
     MatFormFieldModule,
     MatSelectModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     declarations: [
         PasswordMatcherDirective
-    ],
-    exports: [
-        PasswordMatcherDirective
-    ],imports: [
+    ], imports: [
         CommonModule,
         FlexLayoutModule,
         MatSelectModule,
         MatProgressSpinnerModule,
+        MatSnackBarModule,
         MatFormFieldModule,
         MatIconModule,
         MatButtonModule,
         BrowserAnimationsModule
+    ],
+    exports: [
+        PasswordMatcherDirective,
+        FlexLayoutModule,
+        MatSelectModule,
+        MatProgressSpinnerModule,
+        MatSnackBarModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatButtonModule,
     ]
 })
 export class SharedModule { }

@@ -7,11 +7,14 @@ import { ManageItemDialogComponent } from '../dialogs/manage-item-dialog/manage-
 import { FormBuilder } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { Recipient } from '../../shared/exportModels';
+import { ComponentAnimation } from '../../shared/animationsComponent';
+
 @Component({
   selector: 'app-recipients-manager',
   templateUrl: './recipients-manager.component.html',
   styleUrls: ['./recipients-manager.component.css'],
   animations: [
+    ComponentAnimation.bounceInRight,
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0', display: 'none'})),
       state('expanded', style({height: '*'})),

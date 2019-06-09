@@ -6,9 +6,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './manage-item.component.html',
   styleUrls: ['./manage-item.component.css']
 })
-export class ManageItemDialogComponent{
+export class ManageItemDialogComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ManageItemDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 }

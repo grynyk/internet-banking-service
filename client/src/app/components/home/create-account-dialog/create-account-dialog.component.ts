@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, ElementRef, OnInit} from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { UserService } from '../../../services/user.service';
@@ -9,8 +9,8 @@ import { MatStepper } from '@angular/material';
   styleUrls: ['./create-account-dialog.component.css']
 })
 export class CreateAccountDialogComponent implements OnInit {
-  accountType:string;
-  agreement:boolean = false;
+  accountType: string;
+  agreement: boolean = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   constructor(private userService:UserService,

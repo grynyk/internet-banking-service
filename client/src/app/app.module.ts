@@ -66,7 +66,6 @@ import { AccountDetailsComponent } from './components/home/account-details/accou
 import { SimpleNotificationsModule } from 'angular2-notifications';
 import { RecipientsManagerComponent } from './components/recipients-manager/recipients-manager.component';
 import { RecipientsListComponent } from './components/recipients-manager/recipients-list/recipients-list.component';
-import { AboutComponent } from './components/about/about.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 import { ChartsModule } from 'ng2-charts';
@@ -94,7 +93,6 @@ const options = {};
     AccountDetailsComponent,
     RecipientsManagerComponent,
     RecipientsListComponent,
-    AboutComponent,
     UserProfileComponent,
     StatsComponent,
   ],

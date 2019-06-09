@@ -1,9 +1,6 @@
 <main>
         <span class="logo-text">bank</span>
     <mat-card class="center" fxLayout fxLayoutAlign="center center">
-            <div class="error-message" *ngIf="error==true">
-                    {{errorMessage}}
-                </div>
         <div *ngIf="loading==false">
         <mat-card-title style="text-align: center">Login</mat-card-title>
         <form #f="ngForm" (ngSubmit)="Login()" fxLayout="column">

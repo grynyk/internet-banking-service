@@ -35,6 +35,7 @@
     "jspdf": "^1.4.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
+    "ng-animate": "^0.3.4",
     "ng2-charts": "^1.6.0",
     "ngx-bootstrap": "^3.1.1",
     "ngx-countdown": "^3.1.0",

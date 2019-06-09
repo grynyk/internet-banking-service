@@ -1,5 +1,5 @@
 <div class="body" fxLayout="column" fxLayoutAlign="space-between none">
-      <div fxLayout="row">
+      <div fxLayout="row" [@bounceInRight]>
             <mat-card fxFlex="100" style="padding:0" color="dark-primary">
                   <mat-grid-list cols="3" rowHeight="7em">
                         <a (click)="openPrimary()">
@@ -82,7 +82,7 @@
                   </mat-grid-list>
             </mat-card>
       </div>
-      <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between">
+      <div fxLayout.gt-xs="row" fxLayout.xs="column" fxLayoutAlign="space-between" [@bounceInLeft]>
             <mat-card fxFlex="33" class="payments-card" [ngClass]="{'disabled-card': (savingsAccount.length==0 || savingsAccount[0].balance=='0.00')&&(primaryAccount.length==0 || primaryAccount[0].balance=='0.00')}">
                   <mat-card-title style="color:#000">
                         Payments

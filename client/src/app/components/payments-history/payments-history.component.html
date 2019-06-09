@@ -1,215 +1,215 @@
-            <mat-card class="body">
-                <div class="content" (clickOutside)="selection.clear()">
-                  <div class="data-table-overflow">
-                    <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row" *ngIf="displayOnlyTable==false">
-                     
-                      <mat-form-field fxFlex class="filter-input" appearance="outline">
-                        <mat-label>Search for transactions</mat-label>
-                        <input matInput (keyup)="applyFilter($event.target.value)">
-                      </mat-form-field>
-                      <span fxLayout.xs="row" class="buttons">
-                          <mat-form-field fxFlex="30" class="filter-selector"  appearance="outline">
-                              <mat-label>Filter</mat-label>
-                              <mat-select name="filterType" [(ngModel)]="filterType">
-                                <mat-option value='all' (click)="refresh()">
-                                  All
-                                </mat-option>
-                                <mat-option value='incoming' (click)="getIncoming()">
-                                  Incoming
-                                </mat-option>
-                                <mat-option value='outgoing' (click)="getOutgoing()">
-                                  Outgoing
-                                </mat-option>
-                              </mat-select>
-                            </mat-form-field>
+<mat-card class="body" [@bounceInRight]>
+  <div class="content" (clickOutside)="selection.clear()">
+    <div class="data-table-overflow">
+      <div fxLayout.xs="column" fxLayout.gt-xs="row" class="buttons-row" *ngIf="displayOnlyTable==false">
+        
+        <mat-form-field fxFlex class="filter-input" appearance="outline">
+          <mat-label>Search for transactions</mat-label>
+          <input matInput (keyup)="applyFilter($event.target.value)">
+        </mat-form-field>
+        <span fxLayout.xs="row" class="buttons">
+            <mat-form-field fxFlex="30" class="filter-selector"  appearance="outline">
+                <mat-label>Filter</mat-label>
+                <mat-select name="filterType" [(ngModel)]="filterType">
+                  <mat-option value='all' (click)="refresh()">
+                    All
+                  </mat-option>
+                  <mat-option value='incoming' (click)="getIncoming()">
+                    Incoming
+                  </mat-option>
+                  <mat-option value='outgoing' (click)="getOutgoing()">
+                    Outgoing
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <button fxFlex (click)="addDialog()" class="add-btn" mat-raised-button>
+                <mat-icon>add</mat-icon>
+                  Add
+              </button>
     
-                            <button fxFlex (click)="addDialog()" class="add-btn" mat-raised-button>
-                              <mat-icon>add</mat-icon>
-                               Add
-                            </button>
-                  
-                            <button fxFlex [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" (click)="deleteDialog(selectedRowIndex)"
-                              class="hide-btn" mat-raised-button>
-                              <mat-icon>visibility_off</mat-icon>
-                              Hide
-                            </button>
-                          </span>
+              <button fxFlex [disabled]="dataSource.length==0 || !selection.isSelected(selectedRow)" (click)="deleteDialog(selectedRowIndex)"
+                class="hide-btn" mat-raised-button>
+                <mat-icon>visibility_off</mat-icon>
+                Hide
+              </button>
+            </span>
 
-                    </div>
-              <div class="table-container">
-                    <table mat-table  [dataSource]="dataSource" multiTemplateDataRows matSort>
-              
-                      <ng-container matColumnDef="select" *ngIf="displayOnlyTable==false">
-                        <th mat-header-cell *matHeaderCellDef>
-              
-                        </th>
-                        <td mat-cell *matCellDef="let element" class="select-column">
-                          <mat-checkbox color="primary"
-                          disabled [checked]="selectedRow == element && selection.isSelected(element)"
-                          style="cursor: pointer"
-                            (click)="getRowData(element)" (click)="selectedRow = element">
-                          </mat-checkbox>
-                        </td>
-                      </ng-container>
-              
-                      <ng-container matColumnDef="date">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp </th>
-                        <td mat-cell *matCellDef="let element"  style="padding-right:5px"> {{ element.created_date | date:'dd.MM.yyyy HH:mm'}}</td>
-                      </ng-container>
-              
-                      <ng-container matColumnDef="type">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
-                        <td mat-cell *matCellDef="let element">
-                          <span *ngIf="element.type=='external_transaction'">
-                            EXTERNAL TRANSACTION
-                          </span>
-                          <span *ngIf="element.type=='domestic_transaction'">
-                            DOMESTIC TRANSACTION
-                          </span>
-                          <span *ngIf="element.type=='deposit'">
-                            DEPOSIT
-                          </span>
-                          <span *ngIf="element.type=='withdrawal'">
-                            WITHDRAWAL
-                          </span>
-                          <span *ngIf="element.type=='transfer'">
-                            TRANSFER
-                          </span>
-                          <span *ngIf="element.type=='custom_transaction'">
-                              CUSTOM
-                            </span>
-                        </td>
-                      </ng-container>
-              
-                      <ng-container matColumnDef="amount">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
-                        <td mat-cell *matCellDef="let element">
-                          <span *ngIf="element.type!=='transfer'" [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']">
-                            <span *ngIf="element.sender_uuid==user.id">-</span>
-                            <span *ngIf="element.receiver_uuid==user.id">+</span>
-                            {{element.amount}}
-                          </span>
-                          <span *ngIf="element.type=='transfer'">
-                            {{element.amount}}
-                          </span>
-                        </td>
-                      </ng-container>
-              
-                      <ng-container matColumnDef="receiver_name" *ngIf="displayColumn==true">
-                        <th mat-header-cell *matHeaderCellDef> To/From </th>
-                        <td mat-cell *matCellDef="let element">
-                          <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</span>
-                          <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</span>
-                          <span *ngIf="element.type=='deposit'">
-                            <span *ngIf="element.receiver_account_type=='primary_account'">
-                              PRIMARY ACCOUNT
-                            </span>
-                            <span *ngIf="element.receiver_account_type=='savings_account'">
-                              SAVINGS ACCOUNT
-                            </span>
-                          </span>
-                          <span *ngIf="element.type=='withdrawal'">
-                            <span *ngIf="element.sender_account_type=='primary_account'">
-                              PRIMARY ACCOUNT
-                            </span>
-                            <span *ngIf="element.sender_account_type=='savings_account'">
-                              SAVINGS ACCOUNT
-                            </span>
-                          </span>
-                        </td>
-                      </ng-container>
-              
-                      <ng-container matColumnDef="expandedDetail">
-                        <td mat-cell style="background: #f5f5f5;" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-                          <div class="row-details"
-                          [ngClass]="[(element.type=='domestic_transaction'||element.type=='external_transaction') ? 'row-mobile-details':'row-mobile-few-details']"
-                          [@detailExpand]="element == selectedRow&&element.type!=='deposit'&&element.type!=='withdrawal'&&selection.isSelected(element) ? 'expanded' : 'collapsed'">
-                            <div class="expanded-description" fxLayout.gt-xs="row"  fxLayout.xs="column"
-                            fxLayoutAlign="space-between">
-                              <div fxFlex.gt-xs="45" fxFlex.xs="100" fxLayout="column" *ngIf="element.type!=='custom_transaction'" class="details-first-section">
-                                <mat-list>
-                                  <mat-list-item>
-                                    <mat-icon mat-list-icon>trending_flat</mat-icon>
-                                    <p style="font-weight: bold" mat-line>
-                                      <span *ngIf="element.sender_account_type=='primary_account'">
-                                        PRIMARY
-                                      </span>
-                                      <span *ngIf="element.sender_account_type=='savings_account'">
-                                        SAVINGS
-                                      </span>
-                                    </p>
-                                    <p mat-line> sender account type </p>
-                                  </mat-list-item>
-                                  <mat-list-item>
-                                    <mat-icon mat-list-icon>keyboard_backspace</mat-icon>
-                                    <p style="font-weight: bold" mat-line>
-                                      <span *ngIf="element.receiver_account_type=='primary_account'">
-                                        PRIMARY
-                                      </span>
-                                      <span *ngIf="element.receiver_account_type=='savings_account'">
-                                        SAVINGS
-                                      </span>
-                                    </p>
-                                    <p mat-line> receiver account type </p>
-                                  </mat-list-item>
-              
-                                  <mat-list-item *ngIf="element.receiver_name || element.sender_name">
-                                    <mat-icon mat-list-icon>person_outline</mat-icon>
-                                    <p style="font-weight: bold" mat-line *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</p>
-                                    <p style="font-weight: bold" mat-line *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</p>
-                                    <p mat-line> beneficiary </p>
-                                  </mat-list-item>
-              
-                                </mat-list>
-                              </div>
+      </div>
+<div class="table-container">
+      <table mat-table  [dataSource]="dataSource" multiTemplateDataRows matSort>
 
-                              <div fxFlex fxLayout="column" style="margin-left:15px">
-                                <mat-form-field>
-                                  <mat-label *ngIf="element.description">Title</mat-label>
-                                  <mat-label *ngIf="!element.description" style="padding:5px">No title provided</mat-label>
-                                  <textarea matInput disabled class="title-textarea" [value]="element.description"></textarea>
-                                </mat-form-field>
-                                <div fxLayout="row" fxLayoutAlign="end none">
-                                  <button fxFlex.xs="100" fxFlex="50"
-                                  color="primary"
-                                  mat-button
-                                  class="export-pdf-btn"
-                                  *ngIf="(element.type!=='transfer')&&(element.type!=='custom_transaction')"
-                                  (click)="generatePdf(element)">
-                                    <mat-icon>file_copy</mat-icon>
-                                     Download *.pdf
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-              
-                          </div>
-                        </td>
-                      </ng-container>
-              
-                      <tr mat-header-row class="headers-row" *matHeaderRowDef="displayedColumns"></tr>
-              
-                      <tr mat-row *matRowDef="let element; columns: displayedColumns" class="table-row" [ngClass]="[selectedRow == element && selection.isSelected(element) ? 'selected-row':'']"
-                        [class.disabled-row]="element.type=='deposit' || element.type=='withdrawal'" [class.expanded-row]="selectedRow === element"
-                        (click)="selectedRow = element" (click)="selection.toggle(element)">
-                      </tr>
-                      <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
-                    </table>
-                  </div>
-                    <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
-                      <div fxLayout="row" fxLayoutAlign="center center">
-                          <mat-spinner *ngIf="loading==true"></mat-spinner>
-                      </div>
-                
-                      <div fxLayoutAlign="center center" *ngIf="loading==false">
-                        <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions yet</h4>
-                      </div>
-                    </div>
-              
-                    <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="showFirstLastButtons">
-                    </mat-paginator>
+        <ng-container matColumnDef="select" *ngIf="displayOnlyTable==false">
+          <th mat-header-cell *matHeaderCellDef>
+
+          </th>
+          <td mat-cell *matCellDef="let element" class="select-column">
+            <mat-checkbox color="primary"
+            disabled [checked]="selectedRow == element && selection.isSelected(element)"
+            style="cursor: pointer"
+              (click)="getRowData(element)" (click)="selectedRow = element">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Timestamp </th>
+          <td mat-cell *matCellDef="let element"  style="padding-right:5px"> {{ element.created_date | date:'dd.MM.yyyy HH:mm'}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.type=='external_transaction'">
+              EXTERNAL TRANSACTION
+            </span>
+            <span *ngIf="element.type=='domestic_transaction'">
+              DOMESTIC TRANSACTION
+            </span>
+            <span *ngIf="element.type=='deposit'">
+              DEPOSIT
+            </span>
+            <span *ngIf="element.type=='withdrawal'">
+              WITHDRAWAL
+            </span>
+            <span *ngIf="element.type=='transfer'">
+              TRANSFER
+            </span>
+            <span *ngIf="element.type=='custom_transaction'">
+                CUSTOM
+              </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Amount </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.type!=='transfer'" [ngClass]="[element.receiver_uuid==user.id ? 'income-color':'outgoing-color']">
+              <span *ngIf="element.sender_uuid==user.id">-</span>
+              <span *ngIf="element.receiver_uuid==user.id">+</span>
+              {{element.amount}}
+            </span>
+            <span *ngIf="element.type=='transfer'">
+              {{element.amount}}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="receiver_name" *ngIf="displayColumn==true">
+          <th mat-header-cell *matHeaderCellDef> To/From </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</span>
+            <span *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</span>
+            <span *ngIf="element.type=='deposit'">
+              <span *ngIf="element.receiver_account_type=='primary_account'">
+                PRIMARY ACCOUNT
+              </span>
+              <span *ngIf="element.receiver_account_type=='savings_account'">
+                SAVINGS ACCOUNT
+              </span>
+            </span>
+            <span *ngIf="element.type=='withdrawal'">
+              <span *ngIf="element.sender_account_type=='primary_account'">
+                PRIMARY ACCOUNT
+              </span>
+              <span *ngIf="element.sender_account_type=='savings_account'">
+                SAVINGS ACCOUNT
+              </span>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="expandedDetail">
+          <td mat-cell style="background: #f5f5f5;" *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+            <div class="row-details"
+            [ngClass]="[(element.type=='domestic_transaction'||element.type=='external_transaction') ? 'row-mobile-details':'row-mobile-few-details']"
+            [@detailExpand]="element == selectedRow&&element.type!=='deposit'&&element.type!=='withdrawal'&&selection.isSelected(element) ? 'expanded' : 'collapsed'">
+              <div class="expanded-description" fxLayout.gt-xs="row"  fxLayout.xs="column"
+              fxLayoutAlign="space-between">
+                <div fxFlex.gt-xs="45" fxFlex.xs="100" fxLayout="column" *ngIf="element.type!=='custom_transaction'" class="details-first-section">
+                  <mat-list>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>trending_flat</mat-icon>
+                      <p style="font-weight: bold" mat-line>
+                        <span *ngIf="element.sender_account_type=='primary_account'">
+                          PRIMARY
+                        </span>
+                        <span *ngIf="element.sender_account_type=='savings_account'">
+                          SAVINGS
+                        </span>
+                      </p>
+                      <p mat-line> sender account type </p>
+                    </mat-list-item>
+                    <mat-list-item>
+                      <mat-icon mat-list-icon>keyboard_backspace</mat-icon>
+                      <p style="font-weight: bold" mat-line>
+                        <span *ngIf="element.receiver_account_type=='primary_account'">
+                          PRIMARY
+                        </span>
+                        <span *ngIf="element.receiver_account_type=='savings_account'">
+                          SAVINGS
+                        </span>
+                      </p>
+                      <p mat-line> receiver account type </p>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="element.receiver_name || element.sender_name">
+                      <mat-icon mat-list-icon>person_outline</mat-icon>
+                      <p style="font-weight: bold" mat-line *ngIf="element.sender_uuid==user.id">{{element.receiver_name | uppercase}}</p>
+                      <p style="font-weight: bold" mat-line *ngIf="element.receiver_uuid==user.id">{{element.sender_name | uppercase}}</p>
+                      <p mat-line> beneficiary </p>
+                    </mat-list-item>
+
+                  </mat-list>
+                </div>
+
+                <div fxFlex fxLayout="column" style="margin-left:15px">
+                  <mat-form-field>
+                    <mat-label *ngIf="element.description">Title</mat-label>
+                    <mat-label *ngIf="!element.description" style="padding:5px">No title provided</mat-label>
+                    <textarea matInput disabled class="title-textarea" [value]="element.description"></textarea>
+                  </mat-form-field>
+                  <div fxLayout="row" fxLayoutAlign="end none">
+                    <button fxFlex.xs="100" fxFlex="50"
+                    color="primary"
+                    mat-button
+                    class="export-pdf-btn"
+                    *ngIf="(element.type!=='transfer')&&(element.type!=='custom_transaction')"
+                    (click)="generatePdf(element)">
+                      <mat-icon>file_copy</mat-icon>
+                        Download *.pdf
+                    </button>
                   </div>
                 </div>
-              </mat-card>
-              
-              <simple-notifications></simple-notifications>
+              </div>
+
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row class="headers-row" *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let element; columns: displayedColumns" class="table-row" [ngClass]="[selectedRow == element && selection.isSelected(element) ? 'selected-row':'']"
+          [class.disabled-row]="element.type=='deposit' || element.type=='withdrawal'" [class.expanded-row]="selectedRow === element"
+          (click)="selectedRow = element" (click)="selection.toggle(element)">
+        </tr>
+        <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="details-row"></tr>
+      </table>
+    </div>
+      <div class="no-data-container" fxLayout="column" *ngIf="dataSource.data.length==0">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <mat-spinner *ngIf="loading==true"></mat-spinner>
+        </div>
+  
+        <div fxLayoutAlign="center center" *ngIf="loading==false">
+          <h4 class="message" fxLayoutAlign="center center">You didn't make any transactions yet</h4>
+        </div>
+      </div>
+
+      <mat-paginator [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="showFirstLastButtons">
+      </mat-paginator>
+    </div>
+  </div>
+</mat-card>
+
+<simple-notifications></simple-notifications>

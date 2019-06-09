@@ -1,6 +1,5 @@
-import { Component, Inject, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit } from '@angular/core';
 import { MatBottomSheetRef, MatTableDataSource, MatPaginator, MAT_BOTTOM_SHEET_DATA } from '@angular/material';
-import { TransactionsService } from '../../../services/transactions.service';
 
 @Component({
   selector: 'app-account-details',
@@ -8,18 +7,18 @@ import { TransactionsService } from '../../../services/transactions.service';
   styleUrls: ['./account-details.component.css']
 })
 export class AccountDetailsComponent implements OnInit {
-  displayedColumns = ['date', 'type', 'amount']
+  displayedColumns = ['date', 'type', 'amount'];
   dataSource = new MatTableDataSource();
-  constructor(private transactionsService: TransactionsService,
+  constructor(
     private bottomSheetRef: MatBottomSheetRef<AccountDetailsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data:any) { }
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any) { }
 
   loginRespond = JSON.parse(localStorage.getItem('currentUser'));
   user = {
     id: this.loginRespond.userData.userId,
     firstname: this.loginRespond.userData.firstname,
     lastname: this.loginRespond.userData.lastname
-  }
+  };
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   ngOnInit() {
@@ -32,4 +31,3 @@ export class AccountDetailsComponent implements OnInit {
   }
 
 }
-

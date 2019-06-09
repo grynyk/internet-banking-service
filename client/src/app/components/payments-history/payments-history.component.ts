@@ -12,12 +12,15 @@ import * as jsPDF from 'jspdf';
 import { FormBuilder } from '@angular/forms';
 import { NotificationsService } from 'angular2-notifications';
 import { Transaction } from '../../shared/exportModels';
+import { ComponentAnimation } from '../../shared/animationsComponent';
 
 @Component({
   selector: 'app-payments-history',
   templateUrl: './payments-history.component.html',
   styleUrls: ['./payments-history.component.css'],
-  animations: [trigger('detailExpand', [
+  animations: [
+    ComponentAnimation.bounceInRight,
+    trigger('detailExpand', [
     state('collapsed', style({ height: '0px', minHeight: '0', display: 'none' })),
     state('expanded', style({ height: '*' })),
     transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
