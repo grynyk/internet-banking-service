@@ -27,7 +27,7 @@
     "@types/jspdf": "^1.2.2",
     "angular-material-sidemenu": "^1.0.2",
     "angular2-notifications": "^1.0.4",
-    "chart.js": "^2.7.3",
+    "chart.js": "^2.9.4",
     "core-js": "^2.4.1",
     "devextreme": "^18.2.3",
     "devextreme-angular": "^18.2.3",
